@@ -10,8 +10,11 @@
 
 Un fichier de configuration d'IntelliJ suivra dans peu de temps afin d'uniformiser le formatage du code Java au sein du groupe.
 
-### À suivre ###
+### Librairies JSON ###
 
-* Ajout des librairies JSON
+Plus d'infos ici :
+* https://github.com/FasterXML/jackson-core
+* https://github.com/FasterXML/jackson-annotations
+* https://github.com/FasterXML/jackson-databind
 
 En cas de problème pour l'installation, me contacter (vincent.buresi@gmail.com)
