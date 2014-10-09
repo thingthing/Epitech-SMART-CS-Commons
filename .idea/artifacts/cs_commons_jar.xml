@@ -3,6 +3,9 @@
     <output-path>$PROJECT_DIR$/out/artifacts/cs_commons_jar</output-path>
     <root id="archive" name="cs-commons.jar">
       <element id="module-output" name="cs-commons" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/jackson-core-2.4.3.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/jackson-databind-2.4.3.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/jackson-annotations-2.4.0.jar" />
     </root>
   </artifact>
 </component>
