@@ -15,3 +15,5 @@ Un fichier de configuration d'IntelliJ suivra dans peu de temps afin d'uniformis
 Plus d'infos ici : [jackson-core](https://github.com/FasterXML/jackson-core) [jackson-annotations](https://github.com/FasterXML/jackson-annotations) [jackson-databind](https://github.com/FasterXML/jackson-databind)
 
 En cas de problème pour l'installation, me contacter (vincent.buresi@gmail.com)
+
+http://download.eclipse.org/technology/m2e/releases/
