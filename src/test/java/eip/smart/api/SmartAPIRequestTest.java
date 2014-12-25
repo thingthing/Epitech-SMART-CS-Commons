@@ -82,6 +82,7 @@ public class SmartAPIRequestTest {
 
 	@Test
 	public void testAPIUrlConstruction() {
+		Assert.fail();
 		String url = "test";
 		String fookey = "fookey";
 		String foo = "foo";
