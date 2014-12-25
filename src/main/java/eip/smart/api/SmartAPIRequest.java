@@ -8,7 +8,7 @@ import eip.smart.util.Pair;
 
 public class SmartAPIRequest {
 
-	public static String					API_URL				= "http://www.perdu.com";
+	public static String					SERVER_URL			= "http://54.148.17.11/";
 	public static boolean					FORCE_SYNCHRONOUS	= false;
 
 	private String							request;
@@ -45,7 +45,7 @@ public class SmartAPIRequest {
 	}
 
 	public String getUrl() {
-		return (SmartAPIRequest.API_URL + this.request + "?" + this.dataStringify());
+		return (SmartAPIRequest.SERVER_URL + this.request + "?" + this.dataStringify());
 	}
 
 	public void run(SmartAPIRequestCallback callback) {
@@ -55,7 +55,7 @@ public class SmartAPIRequest {
 			http = new HttpConnection(this.getUrl());
 		} catch (IOException e) {
 			if (callback != null)
-				callback.onError(e);
+				callback.onFail(e);
 			return;
 		}
 
@@ -64,7 +64,7 @@ public class SmartAPIRequest {
 				callback.onSuccess(new SmartAPIResponse(Json.createReader(http.open()).readObject(), this));
 		} catch (IOException e) {
 			if (callback != null)
-				callback.onError(e);
+				callback.onFail(e);
 		}
 		 */
 	}
