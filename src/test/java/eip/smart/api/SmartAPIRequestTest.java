@@ -1,9 +1,14 @@
 package eip.smart.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import eip.smart.model.proxy.SimpleModelingProxy;
 
 @SuppressWarnings("static-method")
 public class SmartAPIRequestTest {
@@ -15,90 +20,60 @@ public class SmartAPIRequestTest {
 		req.runAsync(new SmartAPIRequestCallback() {
 
 			@Override
-			public void onFail(IOException e) {
-				Assert.fail("Not asynchrone");
+			public void onFail(Exception e) {
+				Assert.fail("Not asynchronous");
 			}
 
 			@Override
 			public void onSuccess(SmartAPIResponse res) {
-				Assert.fail("Not asynchrone");
+				Assert.fail("Not asynchronous");
 			}
 		});
 		Assert.assertTrue(true);
 	}
 
-	/*
-	@Test
-	public void testAPIBadConnection() {
-		SmartAPIRequest req = new SmartAPIRequest("connect", "login", "badlogin", "password", "badpassword");
-		req.run(new SmartAPIRequestCallback() {
-
-			@Override
-			public void onFail(IOException e) {
-				Assert.fail(e.toString());
-			}
-
-			@Override
-			public void onSuccess(SmartAPIResponse res) {
-				Assert.assertTrue(res.getMessage(), res.getStatus() != 0 && res.getMessage().equals("Invalid credentials"));
-			}
-		});
-	}
-
-	@Test
-	public void testAPIGoodConnection() {
-		SmartAPIRequest req = new SmartAPIRequest("connect", "login", CorniTest.JUNIT_USER, "password", CorniTest.JUNIT_PASS);
-		req.run(new SmartAPIRequestCallback() {
-
-			@Override
-			public void onFail(IOException e) {
-				Assert.fail(e.toString());
-			}
-
-			@Override
-			public void onSuccess(SmartAPIResponse res) {
-				Assert.assertTrue(res.getMessage(), res.getStatus() == 0);
-			}
-		});
-	}
-	 */
-
 	@Test
 	public void testAPIResponse() {
-		SmartAPIRequest req = new SmartAPIRequest("connect");
+		SmartAPIRequest req = new SmartAPIRequest("modeling_list");
 		req.run(new SmartAPIRequestCallback() {
 
 			@Override
-			public void onFail(IOException e) {
-				Assert.fail(e.toString());
+			public void onFail(Exception e) {
+				if (!e.getMessage()
+						.startsWith("org.apache.http.conn.HttpHostConnectException: Connect to localhost:8080"))
+					Assert.fail();
 			}
 
 			@Override
 			public void onSuccess(SmartAPIResponse res) {
-				Assert.assertTrue(res.getStatus().getFirst() != -1 && !res.getStatus().getSecond().isEmpty());
+				if (res.getStatus()
+						.getCode() != 0)
+					Assert.fail();
+				ArrayList<SimpleModelingProxy> simpleModelingProxies = new ArrayList<>();
+				try {
+					ObjectMapper mapper = new ObjectMapper();
+					for (int i = 0; i < res.getData()
+							.findValue("modelings")
+							.size(); i++)
+						simpleModelingProxies.add(mapper.readValue(res.getData()
+								.findValue("modelings")
+								.get(i)
+								.toString(), SimpleModelingProxy.class));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
 
 	@Test
-	public void testAPIUrlConstruction() {
-		String url = "test";
-		String fookey = "fookey";
-		String foo = "foo";
-		String barkey = "barkey";
-		String bar = "bar";
-		SmartAPIRequest req = new SmartAPIRequest(url, fookey, foo, barkey, bar);
-		Assert.assertTrue(req.dataStringify().equals(fookey + "=" + foo + "&" + barkey + "=" + bar));
-		Assert.assertTrue(req.getUrl().equals(SmartAPIRequest.SERVER_URL + url + "?" + fookey + "=" + foo + "&" + barkey + "=" + bar));
-	}
-
-	@Test
-	public void testAPIWrongUrl() {
+	public void testAPIWrongRequest() {
 		SmartAPIRequest req = new SmartAPIRequest("wrongurl");
 		req.run(new SmartAPIRequestCallback() {
+
 			@Override
-			public void onFail(IOException e) {
-				Assert.assertTrue(e.toString().equals("java.io.FileNotFoundException: http://54.68.180.234:8080/server_war/wrongurl?"));
+			public void onFail(Exception e) {
+				Assert.assertTrue(true);
 			}
 
 			@Override
@@ -106,7 +81,24 @@ public class SmartAPIRequestTest {
 				Assert.fail();
 			}
 		});
+	}
 
+	@Test
+	public void testAPIWrongUrl() {
+		SmartAPIRequest req = new SmartAPIRequest("modeling_list");
+		req.setServerUrl("toto");
+		req.run(new SmartAPIRequestCallback() {
+
+			@Override
+			public void onFail(Exception e) {
+				Assert.assertTrue(true);
+			}
+
+			@Override
+			public void onSuccess(SmartAPIResponse res) {
+				Assert.fail();
+			}
+		});
 	}
 
 }
