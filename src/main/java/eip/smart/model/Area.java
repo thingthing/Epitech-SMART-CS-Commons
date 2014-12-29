@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import eip.smart.model.geometry.Point;
 import eip.smart.model.geometry.Polygon;
 import eip.smart.util.PointCloudGenerator;
@@ -21,6 +23,10 @@ public class Area implements Serializable {
 
 	public Area() {
 		this.points = new PointCloudGenerator().generatePointCloud(20);
+	}
+
+	public Area(Polygon polygon) {
+		this.areaToMap.add(polygon);
 	}
 
 	public boolean contains(Point point) {
@@ -42,6 +48,7 @@ public class Area implements Serializable {
 		return (this.completion);
 	}
 
+	@JsonIgnore
 	public int getNbPoints() {
 		return (this.points.size());
 	}

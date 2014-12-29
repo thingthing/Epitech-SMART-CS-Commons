@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by Pierre Demessence on 10/10/2014.
  */
-@SuppressWarnings("static-method")
+@SuppressWarnings({ "static-method", "unused" })
 public class Modeling implements Serializable {
 
 	private final static Logger	LOGGER	= Logger.getLogger(Modeling.class.getName());
@@ -20,6 +23,8 @@ public class Modeling implements Serializable {
 	private ArrayList<Agent>	agents	= new ArrayList<>();
 	private long				tick	= 0;
 
+	public Modeling() {}
+
 	public Modeling(String name) {
 		this.ID = Modeling.nextID++;
 		this.name = name;
@@ -29,6 +34,10 @@ public class Modeling implements Serializable {
 
 	public void addAgent(Agent agent) {
 		this.agents.add(agent);
+	}
+
+	public void addArea(Area area) {
+		this.areas.add(area);
 	}
 
 	public void dumpAgents() {
@@ -48,6 +57,7 @@ public class Modeling implements Serializable {
 		return (this.areas);
 	}
 
+	@JsonIgnore
 	public double getCompletion() {
 		double res = 0;
 
@@ -76,6 +86,10 @@ public class Modeling implements Serializable {
 		Modeling.LOGGER.log(Level.INFO, "-->Handling Agents State...");
 	}
 
+	public void removeAgent(Agent agent) {
+		this.agents.remove(agent);
+	}
+
 	public void run() {
 		++this.tick;
 		Modeling.LOGGER.log(Level.INFO, "Modeling (" + this.name + ") running (tick " + this.tick + ")");
@@ -83,6 +97,27 @@ public class Modeling implements Serializable {
 		this.updateAreaAgentsAttributed();
 		this.updateAgentsDestination();
 		this.updateAgentsOrders();
+	}
+
+	public void setAgents(ArrayList<Agent> agents) {
+		this.agents = agents;
+	}
+
+	public void setAreas(ArrayList<Area> areas) {
+		this.areas = areas;
+	}
+
+	@JsonProperty
+	private void setID(int iD) {
+		this.ID = iD;
+	}
+
+	private void setName(String name) {
+		this.name = name;
+	}
+
+	private void setTick(long tick) {
+		this.tick = tick;
 	}
 
 	private void updateAgents() {
