@@ -1,5 +1,6 @@
 package eip.smart.model;
 
+
 public enum Status {
 	SIMULATION(-2, "SIMULATION"),
 	TODO(-1, "TODO"),
@@ -12,8 +13,12 @@ public enum Status {
 	MODELING_NOT_RUNNING("current modeling is not running"),
 	MODELING_ALREADY_PAUSED("current modeling is already paused"),
 	MODELING_NOT_PAUSED("current modeling is not paused"),
+	MODELING_NO_NAME("modeling must have a name"),
 	AGENT_NOT_FOUND("agent with given id does not exist"),
-	MODELING_NO_NAME("modeling must have a name");
+	AGENT_ALREADY_ADDED("agent already added to modeling"),
+	AGENT_NOT_ADDED("agent not already added to modeling"),
+	ORDER_NO_GIVEN("no order was given"),
+	AREA_NO_GIVEN("no area was given");
 
 	public static Status getStatusByCode(int code) {
 		for (Status status : Status.values())

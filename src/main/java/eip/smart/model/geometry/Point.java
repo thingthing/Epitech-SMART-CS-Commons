@@ -16,8 +16,11 @@ public class Point implements Serializable {
 	}
 
 	private double	x	= 0;
+
 	private double	y	= 0;
 	private double	z	= 0;
+
+	public Point() {}
 
 	public Point(double c) {
 		this.x = c;

@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
 
@@ -45,10 +47,12 @@ public class Agent implements Serializable {
 		this.setCurrentPosition(new Point(0, 0, 0));
 	}
 
+	@JsonIgnore
 	public Point getCurrentOrder() {
 		return (this.orders.peek());
 	}
 
+	@JsonIgnore
 	public Point getCurrentPosition() {
 		return (this.positions.peek());
 	}
@@ -65,10 +69,15 @@ public class Agent implements Serializable {
 		return (this.lastContact);
 	}
 
+	public LinkedList<Point> getOrders() {
+		return (this.orders);
+	}
+
 	public LinkedList<Point> getPositions() {
 		return (this.positions);
 	}
 
+	@JsonIgnore
 	public SimpleAgentProxy getProxy() {
 		return (new SimpleAgentProxy(this));
 	}
@@ -83,6 +92,10 @@ public class Agent implements Serializable {
 
 	public void pushOrder(Point order) {
 		this.orders.push(order);
+	}
+
+	public void recall() {
+		// TODO Auto-generated method stub
 	}
 
 	public void setCurrentPosition(Point position) {

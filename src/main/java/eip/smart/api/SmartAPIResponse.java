@@ -26,9 +26,7 @@ public class SmartAPIResponse {
 	}
 
 	public Status getStatus() {
-		return (Status.getStatusByCode(this.body.findValue("status")
-				.findValue("code")
-				.asInt()));
+		return (Status.getStatusByCode(this.body.findValue("status").findValue("code").asInt()));
 	}
 
 	public String getUrl() {

@@ -3,6 +3,8 @@ package eip.smart.model.geometry;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Created by Pierre Demessence on 10/10/2014.
  */
@@ -27,6 +29,7 @@ public class Polygon implements Serializable {
 	 *
 	 * @return the area of the polygon.
 	 */
+	@JsonIgnore
 	public double getArea() {
 		double area = 0;
 		int j = this.points.size() - 1;
@@ -37,6 +40,7 @@ public class Polygon implements Serializable {
 		return (Math.abs(area / 2.0d));
 	}
 
+	@JsonIgnore
 	public double getPerimeter() {
 		double perimeter = 0;
 
@@ -50,6 +54,10 @@ public class Polygon implements Serializable {
 		}
 		perimeter += lastPoint.getDistance(this.points.get(0));
 		return (perimeter);
+	}
+
+	public ArrayList<Point> getPoints() {
+		return (this.points);
 	}
 
 	/**
@@ -73,6 +81,7 @@ public class Polygon implements Serializable {
 	 *
 	 * @return true if the Polygon contains at least 3 points.
 	 */
+	@JsonIgnore
 	public boolean isFinite() {
 		return (this.points.size() > 2);
 	}
