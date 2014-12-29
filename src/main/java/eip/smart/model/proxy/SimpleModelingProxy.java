@@ -18,15 +18,15 @@ public class SimpleModelingProxy extends Proxy<Modeling> {
 	}
 
 	public double getCompletion() {
-		return this.completion;
+		return (this.completion);
 	}
 
 	public String getName() {
-		return this.name;
+		return (this.name);
 	}
 
 	public long getTick() {
-		return this.tick;
+		return (this.tick);
 	}
 
 	public void setCompletion(double completion) {
