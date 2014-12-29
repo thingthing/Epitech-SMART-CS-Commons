@@ -1,11 +1,17 @@
 package eip.smart.api;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.request.GetRequest;
+
+import eip.smart.util.WrapperTypes;
 
 public class SmartAPIRequest {
 
@@ -29,13 +35,9 @@ public class SmartAPIRequest {
 		this.data = data;
 	}
 
-	public SmartAPIRequest(String request, String... data) {
-		this(request);
-		int i;
-		for (i = 0; i < data.length - 1; i += 2)
-			this.data.put(data[i], data[i + 1]);
-		if (i < data.length)
-			this.data.put(data[i], "");
+	public SmartAPIRequest addData(String key, Object value) {
+		this.data.put(key, value);
+		return (this);
 	}
 
 	public String getUrl() {
@@ -48,11 +50,17 @@ public class SmartAPIRequest {
 
 	public void run(SmartAPIRequestCallback callback) {
 		try {
-
-			HttpResponse<JsonNode> response = Unirest.get(this.getUrl())
-					.header("accept", "application/json")
-					.queryString(this.data)
-					.asJson();
+			GetRequest req = Unirest.get(this.getUrl()).header("accept", "application/json");
+			Iterator<Entry<String, Object>> iterator = this.data.entrySet().iterator();
+			Entry<String, Object> entry;
+			while (iterator.hasNext()) {
+				entry = iterator.next();
+				if (entry.getValue().getClass().isPrimitive() || WrapperTypes.isWrapperType(entry.getValue().getClass()) || entry.getValue().getClass() == String.class)
+					req.queryString(entry.getKey(), entry.getValue());
+				else
+					req.queryString(entry.getKey(), new ObjectMapper().writeValueAsString(entry.getValue()));
+			}
+			HttpResponse<JsonNode> response = req.asJson();
 			if (response.getStatus() != 200 && callback != null)
 				callback.onFail(new Exception(response.getStatusText()));
 			else if (callback != null)
@@ -66,13 +74,12 @@ public class SmartAPIRequest {
 		if (SmartAPIRequest.FORCE_SYNCHRONOUS)
 			this.run(callback);
 		else
-			Executors.newSingleThreadExecutor()
-					.submit(new Runnable() {
-						@Override
-						public void run() {
-							SmartAPIRequest.this.run(callback);
-						}
-					});
+			Executors.newSingleThreadExecutor().submit(new Runnable() {
+				@Override
+				public void run() {
+					SmartAPIRequest.this.run(callback);
+				}
+			});
 	}
 
 	public void setServerUrl(String serverUrl) {
