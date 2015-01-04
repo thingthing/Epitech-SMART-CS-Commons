@@ -30,7 +30,7 @@ public class SmartAPITest {
 	public void testModelingCreate() {
 		/*
 		SmartAPI.modelingCreate("testjunit2").run(null);
-		SmartAPI.modelingStop();
+		SmartAPI.modelingStop().run(null);
 		SmartAPI.modelingCreate("testjunit").run(new SmartAPICallback<Status>() {
 
 			@Override
@@ -45,7 +45,7 @@ public class SmartAPITest {
 
 			@Override
 			public void onSuccess(Status t) {
-				System.out.println("Création :");
+				System.out.println("Crï¿½ation :");
 				System.out.println(t);
 			}
 		});
