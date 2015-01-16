@@ -1,7 +1,7 @@
 package eip.smart.model;
 
-
 public enum Status {
+	UNKNOWN(-3, "unknown error"),
 	SIMULATION(-2, "SIMULATION"),
 	TODO(-1, "TODO"),
 	OK(0, "ok"),
@@ -18,7 +18,12 @@ public enum Status {
 	AGENT_ALREADY_ADDED("agent already added to modeling"),
 	AGENT_NOT_ADDED("agent not already added to modeling"),
 	ORDER_NO_GIVEN("no order was given"),
-	AREA_NO_GIVEN("no area was given");
+	AREA_NO_GIVEN("no area was given"),
+	PORT_NO_GIVEN("no port was given"),
+	PORT_BAD("given port is bad"),
+	PORT_ALREADY_USED("port already used"),
+	SOCKET_ALREADY_RUNNING("tcp server is already running"),
+	SOCKET_NOT_RUNNING("tcp server is not running");
 
 	public static Status getStatusByCode(int code) {
 		for (Status status : Status.values())
