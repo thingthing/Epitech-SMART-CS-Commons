@@ -31,19 +31,26 @@ public class Agent implements Serializable {
 		SUBMARINE;
 	}
 
-	static int					nextID		= 1;
+	public interface sendMessageCallback {
+		public void callback(Object message);
+	}
 
-	private int					ID			= -1;
-	private AgentType			type		= AgentType.TERRESTRIAL;
-	private AgentState			state		= AgentState.OK;
-	private LinkedList<Point>	positions	= new LinkedList<>();
-	private LinkedList<Point>	orders		= new LinkedList<>();
-	private Area				destination	= null;
+	static int					nextID			= 1;
 
-	private Date				lastContact	= Date.from(Instant.now());
+	private int					ID				= -1;
+	private String				name			= null;
+	private boolean				connected		= false;
+	private AgentType			type			= AgentType.TERRESTRIAL;
+	private AgentState			state			= AgentState.OK;
+	private LinkedList<Point>	positions		= new LinkedList<>();
+	private LinkedList<Point>	orders			= new LinkedList<>();
+	private Area				destination		= null;
+	private sendMessageCallback	messageCallback	= null;
+	private Date				lastContact		= Date.from(Instant.now());
 
-	public Agent() {
+	public Agent(String name) {
 		this.ID = Agent.nextID++;
+		this.name = name;
 		this.setCurrentPosition(new Point(0, 0, 0));
 	}
 
@@ -69,6 +76,10 @@ public class Agent implements Serializable {
 		return (this.lastContact);
 	}
 
+	public String getName() {
+		return (this.name);
+	}
+
 	public LinkedList<Point> getOrders() {
 		return (this.orders);
 	}
@@ -90,12 +101,25 @@ public class Agent implements Serializable {
 		return (this.type);
 	}
 
+	public boolean isConnected() {
+		return (this.connected);
+	}
+
 	public void pushOrder(Point order) {
 		this.orders.push(order);
 	}
 
 	public void recall() {
 		// TODO Auto-generated method stub
+	}
+
+	public void sendMessage(Object message) {
+		if (this.messageCallback != null)
+			this.messageCallback.callback(message);
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
 	}
 
 	public void setCurrentPosition(Point position) {
@@ -110,8 +134,11 @@ public class Agent implements Serializable {
 		this.lastContact = lastContact;
 	}
 
-	public void setState(AgentState state) {
+	public void setSendMessageCallback(sendMessageCallback messageCallback) {
+		this.messageCallback = messageCallback;
+	}
 
+	public void setState(AgentState state) {
 		this.state = state;
 	}
 
