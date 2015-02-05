@@ -1,11 +1,13 @@
 package eip.smart.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
@@ -111,6 +113,16 @@ public class Agent implements Serializable {
 
 	public void recall() {
 		// TODO Auto-generated method stub
+	}
+
+	public void receiveMessage(String msg) {
+		if (msg.startsWith("position:"))
+			try {
+				Point p = new ObjectMapper().readValue(msg.replaceFirst("position:", ""), Point.class);
+				this.setCurrentPosition(p);
+			} catch (IOException e) {
+				this.sendMessage(e);
+			}
 	}
 
 	public void sendMessage(Object message) {
