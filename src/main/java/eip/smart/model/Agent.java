@@ -110,6 +110,7 @@ public class Agent implements Serializable {
 
 	public void pushOrder(Point order) {
 		this.orders.push(order);
+		this.sendMessage("order:%o", order);
 	}
 
 	public void recall() {
