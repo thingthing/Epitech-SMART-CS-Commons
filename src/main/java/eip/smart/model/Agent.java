@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eip.smart.model.geometry.Point;
@@ -121,11 +122,18 @@ public class Agent implements Serializable {
 				Point p = new ObjectMapper().readValue(msg.replaceFirst("position:", ""), Point.class);
 				this.setCurrentPosition(p);
 			} catch (IOException e) {
-				this.sendMessage(e);
+				this.sendMessage(e.getMessage());
 			}
 	}
 
-	public void sendMessage(Object message) {
+	public void sendMessage(String message, Object... objects) {
+		ObjectMapper mapper = new ObjectMapper();
+		for (Object object : objects)
+			try {
+				message = message.replaceFirst("%o", mapper.writeValueAsString(object));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		if (this.messageCallback != null)
 			this.messageCallback.callback(message);
 	}
