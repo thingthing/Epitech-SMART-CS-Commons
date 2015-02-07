@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import eip.smart.model.proxy.FileModelingProxy;
+
+
 /**
  * Created by Pierre Demessence on 10/10/2014.
  */
@@ -24,6 +27,13 @@ public class Modeling implements Serializable {
 	private long				tick	= 0;
 
 	public Modeling() {}
+
+	public Modeling(FileModelingProxy fileModeling) {
+		this.ID = Modeling.nextID++;
+		this.name = fileModeling.getName();
+		this.areas = fileModeling.getArea();
+		this.agents = null;
+	}
 
 	public Modeling(String name) {
 		this.ID = Modeling.nextID++;
