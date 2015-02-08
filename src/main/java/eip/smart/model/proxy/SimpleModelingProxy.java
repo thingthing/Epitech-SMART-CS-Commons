@@ -7,6 +7,7 @@ public class SimpleModelingProxy extends Proxy<Modeling> {
 	private double	completion;
 	private String	name;
 	private long	tick;
+	private boolean	obsolete;
 
 	public SimpleModelingProxy() {}
 
@@ -15,6 +16,7 @@ public class SimpleModelingProxy extends Proxy<Modeling> {
 		this.completion = object.getCompletion();
 		this.name = object.getName();
 		this.tick = object.getTick();
+		this.obsolete = false;
 	}
 
 	public double getCompletion() {
@@ -29,6 +31,10 @@ public class SimpleModelingProxy extends Proxy<Modeling> {
 		return (this.tick);
 	}
 
+	public boolean getObsolete() {
+		return (this.obsolete);
+	}
+	
 	public void setCompletion(double completion) {
 		this.completion = completion;
 	}
@@ -40,5 +46,8 @@ public class SimpleModelingProxy extends Proxy<Modeling> {
 	public void setTick(long tick) {
 		this.tick = tick;
 	}
-
+	
+	public void setObsolete(boolean obsolete) {
+		this.obsolete = obsolete;
+	}
 }

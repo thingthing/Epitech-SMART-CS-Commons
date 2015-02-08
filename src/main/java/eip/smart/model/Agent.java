@@ -1,11 +1,14 @@
 package eip.smart.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
@@ -31,19 +34,26 @@ public class Agent implements Serializable {
 		SUBMARINE;
 	}
 
-	static int					nextID		= 1;
+	public interface sendMessageCallback {
+		public void callback(Object message);
+	}
 
-	private int					ID			= -1;
-	private AgentType			type		= AgentType.TERRESTRIAL;
-	private AgentState			state		= AgentState.OK;
-	private LinkedList<Point>	positions	= new LinkedList<>();
-	private LinkedList<Point>	orders		= new LinkedList<>();
-	private Area				destination	= null;
+	static int					nextID			= 1;
 
-	private Date				lastContact	= Date.from(Instant.now());
+	private int					ID				= -1;
+	private String				name			= null;
+	private boolean				connected		= false;
+	private AgentType			type			= AgentType.TERRESTRIAL;
+	private AgentState			state			= AgentState.OK;
+	private LinkedList<Point>	positions		= new LinkedList<>();
+	private LinkedList<Point>	orders			= new LinkedList<>();
+	private Area				destination		= null;
+	private sendMessageCallback	messageCallback	= null;
+	private Date				lastContact		= Date.from(Instant.now());
 
-	public Agent() {
+	public Agent(String name) {
 		this.ID = Agent.nextID++;
+		this.name = name;
 		this.setCurrentPosition(new Point(0, 0, 0));
 	}
 
@@ -69,6 +79,10 @@ public class Agent implements Serializable {
 		return (this.lastContact);
 	}
 
+	public String getName() {
+		return (this.name);
+	}
+
 	public LinkedList<Point> getOrders() {
 		return (this.orders);
 	}
@@ -90,12 +104,43 @@ public class Agent implements Serializable {
 		return (this.type);
 	}
 
+	public boolean isConnected() {
+		return (this.connected);
+	}
+
 	public void pushOrder(Point order) {
 		this.orders.push(order);
+		this.sendMessage("order:%o", order);
 	}
 
 	public void recall() {
 		// TODO Auto-generated method stub
+	}
+
+	public void receiveMessage(String msg) {
+		if (msg.startsWith("position:"))
+			try {
+				Point p = new ObjectMapper().readValue(msg.replaceFirst("position:", ""), Point.class);
+				this.setCurrentPosition(p);
+			} catch (IOException e) {
+				this.sendMessage(e.getMessage());
+			}
+	}
+
+	public void sendMessage(String message, Object... objects) {
+		ObjectMapper mapper = new ObjectMapper();
+		for (Object object : objects)
+			try {
+				message = message.replaceFirst("%o", mapper.writeValueAsString(object));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		if (this.messageCallback != null)
+			this.messageCallback.callback(message);
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
 	}
 
 	public void setCurrentPosition(Point position) {
@@ -110,8 +155,11 @@ public class Agent implements Serializable {
 		this.lastContact = lastContact;
 	}
 
-	public void setState(AgentState state) {
+	public void setSendMessageCallback(sendMessageCallback messageCallback) {
+		this.messageCallback = messageCallback;
+	}
 
+	public void setState(AgentState state) {
 		this.state = state;
 	}
 
