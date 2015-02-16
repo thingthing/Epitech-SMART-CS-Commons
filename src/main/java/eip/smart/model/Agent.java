@@ -56,6 +56,11 @@ public class Agent implements Serializable {
 		this.name = name;
 		this.setCurrentPosition(new Point(0, 0, 0));
 	}
+	
+	public Agent() {
+		this.ID = Agent.nextID++;
+		this.setCurrentPosition(new Point(0, 0, 0));
+	}
 
 	@JsonIgnore
 	public Point getCurrentOrder() {
