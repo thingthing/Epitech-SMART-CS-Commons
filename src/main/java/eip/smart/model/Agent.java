@@ -39,7 +39,6 @@ public class Agent implements Serializable {
 	}
 
 	static int					nextID			= 1;
-
 	private int					ID				= -1;
 	private String				name			= null;
 	private boolean				connected		= false;
@@ -48,13 +47,22 @@ public class Agent implements Serializable {
 	private LinkedList<Point>	positions		= new LinkedList<>();
 	private LinkedList<Point>	orders			= new LinkedList<>();
 	private Area				destination		= null;
+	private AgentMessageManager	messageManager	= new AgentMessageManager();
+
 	private sendMessageCallback	messageCallback	= null;
+
 	private Date				lastContact		= Date.from(Instant.now());
 
 	public Agent(String name) {
 		this.ID = Agent.nextID++;
 		this.name = name;
 		this.setCurrentPosition(new Point(0, 0, 0));
+		this.messageManager.addHandler("position", new AgentMessageHandler<Point>(Point.class) {
+			@Override
+			public void handleMessage(Point data, Agent agent) {
+				agent.setCurrentPosition(data);
+			}
+		});
 	}
 	
 	public Agent() {
@@ -123,13 +131,12 @@ public class Agent implements Serializable {
 	}
 
 	public void receiveMessage(String msg) {
-		if (msg.startsWith("position:"))
-			try {
-				Point p = new ObjectMapper().readValue(msg.replaceFirst("position:", ""), Point.class);
-				this.setCurrentPosition(p);
-			} catch (IOException e) {
-				this.sendMessage(e.getMessage());
-			}
+		try {
+			this.messageManager.handleMessage(msg, this);
+		} catch (IOException e) {
+			this.sendMessage(e.getMessage());
+		}
+
 	}
 
 	public void sendMessage(String message, Object... objects) {
