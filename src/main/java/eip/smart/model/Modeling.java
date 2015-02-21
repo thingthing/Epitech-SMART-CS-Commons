@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Pierre Demessence on 10/10/2014.
@@ -16,9 +15,7 @@ public class Modeling implements Serializable {
 
 	private final static Logger	LOGGER	= Logger.getLogger(Modeling.class.getName());
 
-	private static int			nextID	= 1;
-	private int					ID		= -1;
-	private String				name;
+	private String				name	= "";
 	private ArrayList<Area>		areas	= new ArrayList<>();
 	private ArrayList<Agent>	agents	= new ArrayList<>();
 	private long				tick	= 0;
@@ -26,7 +23,6 @@ public class Modeling implements Serializable {
 	public Modeling() {}
 
 	public Modeling(String name) {
-		this.ID = Modeling.nextID++;
 		this.name = name;
 		this.areas.add(new Area());
 		this.areas.add(new Area());
@@ -43,7 +39,7 @@ public class Modeling implements Serializable {
 	public void dumpAgents() {
 		Modeling.LOGGER.log(Level.INFO, "Dumping Agents");
 		for (Agent a : this.agents) {
-			Modeling.LOGGER.log(Level.INFO, "Agent " + a.getID() + " :");
+			Modeling.LOGGER.log(Level.INFO, "Agent " + a.getName() + " :");
 			Modeling.LOGGER.log(Level.INFO, "--Position : " + a.getCurrentPosition());
 			Modeling.LOGGER.log(Level.INFO, "--Destination : " + a.getDestination());
 		}
@@ -68,10 +64,6 @@ public class Modeling implements Serializable {
 			res += a.getCompletion();
 		res /= this.areas.size();
 		return (res);
-	}
-
-	public int getID() {
-		return (this.ID);
 	}
 
 	public String getName() {
@@ -105,11 +97,6 @@ public class Modeling implements Serializable {
 
 	public void setAreas(ArrayList<Area> areas) {
 		this.areas = areas;
-	}
-
-	@JsonProperty
-	private void setID(int iD) {
-		this.ID = iD;
 	}
 
 	private void setName(String name) {

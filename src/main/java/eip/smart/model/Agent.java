@@ -38,9 +38,7 @@ public class Agent implements Serializable {
 		public void callback(Object message);
 	}
 
-	static int					nextID			= 1;
-	private int					ID				= -1;
-	private String				name			= null;
+	private String				name			= "";
 	private boolean				connected		= false;
 	private AgentType			type			= AgentType.TERRESTRIAL;
 	private AgentState			state			= AgentState.OK;
@@ -53,9 +51,7 @@ public class Agent implements Serializable {
 
 	private Date				lastContact		= Date.from(Instant.now());
 
-	public Agent(String name) {
-		this.ID = Agent.nextID++;
-		this.name = name;
+	public Agent() {
 		this.setCurrentPosition(new Point(0, 0, 0));
 		this.messageManager.addHandler("position", new AgentMessageHandler<Point>(Point.class) {
 			@Override
@@ -64,10 +60,10 @@ public class Agent implements Serializable {
 			}
 		});
 	}
-	
-	public Agent() {
-		this.ID = Agent.nextID++;
-		this.setCurrentPosition(new Point(0, 0, 0));
+
+	public Agent(String name) {
+		this();
+		this.name = name;
 	}
 
 	@JsonIgnore
@@ -82,10 +78,6 @@ public class Agent implements Serializable {
 
 	public Area getDestination() {
 		return (this.destination);
-	}
-
-	public int getID() {
-		return (this.ID);
 	}
 
 	public Date getLastContact() {
