@@ -6,7 +6,6 @@ import eip.smart.model.Agent.AgentType;
 public class SimpleAgentProxy extends Proxy<Agent> {
 
 	private AgentType	type;
-	private int			ID;
 	private String		name;
 	private boolean		connected;
 
@@ -15,13 +14,8 @@ public class SimpleAgentProxy extends Proxy<Agent> {
 	public SimpleAgentProxy(Agent object) {
 		super(object);
 		this.setType(object.getType());
-		this.setID(object.getID());
 		this.setName(object.getName());
 		this.setConnected(object.isConnected());
-	}
-
-	public int getID() {
-		return (this.ID);
 	}
 
 	public String getName() {
@@ -38,10 +32,6 @@ public class SimpleAgentProxy extends Proxy<Agent> {
 
 	public void setConnected(boolean connected) {
 		this.connected = connected;
-	}
-
-	public void setID(int iD) {
-		this.ID = iD;
 	}
 
 	public void setName(String name) {
