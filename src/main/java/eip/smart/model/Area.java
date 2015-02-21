@@ -69,4 +69,22 @@ public class Area implements Serializable {
 		this.completion += 5.0d + (10.0d - 5.0d) * new Random().nextDouble();
 		this.completion = Math.min(this.completion, 100.0d);
 	}
+	
+	public Point getAvgPoint(){
+		double x = 0;
+		double y = 0;
+		
+		for (Point a : this.points)
+		{
+			x += a.getX();
+			y += a.getY();
+		}
+		x /= this.points.size();
+		y /= this.points.size();
+		return (new Point(x, y, 0));
+	}
+	
+	public void addPoint(Point pt) {
+		this.points.add(pt);
+	}
 }

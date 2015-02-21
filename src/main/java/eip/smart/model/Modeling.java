@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import java.lang.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import eip.smart.model.geometry.Point;
 
 /**
  * Created by Pierre Demessence on 10/10/2014.
@@ -113,6 +117,10 @@ public class Modeling implements Serializable {
 		this.handleAGentsState();
 	}
 
+	private double getDiffPoint(Point x, Point y) {
+		return (Math.abs((Math.abs(x.getX() - y.getX())) - (Math.abs(x.getY() - y.getY()))));
+	}
+
 	private void updateAgentsDestination() {
 		Modeling.LOGGER.log(Level.INFO, "->Updating destination for each agent...");
 	}
@@ -126,8 +134,20 @@ public class Modeling implements Serializable {
 	}
 
 	private void updateAreaAgentsAttributed() {
-		for (Area a : this.areas)
-			a.updateCompletion();
+		//for (Area a : this.areas)
+			//a.updateCompletion();
+		Area dest;
+		if (this.areas.size() > 0)
+		{
+			for (Agent agent : this.agents) {
+				dest = this.areas.get(0);
+				for (Area area : this.areas) {
+					if (getDiffPoint(agent.getCurrentPosition(), area.getAvgPoint()) < getDiffPoint(agent.getCurrentPosition(), dest.getAvgPoint()))
+						dest = area;
+				}
+				agent.setDestination(dest);
+			}
+		}			
 		Modeling.LOGGER.log(Level.INFO, "->Attributing number of agents for each area...");
 	}
 
