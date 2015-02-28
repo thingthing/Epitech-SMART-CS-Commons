@@ -172,15 +172,17 @@ public class Agent implements Serializable {
 	}
 
 	public void updateState() {
-		boolean still = false;
+		boolean still = true;
 		int i = 0;
-		while (i < ((this.getPositions().size() > 5) ? 5 : this.getPositions().size()))
+		if (this.getPositions().size() > 3)
 		{
-			if (this.getCurrentPosition() != this.getPositions().get(i))
-				still = true;
-			i++;
-		}
-			
+			while (i < ((this.getPositions().size() > 5) ? 5 : this.getPositions().size()))
+			{
+				if (this.getCurrentPosition() != this.getPositions().get(i) && still)
+					still = false;
+				i++;
+			}
+		}	
 		if (Date.from(Instant.now()).getTime() - this.lastContact.getTime() > 5 * 60 * 1000)
 			this.state = AgentState.LOST;
 		else if (still)
