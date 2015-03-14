@@ -122,7 +122,7 @@ public class Modeling implements Serializable {
 		this.ID = iD;
 	}
 
-	private void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

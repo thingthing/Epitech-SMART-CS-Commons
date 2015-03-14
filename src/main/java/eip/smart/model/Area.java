@@ -69,4 +69,8 @@ public class Area implements Serializable {
 		this.completion += 5.0d + (10.0d - 5.0d) * new Random().nextDouble();
 		this.completion = Math.min(this.completion, 100.0d);
 	}
+
+    public void generateTestPoints(int nb) {
+        this.points = new PointCloudGenerator().generatePointCloud(nb);
+    }
 }
