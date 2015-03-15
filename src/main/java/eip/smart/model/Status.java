@@ -14,7 +14,7 @@ public enum Status {
 	MODELING_ALREADY_PAUSED("current modeling is already paused"),
 	MODELING_NOT_PAUSED("current modeling is not paused"),
 	MODELING_NO_NAME("modeling must have a name"),
-	AGENT_NOT_FOUND("agent with given id does not exist"),
+	AGENT_NOT_FOUND("agent with given name does not exist"),
 	AGENT_ALREADY_ADDED("agent already added to modeling"),
 	AGENT_NOT_ADDED("agent not already added to modeling"),
 	ORDER_NO_GIVEN("no order was given"),

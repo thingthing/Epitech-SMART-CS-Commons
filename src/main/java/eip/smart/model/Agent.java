@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eip.smart.model.geometry.Point;
@@ -37,23 +38,32 @@ public class Agent implements Serializable {
 		public void callback(Object message);
 	}
 
-	static int					nextID			= 1;
-
-	private int					ID				= -1;
-	private String				name			= null;
+	private String				name			= "";
 	private boolean				connected		= false;
 	private AgentType			type			= AgentType.TERRESTRIAL;
 	private AgentState			state			= AgentState.OK;
 	private LinkedList<Point>	positions		= new LinkedList<>();
 	private LinkedList<Point>	orders			= new LinkedList<>();
 	private Area				destination		= null;
+	private AgentMessageManager	messageManager	= new AgentMessageManager();
+
 	private sendMessageCallback	messageCallback	= null;
+
 	private Date				lastContact		= Date.from(Instant.now());
 
-	public Agent(String name) {
-		this.ID = Agent.nextID++;
-		this.name = name;
+	public Agent() {
 		this.setCurrentPosition(new Point(0, 0, 0));
+		this.messageManager.addHandler("position", new AgentMessageHandler<Point>(Point.class) {
+			@Override
+			public void handleMessage(Point data, Agent agent) {
+				agent.setCurrentPosition(data);
+			}
+		});
+	}
+
+	public Agent(String name) {
+		this();
+		this.name = name;
 	}
 
 	@JsonIgnore
@@ -68,10 +78,6 @@ public class Agent implements Serializable {
 
 	public Area getDestination() {
 		return (this.destination);
-	}
-
-	public int getID() {
-		return (this.ID);
 	}
 
 	public Date getLastContact() {
@@ -109,6 +115,7 @@ public class Agent implements Serializable {
 
 	public void pushOrder(Point order) {
 		this.orders.push(order);
+		this.sendMessage("order:%o", order);
 	}
 
 	public void recall() {
@@ -116,16 +123,22 @@ public class Agent implements Serializable {
 	}
 
 	public void receiveMessage(String msg) {
-		if (msg.startsWith("position:"))
-			try {
-				Point p = new ObjectMapper().readValue(msg.replaceFirst("position:", ""), Point.class);
-				this.setCurrentPosition(p);
-			} catch (IOException e) {
-				this.sendMessage(e);
-			}
+		try {
+			this.messageManager.handleMessage(msg, this);
+		} catch (IOException e) {
+			this.sendMessage(e.getMessage());
+		}
+
 	}
 
-	public void sendMessage(Object message) {
+	public void sendMessage(String message, Object... objects) {
+		ObjectMapper mapper = new ObjectMapper();
+		for (Object object : objects)
+			try {
+				message = message.replaceFirst("%o", mapper.writeValueAsString(object));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		if (this.messageCallback != null)
 			this.messageCallback.callback(message);
 	}
