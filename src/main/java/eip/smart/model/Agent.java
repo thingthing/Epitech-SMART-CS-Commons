@@ -43,6 +43,7 @@ public class Agent implements Serializable {
 	private AgentType			type			= AgentType.TERRESTRIAL;
 	private AgentState			state			= AgentState.OK;
 	private LinkedList<Point>	positions		= new LinkedList<>();
+	private LinkedList<Double>	bearings		= new LinkedList<Double>();
 	private LinkedList<Point>	orders			= new LinkedList<>();
 	private Area				destination		= null;
 	private AgentMessageManager	messageManager	= new AgentMessageManager();
@@ -61,9 +62,24 @@ public class Agent implements Serializable {
 		});
 	}
 
+	public Agent(Agent agent) {
+		this(agent.getName());
+		this.setCurrentPosition(agent.getCurrentPosition());
+		this.setCurrentBearing(agent.getCurrentBearing());
+		this.setType(agent.getType());
+		this.setConnected(agent.isConnected());
+		this.setState(agent.getState());
+		this.setDestination(agent.getDestination());
+		this.setLastContact(agent.getLastContact());
+	}
+
 	public Agent(String name) {
 		this();
 		this.name = name;
+	}
+
+	public Double getCurrentBearing() {
+		return (this.bearings.peek());
 	}
 
 	@JsonIgnore
@@ -145,6 +161,10 @@ public class Agent implements Serializable {
 
 	public void setConnected(boolean connected) {
 		this.connected = connected;
+	}
+
+	public void setCurrentBearing(Double bearing) {
+		this.bearings.push(bearing);
 	}
 
 	public void setCurrentPosition(Point position) {
