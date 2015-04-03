@@ -62,6 +62,17 @@ public class Agent implements Serializable {
 		});
 	}
 
+	public Agent(Agent agent) {
+		this(agent.getName());
+		this.setCurrentPosition(agent.getCurrentPosition());
+		this.setCurrentBearing(agent.getCurrentBearing());
+		this.setType(agent.getType());
+		this.setConnected(agent.isConnected());
+		this.setState(agent.getState());
+		this.setDestination(agent.getDestination());
+		this.setLastContact(agent.getLastContact());
+	}
+
 	public Agent(String name) {
 		this();
 		this.name = name;
