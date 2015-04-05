@@ -19,38 +19,38 @@ import eip.smart.model.proxy.SimpleAgentProxy;
 public class Agent implements Serializable {
 
 	public static enum AgentState {
-		OK,
 		LOST,
-		STILL,
-		NO_RETURN,
 		LOW_BATTERY,
 		NO_BATTERY,
+		NO_RETURN,
+		OK,
+		STILL,
 		UNKNOWN_ERROR
 	}
 
 	public static enum AgentType {
-		TERRESTRIAL,
 		AERIAL,
-		SUBMARINE;
+		SUBMARINE,
+		TERRESTRIAL;
 	}
 
 	public interface sendMessageCallback {
 		public void callback(Object message);
 	}
 
-	private String				name			= "";
-	private boolean				connected		= false;
-	private AgentType			type			= AgentType.TERRESTRIAL;
-	private AgentState			state			= AgentState.OK;
-	private LinkedList<Point>	positions		= new LinkedList<>();
 	private LinkedList<Double>	bearings		= new LinkedList<Double>();
-	private LinkedList<Point>	orders			= new LinkedList<>();
+	private boolean				connected		= false;
 	private Area				destination		= null;
-	private AgentMessageManager	messageManager	= new AgentMessageManager();
-
-	private sendMessageCallback	messageCallback	= null;
-
 	private Date				lastContact		= Date.from(Instant.now());
+	private sendMessageCallback	messageCallback	= null;
+	private AgentMessageManager	messageManager	= new AgentMessageManager();
+	private String				name			= "";
+	private LinkedList<Point>	orders			= new LinkedList<>();
+	private LinkedList<Point>	positions		= new LinkedList<>();
+
+	private AgentState			state			= AgentState.OK;
+
+	private AgentType			type			= AgentType.TERRESTRIAL;
 
 	public Agent() {
 		this.setCurrentPosition(new Point(0, 0, 0));
@@ -135,7 +135,7 @@ public class Agent implements Serializable {
 	}
 
 	public void recall() {
-		// TODO Auto-generated method stub
+		this.pushOrder(new Point(0, 0, 0));
 	}
 
 	public void receiveMessage(String msg) {
