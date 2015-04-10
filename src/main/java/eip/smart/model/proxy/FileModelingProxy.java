@@ -4,6 +4,11 @@ import eip.smart.model.Area;
 import eip.smart.model.Modeling;
 import java.io.Serializable;
 
+/**
+ * <b>FileModelingProxy est la classe utilisée pour sérialiser une modélisation.</b>
+ * Elle consiste en une classe contenant uniquement les éléments qu'il est intéressant de sauvegarder (les agents par exemple, sont exclus)
+ * @author Pierre Demessence
+*/
 public class FileModelingProxy extends Proxy<Modeling> implements Serializable {
 
 	private double	completion;
@@ -15,6 +20,10 @@ public class FileModelingProxy extends Proxy<Modeling> implements Serializable {
 	
 	public FileModelingProxy() {}
 
+	/**
+	 * Constructeur prenant en paramètre une modélisation, et copiant ses attribus
+	 * @param modelisation
+	 */
 	public FileModelingProxy(Modeling object) {
 		super(object);
 		this.completion = object.getCompletion();
@@ -45,8 +54,6 @@ public class FileModelingProxy extends Proxy<Modeling> implements Serializable {
 	public boolean isObsolete() {
 		return (this.obsolete);
 	}
-	
-	
 	
 	public void setAreas(ArrayList<Area> areas) {
 		this.areas = areas;
