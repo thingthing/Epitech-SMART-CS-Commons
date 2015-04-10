@@ -14,26 +14,26 @@ import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
 
 /**
-  * <b>Agent est la classe représentant et permettant de gérer un agent.</b>
+  * <b>Agent est la classe reprï¿½sentant et permettant de gï¿½rer un agent.</b>
   * @author Pierre Demessence
   * @version 3.0
  */
 public class Agent implements Serializable {
 
 	public static enum AgentState {
-		OK,
 		LOST,
-		STILL,
-		NO_RETURN,
 		LOW_BATTERY,
 		NO_BATTERY,
+		NO_RETURN,
+		OK,
+		STILL,
 		UNKNOWN_ERROR
 	}
 
 	public static enum AgentType {
-		TERRESTRIAL,
 		AERIAL,
-		SUBMARINE;
+		SUBMARINE,
+		TERRESTRIAL;
 	}
 
 	public interface sendMessageCallback {
@@ -46,24 +46,24 @@ public class Agent implements Serializable {
 	private String				name			= "";
 	
 	/**
-	 * Booleen, permettant de déterminer si l'agent est connecté
+	 * Booleen, permettant de dï¿½terminer si l'agent est connectï¿½
 	 */
 	private boolean				connected		= false;
 	
 	/**
-	 * Type (AgentType), permettant de déterminer le milieu sur lequel l'agent peut évoluer
+	 * Type (AgentType), permettant de dï¿½terminer le milieu sur lequel l'agent peut ï¿½voluer
 	 * @see AgentType
 	 */
 	private AgentType			type			= AgentType.TERRESTRIAL;
 	
 	/**
-	 * Etat (AgentState), permettant de déterminer la situation de l'agent (ok, immobile, perdu, etc)
+	 * Etat (AgentState), permettant de dï¿½terminer la situation de l'agent (ok, immobile, perdu, etc)
 	 * @see AgentState
 	 */
 	private AgentState			state			= AgentState.OK;
 
 	/**
-	 * Liste des positions qu'a eu l'agent (LinkedList<Point>), la dernière étant sa dernière position connue
+	 * Liste des positions qu'a eu l'agent (LinkedList<Point>), la derniï¿½re ï¿½tant sa derniï¿½re position connue
 	 * @see Point
 	 */
 	private LinkedList<Point>	positions		= new LinkedList<>();
@@ -79,27 +79,32 @@ public class Agent implements Serializable {
 	 * @see Area
 	 */
 	private Area				destination		= null;
-	
+
 	/**
-	 *  Objet (AgentMessageManager), gérant la réception des messages
+	 *  Objet (AgentMessageManager), gï¿½rant la rï¿½ception des messages
 	 *  @see AgentMessageManager
 	 */
 	private AgentMessageManager	messageManager	= new AgentMessageManager();
 
 	/**
-	 * Objet (sendMessageCallback), gérant l'envoi des messages
+	 * Objet (sendMessageCallback), gï¿½rant l'envoi des messages
 	 * @see sendMessageCallback	
 	 */
 	private sendMessageCallback	messageCallback	= null;
 
 	
 	/**
-	 * Date de dernier contact avec l'agent (Date), permettant de déterminer son état
+	 * Date de dernier contact avec l'agent (Date), permettant de dï¿½terminer son ï¿½tat
 	 */
 	private Date				lastContact		= Date.from(Instant.now());
 
 	/**
-	 * constructeur par défaut, place l'agent en coordonnées (0, 0, 0) et créer un handler pour mettre à jour sa position
+	 *
+	 */
+	private LinkedList<Double>	bearings		= new LinkedList<Double>();
+
+	/**
+	 * constructeur par dï¿½faut, place l'agent en coordonnï¿½es (0, 0, 0) et crï¿½er un handler pour mettre ï¿½ jour sa position
 	 */
 	public Agent() {
 		this.setCurrentPosition(new Point(0, 0, 0));
@@ -110,14 +115,34 @@ public class Agent implements Serializable {
 			}
 		});
 	}
+
 	/**
-	 * Constructeur permettant de donner un nom à l'agent à sa création
+	 * Constructeur permettant de donner un nom ï¿½ l'agent ï¿½ sa crï¿½ation
 	 * 
 	 * @param name nom que portera l'agent
 	 */
 	public Agent(String name) {
 		this();
 		this.name = name;
+	}
+
+	/**
+	 * Constructeur par copie
+	 * @param agent
+	 */
+	public Agent(Agent agent) {
+		this(agent.getName());
+		this.setCurrentPosition(agent.getCurrentPosition());
+		this.setCurrentBearing(agent.getCurrentBearing());
+		this.setType(agent.getType());
+		this.setConnected(agent.isConnected());
+		this.setState(agent.getState());
+		this.setDestination(agent.getDestination());
+		this.setLastContact(agent.getLastContact());
+	}
+
+	public Double getCurrentBearing() {
+		return (this.bearings.peek());
 	}
 
 	@JsonIgnore
@@ -164,19 +189,19 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Retourne un boolean ayant pour valeur "true" si l'agent est connecté et "false" s'il ne l'est pas.
+	 * Retourne un boolean ayant pour valeur "true" si l'agent est connectï¿½ et "false" s'il ne l'est pas.
 	 * 
-	 * @return Un boolean permettant de déterminer si l'agent est connecté.
+	 * @return Un boolean permettant de dï¿½terminer si l'agent est connectï¿½.
 	 */
 	public boolean isConnected() {
 		return (this.connected);
 	}
 
 	/**
-	 * Ajoute un Point à la liste d'ordres de l'agent
+	 * Ajoute un Point ï¿½ la liste d'ordres de l'agent
 	 * 
 	 * @see Point
-	 * @param order Point, nouvel ordre à envoyer à l'agent
+	 * @param order Point, nouvel ordre ï¿½ envoyer ï¿½ l'agent
 	 */
 	public void pushOrder(Point order) {
 		this.orders.push(order);
@@ -184,15 +209,15 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Donne à l'agent l'ordre de retourner à son point de départ
+	 * Donne ï¿½ l'agent l'ordre de retourner ï¿½ son point de dï¿½part
 	 */
 	public void recall() {
-		// TODO Auto-generated method stub
+		this.pushOrder(new Point(0, 0, 0));
 	}
 
 	/**
-	 * Vérifie si un message a été reçu par l'agent
-	 * @param msg String, chaine de caractères représentant le message reçu
+	 * Vï¿½rifie si un message a ï¿½tï¿½ reï¿½u par l'agent
+	 * @param msg String, chaine de caractï¿½res reprï¿½sentant le message reï¿½u
 	 */
 	public void receiveMessage(String msg) {
 		try {
@@ -207,7 +232,7 @@ public class Agent implements Serializable {
 	 * Envoi un message au tableau de bord
 	 * 
 	 * @param message String
-	 * @param objects Un ou plusieurs objets qui seront envoyés
+	 * @param objects Un ou plusieurs objets qui seront envoyï¿½s
 	 */
 	public void sendMessage(String message, Object... objects) {
 		ObjectMapper mapper = new ObjectMapper();
@@ -223,6 +248,10 @@ public class Agent implements Serializable {
 
 	public void setConnected(boolean connected) {
 		this.connected = connected;
+	}
+
+	public void setCurrentBearing(Double bearing) {
+		this.bearings.push(bearing);
 	}
 
 	public void setCurrentPosition(Point position) {
@@ -250,7 +279,7 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Met à jours l'état de l'agent, en se basant sur les attribus "positions" et "lastContact"
+	 * Met ï¿½ jours l'ï¿½tat de l'agent, en se basant sur les attribus "positions" et "lastContact"
 	 */
 	public void updateState() {
 		if (Date.from(Instant.now()).getTime() - this.lastContact.getTime() > 5 * 60 * 1000)
