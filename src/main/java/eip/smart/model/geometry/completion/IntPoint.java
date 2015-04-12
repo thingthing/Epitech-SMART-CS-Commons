@@ -1,4 +1,6 @@
-package eip.smart.model.geometry;
+package eip.smart.model.geometry.completion;
+
+import eip.smart.model.geometry.Point;
 
 /**
  * Created by Vincent Buresi on 4/4/15.
@@ -17,7 +19,7 @@ public final class IntPoint {
     }
 
     /**
-     * See {@link eip.smart.model.geometry.Point#add(Point)}
+     * @see eip.smart.model.geometry.Point#add(eip.smart.model.geometry.Point)
      * @param p2
      * @return
      */
@@ -26,7 +28,7 @@ public final class IntPoint {
     }
 
     /**
-     * See {@link eip.smart.model.geometry.Point#substract(Point)}
+     * @see eip.smart.model.geometry.Point#substract(eip.smart.model.geometry.Point)
      * @param p2
      * @return
      */
@@ -35,7 +37,7 @@ public final class IntPoint {
     }
 
     /**
-     * See {@link eip.smart.model.geometry.Point#getDistance(Point)}
+     * @see eip.smart.model.geometry.Point#getDistance(eip.smart.model.geometry.Point)
      * @param p
      * @return
      */

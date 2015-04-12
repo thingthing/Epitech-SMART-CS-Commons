@@ -1,5 +1,7 @@
 package eip.smart.model.geometry;
 
+import eip.smart.model.geometry.completion.IntPoint;
+
 import java.io.Serializable;
 
 /**

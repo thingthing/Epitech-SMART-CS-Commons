@@ -1,10 +1,38 @@
-package eip.smart.model.geometry;
+package eip.smart.model.geometry.completion;
+
+import eip.smart.model.geometry.Point;
+
+import java.util.Collection;
 
 /**
  * Created by Vincent Buresi on 4/4/15.
  */
 public class CompletionManager {
 
+    /**
+     * Adds a snap to the completion box approximation.
+     * @param origin
+     * @param points the subset of points on which we want to apply the algorithm
+     * @param box
+     * @param precision the precision used for Point conversion
+     */
+    public static void addSnapToCompletion(
+            Point origin,
+            PointSubsetGenerator<?> points,
+            CompletionBox box,
+            int precision
+    ) {
+        for (Point p : points) {
+            addRayToCompletion(origin.toIntPoint(precision), p.toIntPoint(precision), box);
+        }
+    }
+
+    /**
+     * Adds the approximation of a segment to the actual completion box (Voxel approximation)
+     * @param start
+     * @param end
+     * @param box
+     */
     public static void addRayToCompletion(
             IntPoint start, IntPoint end,
             CompletionBox box

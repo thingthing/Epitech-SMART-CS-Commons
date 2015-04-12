@@ -1,4 +1,4 @@
-package eip.smart.model.geometry;
+package eip.smart.model.geometry.completion;
 
 import static java.lang.Math.abs;
 

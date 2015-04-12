@@ -46,17 +46,19 @@ public class Area implements Serializable {
 	 * @see Agent
 	 */
 	private ArrayList<Agent.AgentType>	capableAgentTypes	= new ArrayList<>();
-	
+
 	/**
-	 * niveau de completion (double) de la zone
+	 * Cached completion level of the zone
+     * <b>Never use this value if completionIsValid is false, always call updateCompletion() instead.</b>
 	 */
-	private double						completion			= 0.0d;
+	private double						cachedCompletion			= 0.0d;
+    private double						cachedweight		        = 0.0d;
+    private boolean                     cachedCompletionValid       = false;
 
     /**
      * Expressed in Point / (unit of polygon surface)
      */
     private int                         requiredDensity     = 1000;
-
 
     /**
 	 * Constructeur de test, g�n�rant al�atoirement un nuage de point
@@ -96,7 +98,7 @@ public class Area implements Serializable {
 	}
 
 	public double getCompletion() {
-		return (this.completion);
+		return updateCompletion(false);
 	}
 
 	@JsonIgnore
@@ -117,42 +119,53 @@ public class Area implements Serializable {
 	}
 
     /**
-     * Recalculates the percent complletion of the Area.
+     * Calculates the percent completion of the Area.
      *
      * This percentage is calculated using the required density for the corresponding zones and recursively calling
      *  updateCompletion() for every subArea().
      * A more precise calculation require the subdivision in smaller zones or subAreas and a higher requiredDensity.
      * @return the new completion in percents.
      */
-    public double updateCompletion() {
+    public double updateCompletion(boolean force) {
         //Deprecated : Fully simulated completion update. Could be used for demonstration purpose.
         // Should ultimately be removed from project code.
 //        this.completion += 5.0d + (10.0d - 5.0d) * new Random().nextDouble();
 //        this.completion = Math.min(this.completion, 100.0d);
 
-        double areaCompletion = 0.0d;
-        double weightSum = 0.0d;
+        double areaCompletion;
+        double weightSum;
 
-        //Calculating the completion and coefficient of the area.
-        for (Polygon zone : zoneToMap) {
-            double zoneCompletion;
-            double zoneWeight = zone.getArea();
-            int zoneObjective = (int) (zoneWeight) * requiredDensity;
+        if (!this.cachedCompletionValid && !force) {
+            areaCompletion = 0.0d;
+            weightSum = 0.0d;
 
-            zoneCompletion = (double) ((zone.getPoints().size() * 100) / zoneObjective);
-            areaCompletion += zoneCompletion * zoneWeight;
-            weightSum += zoneWeight;
+            //Calculating the completion and coefficient sums of the area.
+            for (Polygon zone : zoneToMap) {
+                double zoneCompletion;
+                double zoneWeight = zone.getArea();
+                int zoneObjective = (int) (zoneWeight) * requiredDensity;
+
+                zoneCompletion = (double) ((zone.getPoints().size() * 100) / zoneObjective);
+                areaCompletion += zoneCompletion * zoneWeight;
+                weightSum += zoneWeight;
+            }
+            this.cachedCompletion = areaCompletion;
+            this.cachedweight = weightSum;
+        } else {
+            areaCompletion = this.cachedCompletion;
+            weightSum = this.cachedweight;
         }
+
+        //Adding the completion and coefficients of the subAreas
         for (Area subArea : subAreas) {
-            areaCompletion += subArea.updateCompletion();
+            areaCompletion += subArea.updateCompletion(force);
             weightSum += subArea.getTotalArea();
         }
         areaCompletion *= 100;
         areaCompletion /= weightSum;
 
-
-        this.completion = areaCompletion;
-        return this.completion;
+        this.cachedCompletionValid = true;
+        return areaCompletion;
     }
 
 	/**
