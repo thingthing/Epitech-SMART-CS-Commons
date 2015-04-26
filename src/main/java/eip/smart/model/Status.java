@@ -1,5 +1,10 @@
 package eip.smart.model;
 
+/**
+ * <b>Status est l'énumération listant les différents status et les messages associés.</b>
+ * @author Pierre Demessence
+ *
+ */
 public enum Status {
 	UNKNOWN(-3, "unknown error"),
 	SIMULATION(-2, "SIMULATION"),
@@ -25,6 +30,12 @@ public enum Status {
 	SOCKET_ALREADY_RUNNING("tcp server is already running"),
 	SOCKET_NOT_RUNNING("tcp server is not running");
 
+	/**
+	 * Prends en argument le code du status et retourne le status
+	 * 
+	 * @param code int, le code du status
+	 * @return Status, le status correspondant au code entré en paramètre
+	 */
 	public static Status getStatusByCode(int code) {
 		for (Status status : Status.values())
 			if (status.getCode() == code)
@@ -36,11 +47,20 @@ public enum Status {
 
 	private String	message;
 
+	/**
+	 * Constructeur prenant en paramètre un code et un message
+	 * @param code
+	 * @param message
+	 */
 	Status(int code, String message) {
 		this.code = code;
 		this.message = message;
 	}
-
+	
+	/**
+	 * Constructeur prenant en paramètre un message
+	 * @param message
+	 */
 	Status(String message) {
 		this(Integer.MIN_VALUE, message);
 	}
