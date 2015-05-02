@@ -68,13 +68,12 @@ public final class Point implements Serializable {
 	}
 
     /**
-     * TODO Implement precision system
      * WARNING This function creates an approximation of the Point. Be aware that precision is lost through this call.
-     * @param precision
+     * @param precision a multiplier applied to the given point coordinates. Should never ever been 0.
      * @return a new IntPoint from this Point values
      */
-    public IntPoint toIntPoint(int precision) {
-        return new IntPoint((long)x, (long)y, (long)z);
+    public IntPoint toIntPoint(double precision) {
+        return new IntPoint((long)(x * precision), (long)(y * precision), (long)(z * precision));
     }
 
     /**
