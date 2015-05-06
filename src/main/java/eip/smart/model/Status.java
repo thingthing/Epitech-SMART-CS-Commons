@@ -1,5 +1,8 @@
 package eip.smart.model;
 
+import java.util.ArrayList;
+import java.util.MissingFormatArgumentException;
+
 /**
  * <b>Status est l'énumération listant les différents status et les messages associés.</b>
  *
@@ -9,26 +12,22 @@ package eip.smart.model;
 public enum Status {
 	AGENT_ALREADY_ADDED("agent already added to modeling"),
 	AGENT_NOT_ADDED("agent not already added to modeling"),
-	AGENT_NOT_FOUND("agent with given name does not exist"),
-	AREA_NO_GIVEN("no area was given"),
 	ERR_REMOVED(-4, "SERVLET REMOVED"),
 	ERR_SIMULATION(-2, "SIMULATION"),
 	ERR_TODO(-1, "TODO"),
 	ERR_UNKNOWN(-3, "unknown error"),
+	MISSING_PARAMETER("missing parameter %s"),
 	MODELING_ALREADY_CURRENT("a modeling is already loaded"),
 	MODELING_ALREADY_PAUSED("current modeling is already paused"),
 	MODELING_ALREADY_RUNNING("current modeling is already running"),
 	MODELING_DUPLICATE_NAME("modeling with given name already exist"),
 	MODELING_NO_CURRENT("no current modeling"),
-	MODELING_NO_NAME("modeling must have a name"),
-	MODELING_NOT_FOUND("modeling with given name does not exist"),
 	MODELING_NOT_PAUSED("current modeling is not paused"),
 	MODELING_NOT_RUNNING("current modeling is not running"),
+	NOT_FOUND("%s with %s %s not found"),
 	OK(0, "ok"),
-	ORDER_NO_GIVEN("no order was given"),
 	PORT_ALREADY_USED("port already used"),
 	PORT_BAD("given port is bad"),
-	PORT_NO_GIVEN("no port was given"),
 	SOCKET_ALREADY_RUNNING("tcp server is already running"),
 	SOCKET_NOT_RUNNING("tcp server is not running");
 
@@ -46,9 +45,9 @@ public enum Status {
 		return (null);
 	}
 
-	private int		code;
-
-	private String	message;
+	private int					code;
+	private String				message;
+	private ArrayList<Object>	objects	= new ArrayList<>();
 
 	/**
 	 * Constructeur prenant en paramètre un code et un message
@@ -70,6 +69,11 @@ public enum Status {
 		this(Integer.MIN_VALUE, message);
 	}
 
+	public Status addObject(Object o) {
+		this.objects.add(o);
+		return (this);
+	}
+
 	public int getCode() {
 		if (this.code == Integer.MIN_VALUE)
 			return (this.ordinal());
@@ -77,6 +81,10 @@ public enum Status {
 	}
 
 	public String getMessage() {
-		return (this.message);
+		String message = this.message;
+		try {
+			message = String.format(this.message, this.objects.toArray());
+		} catch (MissingFormatArgumentException e) {}
+		return (message);
 	}
 }
