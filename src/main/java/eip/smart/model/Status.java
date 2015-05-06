@@ -10,26 +10,19 @@ import java.util.MissingFormatArgumentException;
  *
  */
 public enum Status {
-	AGENT_ALREADY_ADDED("agent already added to modeling"),
-	AGENT_NOT_ADDED("agent not already added to modeling"),
+	AGENT_ALREADY_ADDED("agent already added to current modeling"),
+	AGENT_NOT_ADDED("agent not in current modeling"),
+	DUPLICATE("%s with %s %s already exists"),
 	ERR_REMOVED(-4, "SERVLET REMOVED"),
 	ERR_SIMULATION(-2, "SIMULATION"),
 	ERR_TODO(-1, "TODO"),
-	ERR_UNKNOWN(-3, "unknown error"),
+	ERR_UNKNOWN(-3, "UNKOWN ERROR"),
 	MISSING_PARAMETER("missing parameter %s"),
 	MODELING_ALREADY_CURRENT("a modeling is already loaded"),
-	MODELING_ALREADY_PAUSED("current modeling is already paused"),
-	MODELING_ALREADY_RUNNING("current modeling is already running"),
-	MODELING_DUPLICATE_NAME("modeling with given name already exist"),
 	MODELING_NO_CURRENT("no current modeling"),
-	MODELING_NOT_PAUSED("current modeling is not paused"),
-	MODELING_NOT_RUNNING("current modeling is not running"),
+	MODELING_STATE_ERROR("%s"),
 	NOT_FOUND("%s with %s %s not found"),
-	OK(0, "ok"),
-	PORT_ALREADY_USED("port already used"),
-	PORT_BAD("given port is bad"),
-	SOCKET_ALREADY_RUNNING("tcp server is already running"),
-	SOCKET_NOT_RUNNING("tcp server is not running");
+	OK(0, "ok");
 
 	/**
 	 * Prends en argument le code du status et retourne le status
