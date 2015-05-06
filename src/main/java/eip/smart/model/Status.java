@@ -24,6 +24,14 @@ public enum Status {
 	NOT_FOUND("%s with %s %s not found"),
 	OK(0, "ok");
 
+	private static int	next_code	= 1;
+
+	static {
+		for (Status s : Status.values())
+			if (s.getCode() == Integer.MIN_VALUE)
+				s.code = Status.next_code++;
+	}
+
 	/**
 	 * Prends en argument le code du status et retourne le status
 	 *
@@ -40,6 +48,7 @@ public enum Status {
 
 	private int					code;
 	private String				message;
+
 	private ArrayList<Object>	objects	= new ArrayList<>();
 
 	/**
@@ -62,14 +71,14 @@ public enum Status {
 		this(Integer.MIN_VALUE, message);
 	}
 
-	public Status addObject(Object o) {
-		this.objects.add(o);
+	public Status addObjects(Object... os) {
+		this.objects.clear();
+		for (Object o : os)
+			this.objects.add(o);
 		return (this);
 	}
 
 	public int getCode() {
-		if (this.code == Integer.MIN_VALUE)
-			return (this.ordinal());
 		return (this.code);
 	}
 
