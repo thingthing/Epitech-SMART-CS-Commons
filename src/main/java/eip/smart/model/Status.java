@@ -16,13 +16,14 @@ public enum Status {
 	ERR_REMOVED(-4, "SERVLET REMOVED"),
 	ERR_SIMULATION(-2, "SIMULATION"),
 	ERR_TODO(-1, "TODO"),
-	ERR_UNKNOWN(-3, "UNKOWN ERROR"),
+	ERR_UNKNOWN(-3, "UNKOWN ERROR : %s"),
 	MISSING_PARAMETER("missing parameter %s"),
 	MODELING_ALREADY_CURRENT("a modeling is already loaded"),
 	MODELING_NO_CURRENT("no current modeling"),
 	MODELING_STATE_ERROR("%s"),
 	NOT_FOUND("%s with %s %s not found"),
-	OK(0, "ok");
+	OK(0, "ok"),
+	SOCKET_ERROR("Socket error : %s");
 
 	private static int	next_code	= 1;
 
