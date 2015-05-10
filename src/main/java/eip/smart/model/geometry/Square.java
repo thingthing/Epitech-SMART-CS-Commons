@@ -1,7 +1,7 @@
 package eip.smart.model.geometry;
 
 /**
- * <b>Square est la classe facilitant la création des cercles.</b>
+ * <b>Square is the class facilitating the creation of squares.</b>
  * @author Pierre Demessence
  *
  */
