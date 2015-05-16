@@ -49,8 +49,7 @@ public enum Status {
 
 	private int					code;
 	private String				message;
-
-	private ArrayList<Object>	objects	= new ArrayList<>();
+	private ArrayList<String>	objects	= new ArrayList<>();
 
 	/**
 	 * Constructeur prenant en paramètre un code et un message
@@ -72,22 +71,49 @@ public enum Status {
 		this(Integer.MIN_VALUE, message);
 	}
 
-	public Status addObjects(Object... os) {
+	/**
+	 * Add string to be used in advanced message formating.
+	 *
+	 * @param os
+	 *            some strings.
+	 * @return The instance.
+	 */
+	public Status addObjects(String... os) {
 		this.objects.clear();
-		for (Object o : os)
+		for (String o : os)
 			this.objects.add(o);
 		return (this);
 	}
 
+	/**
+	 * Get the code.
+	 *
+	 * @return the code.
+	 */
 	public int getCode() {
 		return (this.code);
 	}
 
+	/**
+	 * Get the message.
+	 *
+	 * @return the message.
+	 */
 	public String getMessage() {
 		String message = this.message;
 		try {
 			message = String.format(this.message, this.objects.toArray());
 		} catch (MissingFormatArgumentException e) {}
 		return (message);
+	}
+
+	/**
+	 * Set the message.
+	 * 
+	 * @param message
+	 *            the message to set.
+	 */
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }
