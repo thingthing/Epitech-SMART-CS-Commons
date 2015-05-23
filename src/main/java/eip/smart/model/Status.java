@@ -1,39 +1,43 @@
 package eip.smart.model;
 
+import java.util.ArrayList;
+import java.util.MissingFormatArgumentException;
+
 /**
  * <b>Status est l'énumération listant les différents status et les messages associés.</b>
+ *
  * @author Pierre Demessence
  *
  */
 public enum Status {
-	UNKNOWN(-3, "unknown error"),
-	SIMULATION(-2, "SIMULATION"),
-	TODO(-1, "TODO"),
-	OK(0, "ok"),
+	AGENT_ALREADY_ADDED("agent already added to current modeling"),
+	AGENT_NOT_ADDED("agent not in current modeling"),
+	DUPLICATE("%s with %s %s already exists"),
+	ERR_REMOVED(-4, "SERVLET REMOVED"),
+	ERR_SIMULATION(-2, "SIMULATION"),
+	ERR_TODO(-1, "TODO"),
+	ERR_UNKNOWN(-3, "UNKOWN ERROR : %s"),
+	MISSING_PARAMETER("missing parameter %s"),
 	MODELING_ALREADY_CURRENT("a modeling is already loaded"),
 	MODELING_NO_CURRENT("no current modeling"),
-	MODELING_DUPLICATE_NAME("modeling with given name already exist"),
-	MODELING_NOT_FOUND("modeling with given name does not exist"),
-	MODELING_ALREADY_RUNNING("current modeling is already running"),
-	MODELING_NOT_RUNNING("current modeling is not running"),
-	MODELING_ALREADY_PAUSED("current modeling is already paused"),
-	MODELING_NOT_PAUSED("current modeling is not paused"),
-	MODELING_NO_NAME("modeling must have a name"),
-	AGENT_NOT_FOUND("agent with given name does not exist"),
-	AGENT_ALREADY_ADDED("agent already added to modeling"),
-	AGENT_NOT_ADDED("agent not already added to modeling"),
-	ORDER_NO_GIVEN("no order was given"),
-	AREA_NO_GIVEN("no area was given"),
-	PORT_NO_GIVEN("no port was given"),
-	PORT_BAD("given port is bad"),
-	PORT_ALREADY_USED("port already used"),
-	SOCKET_ALREADY_RUNNING("tcp server is already running"),
-	SOCKET_NOT_RUNNING("tcp server is not running");
+	MODELING_STATE_ERROR("%s"),
+	NOT_FOUND("%s with %s %s not found"),
+	OK(0, "ok"),
+	SOCKET_ERROR("Socket error : %s");
+
+	private static int	next_code	= 1;
+
+	static {
+		for (Status s : Status.values())
+			if (s.getCode() == Integer.MIN_VALUE)
+				s.code = Status.next_code++;
+	}
 
 	/**
 	 * Prends en argument le code du status et retourne le status
-	 * 
-	 * @param code int, le code du status
+	 *
+	 * @param code
+	 *            int, le code du status
 	 * @return Status, le status correspondant au code entré en paramètre
 	 */
 	public static Status getStatusByCode(int code) {
@@ -43,12 +47,13 @@ public enum Status {
 		return (null);
 	}
 
-	private int		code;
-
-	private String	message;
+	private int					code;
+	private String				message;
+	private ArrayList<String>	objects	= new ArrayList<>();
 
 	/**
 	 * Constructeur prenant en paramètre un code et un message
+	 *
 	 * @param code
 	 * @param message
 	 */
@@ -56,22 +61,59 @@ public enum Status {
 		this.code = code;
 		this.message = message;
 	}
-	
+
 	/**
 	 * Constructeur prenant en paramètre un message
+	 *
 	 * @param message
 	 */
 	Status(String message) {
 		this(Integer.MIN_VALUE, message);
 	}
 
+	/**
+	 * Add string to be used in advanced message formating.
+	 *
+	 * @param os
+	 *            some strings.
+	 * @return The instance.
+	 */
+	public Status addObjects(String... os) {
+		this.objects.clear();
+		for (String o : os)
+			this.objects.add(o);
+		return (this);
+	}
+
+	/**
+	 * Get the code.
+	 *
+	 * @return the code.
+	 */
 	public int getCode() {
-		if (this.code == Integer.MIN_VALUE)
-			return (this.ordinal());
 		return (this.code);
 	}
 
+	/**
+	 * Get the message.
+	 *
+	 * @return the message.
+	 */
 	public String getMessage() {
-		return (this.message);
+		String message = this.message;
+		try {
+			message = String.format(this.message, this.objects.toArray());
+		} catch (MissingFormatArgumentException e) {}
+		return (message);
+	}
+
+	/**
+	 * Set the message.
+	 * 
+	 * @param message
+	 *            the message to set.
+	 */
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }
