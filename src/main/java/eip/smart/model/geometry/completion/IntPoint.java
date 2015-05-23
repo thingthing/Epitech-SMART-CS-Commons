@@ -8,6 +8,10 @@ import eip.smart.model.geometry.Point;
  * This class is immutable.
  * Point approximation expressed in integer values. Its use is mostly to optimize some complex calculations by
  * removing the need to compute point float values
+ *
+ * WARNING IntPoints are obtained out of Point through coordinates conversion.
+ * you should never mix IntPoints from differents origins, it could cause the result to be totally false.
+ * @see eip.smart.model.geometry.Point#toIntPoint(eip.smart.model.geometry.Point, double)
  */
 public final class IntPoint {
     public final long x, y, z;
@@ -20,6 +24,7 @@ public final class IntPoint {
 
     /**
      * @see eip.smart.model.geometry.Point#add(eip.smart.model.geometry.Point)
+     * WARNING You should never try to do any calculation on IntPoints converted from distincts origin and scale.
      * @param p2
      * @return
      */
@@ -29,6 +34,7 @@ public final class IntPoint {
 
     /**
      * @see eip.smart.model.geometry.Point#substract(eip.smart.model.geometry.Point)
+     * WARNING You should never try to do any calculation on IntPoints converted from distincts origin and scale.
      * @param p2
      * @return
      */
@@ -38,6 +44,7 @@ public final class IntPoint {
 
     /**
      * @see eip.smart.model.geometry.Point#getDistance(eip.smart.model.geometry.Point)
+     * WARNING You should never try to do any calculation on IntPoints converted from distincts origin and scale.
      * @param p
      * @return
      */
@@ -51,11 +58,18 @@ public final class IntPoint {
     }
 
     /**
-     * TODO Implement precision system
-     * @param precision
+     * This method converts an IntPoint back to Point.
+     * Arguments should be exactly the same as those given to {@link eip.smart.model.geometry.Point#toIntPoint(eip.smart.model.geometry.Point, double)}
+     *
+     * WARNING scale should never ever be 0 to avoid divide-by-zero exception on conversion.
+     *
+     * @param origin
+     * @param scale
      * @return a new Point class from this IntPoint values.
      */
-    public Point toPoint(int precision) {
-        return new Point(x, y, z);
+    public Point toPoint(Point origin, double scale) {
+        return new Point((((double)x) / scale) - origin.getX(),
+                (((double)y) / scale) - origin.getY(),
+                (((double)z) / scale) - origin.getZ());
     }
 }

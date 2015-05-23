@@ -71,14 +71,18 @@ public final class Point implements Serializable {
 	}
 
 	/**
-	 * TODO Implement precision system
 	 * WARNING This function creates an approximation of the Point. Be aware that precision is lost through this call.
+     * WARNING scale should never ever be 0 to avoid divide-by-zero exception on reverse conversion.
+     * WARNING You should never try to do any calculation on IntPoints converted from distincts origin and scale.
 	 *
-	 * @param precision
+	 * @param origin Sets the new origin for the IntPoint coordinates (Set {0,0,0} for no transformation)
+     * @param scale Sets the new NON-NUL scale for the IntPoint coordinates (Set 1 for no transformation)
 	 * @return a new IntPoint from this Point values
 	 */
-	public IntPoint toIntPoint(int precision) {
-		return new IntPoint((long) this.x, (long) this.y, (long) this.z);
+	public IntPoint toIntPoint(Point origin, double scale) {
+		return new IntPoint((long) ((this.x + origin.x) * scale),
+                (long) ((this.y + origin.y) * scale),
+                (long) ((this.z + origin.z) * scale));
 	}
 
 	@Override

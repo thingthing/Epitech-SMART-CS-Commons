@@ -14,16 +14,18 @@ public class CompletionManager {
      * @param origin
      * @param points the subset of points on which we want to apply the algorithm
      * @param box
-     * @param precision the precision used for Point conversion
+     * @param conversionOrigin
+     * @param scale
      */
     public static void addSnapToCompletion(
             Point origin,
             PointSubsetGenerator<?> points,
             CompletionBox box,
-            int precision
+            Point conversionOrigin,
+            double scale
     ) {
         for (Point p : points) {
-            addRayToCompletion(origin.toIntPoint(precision), p.toIntPoint(precision), box);
+            addRayToCompletion(origin.toIntPoint(conversionOrigin, scale), p.toIntPoint(conversionOrigin, scale), box);
         }
     }
 
