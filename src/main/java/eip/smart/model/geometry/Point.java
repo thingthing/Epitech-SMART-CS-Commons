@@ -11,28 +11,6 @@ import java.io.Serializable;
  */
 public final class Point implements Serializable {
 
-	/**
-	 * Deprecated
-	 * Refactored into non-static add(Point p) version to be consistent with getDistance(Point p) and IntPoint methods.
-	 * To be removed
-	 */
-	@Deprecated
-	public static Point add(Point p1, Point p2) {
-		return new Point(p1.getX() + p2.getX(), p1.getY() + p2.getY(), p1.getZ() + p2.getZ());
-	}
-
-	/**
-	 * Déprecated
-	 * Equivalent to add(p1, new Point(d, d, d)).
-	 * Translates only on line from equation x = y = z
-	 * Both not very useful and source of confusion.
-	 * To be removed.
-	 */
-	@Deprecated
-	public static Point tranlate(Point p, double d) {
-		return Point.add(p, new Point(d));
-	}
-
 	private double	x	= 0;
 	private double	y	= 0;
 	private double	z	= 0;
