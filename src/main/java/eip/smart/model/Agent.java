@@ -14,7 +14,7 @@ import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
 
 /**
-  * <b>Agent est la classe repr�sentant et permettant de g�rer un agent.</b>
+  * <b>Agent is the class allowing the management of the Agents.</b>
   * @author Pierre Demessence
   * @version 3.0
  */
@@ -41,60 +41,60 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Nom (String), servant d'identifiant unique
+	 * Name (String), single id
 	 */
 	private String				name			= "";
 	
 	/**
-	 * Booleen, permettant de d�terminer si l'agent est connect�
+	 * Booleen, allowing to define if the agent is connected
 	 */
 	private boolean				connected		= false;
 	
 	/**
-	 * Type (AgentType), permettant de d�terminer le milieu sur lequel l'agent peut �voluer
+	 * Type (AgentType), allowing to define the environment where the agent is able to progress
 	 * @see AgentType
 	 */
 	private AgentType			type			= AgentType.TERRESTRIAL;
 	
 	/**
-	 * Etat (AgentState), permettant de d�terminer la situation de l'agent (ok, immobile, perdu, etc)
+	 * State (AgentState), allowing to define the agent's state (ok, still, lost, etc)
 	 * @see AgentState
 	 */
 	private AgentState			state			= AgentState.OK;
 
 	/**
-	 * Liste des positions qu'a eu l'agent (LinkedList<Point>), la derni�re �tant sa derni�re position connue
+	 * List of the previous positions of the agent (LinkedList<Point>), the last one being the last known position
 	 * @see Point
 	 */
 	private LinkedList<Point>	positions		= new LinkedList<>();
 	
 	/**
-	 * Liste d'ordres (LinkedList<Point>), les positions auxquelles l'agent doit se rendre
+	 * Liste of orders (LinkedList<Point>), the positions where the agent has to go
 	 * @see Point
 	 */
 	private LinkedList<Point>	orders			= new LinkedList<>();
 	
 	/**
-	 * Zone de destination (Area), que l'agent devra explorer si la liste d'ordres est vide
+	 * destination area (Area), that the agent'll has to explore if the ordrers list is free
 	 * @see Area
 	 */
 	private Area				destination		= null;
 
 	/**
-	 *  Objet (AgentMessageManager), g�rant la r�ception des messages
+	 *  Objet (AgentMessageManager), managing the messages'reception
 	 *  @see AgentMessageManager
 	 */
 	private AgentMessageManager	messageManager	= new AgentMessageManager();
 
 	/**
-	 * Objet (sendMessageCallback), g�rant l'envoi des messages
+	 * Objet (sendMessageCallback), managing the messages'sending
 	 * @see sendMessageCallback	
 	 */
 	private sendMessageCallback	messageCallback	= null;
 
 	
 	/**
-	 * Date de dernier contact avec l'agent (Date), permettant de d�terminer son �tat
+	 * agent's last contact's date (Date), allowing to determine it state
 	 */
 	private Date				lastContact		= Date.from(Instant.now());
 
@@ -104,7 +104,7 @@ public class Agent implements Serializable {
 	private LinkedList<Double>	bearings		= new LinkedList<Double>();
 
 	/**
-	 * constructeur par d�faut, place l'agent en coordonn�es (0, 0, 0) et cr�er un handler pour mettre � jour sa position
+	 * default constructor, setting the agent at the coordinates (0, 0, 0) and create a handler allowing to update it position
 	 */
 	public Agent() {
 		this.setCurrentPosition(new Point(0, 0, 0));
@@ -117,9 +117,9 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Constructeur permettant de donner un nom � l'agent � sa cr�ation
+	 * Constructor allowing to give a name to the agent at it creation
 	 * 
-	 * @param name nom que portera l'agent
+	 * @param name name of the new agent
 	 */
 	public Agent(String name) {
 		this();
@@ -127,7 +127,7 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Constructeur par copie
+	 * Copy constructor
 	 * @param agent
 	 */
 	public Agent(Agent agent) {
@@ -189,19 +189,19 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Retourne un boolean ayant pour valeur "true" si l'agent est connect� et "false" s'il ne l'est pas.
+	 * Return a boolean taking "true" if the agent is connected and "false" if he's not.
 	 * 
-	 * @return Un boolean permettant de d�terminer si l'agent est connect�.
+	 * @return A boolean allowing to determine if the agent is connected
 	 */
 	public boolean isConnected() {
 		return (this.connected);
 	}
 
 	/**
-	 * Ajoute un Point � la liste d'ordres de l'agent
+	 * Add a Point at the agent's list of orders
 	 * 
 	 * @see Point
-	 * @param order Point, nouvel ordre � envoyer � l'agent
+	 * @param order Point, new order send to the agent
 	 */
 	public void pushOrder(Point order) {
 		this.orders.push(order);

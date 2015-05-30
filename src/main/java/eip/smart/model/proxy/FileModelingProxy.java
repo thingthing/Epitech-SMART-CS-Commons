@@ -5,8 +5,7 @@ import eip.smart.model.Modeling;
 import java.io.Serializable;
 
 /**
- * <b>FileModelingProxy est la classe utilisée pour sérialiser une modélisation.</b>
- * Elle consiste en une classe contenant uniquement les éléments qu'il est intéressant de sauvegarder (les agents par exemple, sont exclus)
+ * <b>FileModelingProxy is the class used to facilitating the serialization of a modeling.</b>
  * @author Pierre Demessence
 */
 public class FileModelingProxy extends Proxy<Modeling> implements Serializable {
@@ -21,7 +20,7 @@ public class FileModelingProxy extends Proxy<Modeling> implements Serializable {
 	public FileModelingProxy() {}
 
 	/**
-	 * Constructeur prenant en paramètre une modélisation, et copiant ses attribus
+	 * Constructor taking as parameter a modeling, et copying it attributes
 	 * @param modelisation
 	 */
 	public FileModelingProxy(Modeling object) {

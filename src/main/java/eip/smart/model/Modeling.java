@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import eip.smart.model.proxy.FileModelingProxy;
 
 /**
- * <b>Modeling est la classe représentant et permettant de gérer les modélisations.</b>
+ * <b>Modeling is the class allowing the management of the modelisations.</b>
  * @author Pierre Demessence
 */
 @SuppressWarnings({ "static-method", "unused" })
@@ -19,39 +19,39 @@ public class Modeling implements Serializable {
 	private final static Logger	LOGGER	= Logger.getLogger(Modeling.class.getName());
 
 	/**
-	 * chaine de caractère (String), permettant d'identifier une modélisation
+	 * String allowing to identify the modeling
 	 */
 	private String				name	= "";
 	
 	/**
-	 * tableau de zones (ArrayList<Area>), listant les zones à modéliser
+	 * Areas'array, list the areas that have to be modelised
 	 * 
 	 * @see Area
 	 */
 	private ArrayList<Area>		areas	= new ArrayList<>();
 	
 	/**
-	 * tableau d'Agents (ArrayList<Agent>), listant les agents utilisés pour cette modélisation
+	 * Agent'sarray, list the agents used on this modeling
 	 * 
 	 * @see Agent
 	 */
 	private ArrayList<Agent>	agents	= new ArrayList<>();
 	
 	/**
-	 * nombre entier (long), représentant le nombre d'utilisation de la méthode "run" par la modélisation 
+	 * long, number of uses of the "run" method by the modeling
 	 */
 	private long				tick	= 0;
 
 	/**
-	 * Constructeur par défaut
+	 * default constructor
 	 */
 	public Modeling() {}
 
 	/**
-	 * Constructeur permettant de créer une modélisation à partir d'une sauvegarde de modélisation, dans le but de la poursuivre.
+	 * Constructor allowing to create a modeling based on a saved one, in order to continue it.
 	 * 
 	 * @see FileModelingProxy
-	 * @param fileModeling objet contenant les informations relatives à une modélisation sauvegardée
+	 * @param fileModeling objet containing informations about a saved modeling
 	 */
 	public Modeling(FileModelingProxy fileModeling) {
 		this.name = fileModeling.getName();
@@ -60,9 +60,9 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Constructeur permettant de donner un nom à la modélisation à sa création
+	 * Constructor allowing to give a name to the modeling at it creation
 	 * 
-	 * @param name nom que portera la modélisation
+	 * @param name name that the modeling'll have
 	 */
 	public Modeling(String name) {
 		this.name = name;
@@ -71,27 +71,27 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Ajoute un agent à la modélisation
+	 * Add an agent to the modeling
 	 * 
 	 * @see Agent
-	 * @param agent agent qui sera ajouté à la modélisation
+	 * @param agent Agent that will be added to the modeling
 	 */
 	public void addAgent(Agent agent) {
 		this.agents.add(agent);
 	}
 
 	/**
-	 * Ajoute une zone à la modélisation
+	 * Add an area to the modeling
 	 * 
 	 * @see Area
-	 * @param area zone qui sera ajoutée à la modélisation
+	 * @param area Area that will be added to the modeling
 	 */
 	public void addArea(Area area) {
 		this.areas.add(area);
 	}
 
 	/**
-	 * Ecris dans les logs les informations relatives aux agents de la modélisation
+	 * Write agents'data of the modeling in logs files
 	 * 
 	 * @see Agent
 	 */
@@ -134,7 +134,7 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Inscrit dans les logs l'état de chaque agent
+	 * Write in logs files agents'state
 	 * 
 	 * @see Agent
 	 */
@@ -143,22 +143,22 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Retire un agent de la modélisation
+	 * remove an agent of the modeling
 	 * 
 	 * @see Agent
-	 * @param agent agent à retirer de la modélisation
+	 * @param agent agent ï¿½ retirer de la modï¿½lisation
 	 */
 	public void removeAgent(Agent agent) {
 		this.agents.remove(agent);
 	}
 
 	/**
-	 * Méthode principale du déroulement d'une modélisation, elle :
+	 * main method of of the modeling development, it:
 	 * <ul>
-	 * <li>met à jour la position des agents</li>
-	 * <li>met à jour les zones attribuées aux agents</li>
-	 * <li>met à jour les zones de destinations des agents</li>
-	 * <li>met à jour les points de destinations des agents (appelés ordres)</li>
+	 * <li>update agents'position </li>
+	 * <li>update agents'attributed'areas</li>
+	 * <li>update agents'destination's area</li>
+	 * <li>update agents'destination's points</li>
 	 * </ul>
 	 * 
 	 * @see Agent
@@ -189,7 +189,7 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Met à jour l'état des agents
+	 * update agents'state
 	 * 
 	 * @see Agent
 	 */
@@ -200,7 +200,7 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Met à jour la destination des agents
+	 * update agents'destinations
 	 * 
 	 * @see Agent
 	 */
@@ -209,7 +209,7 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Met à jour les ordres des agents
+	 * update agents'orders
 	 * 
 	 * @see Agent
 	 */
@@ -218,7 +218,7 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Met à jour le status des agents
+	 * update agents'states
 	 * 
 	 * @see Agent
 	 */
@@ -227,7 +227,7 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Met à jour les zones attribuées aux agents
+	 * update agents'attributed's areas
 	 * 
 	 * @see Agent
 	 */

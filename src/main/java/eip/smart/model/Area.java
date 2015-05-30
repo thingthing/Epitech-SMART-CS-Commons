@@ -10,38 +10,38 @@ import eip.smart.model.geometry.Polygon;
 import eip.smart.util.PointCloudGenerator;
 
 /**
- * <b>Area est la classe repr�sentant et permettant de g�rer les zones.</b>
+ * <b>Area is the class allowing to manage areas.</b>
  * @author Pierre Demessence
  * @version 1.0
 */
 public class Area implements Serializable {
 
 	/**
-	 * nombre entier (int), d�terminant le niveau de priorit� de la zone, Ce niveau sera pris en compte quant � la direction des agents.
+	 * number (int), define the priority level of the area, this level will be taken into account fot the agents'direction.
 	 */
 	private int							priority			= 0;
 	
 	/**
-	 * tableau de polygones (ArrayList<Polygon>), permettant de d�terminer la forme et l'emplacement de la zone
+	 * polygones'array (ArrayList<Polygon>), allowing to define the shape and the place of the area
 	 */
 	private ArrayList<Polygon>			zoneToMap			= new ArrayList<>();
 
 	/**
-	 * Liste des points (ArrayList<Point>) mapp�s par les agents au sein de la zone
+	 * list of the points (ArrayList<Point>) mapped by the agents inside the area
 	 * 
 	 * @see Point
 	 */
 	private ArrayList<Point>			points				= new ArrayList<>();
 	
 	/**
-	 * Liste de zones (ArrayList<Area>), utiles pour d�composer une zone en sous-zones afin de faciliter sa mod�lisation par plusieurs agents
+	 * areas'list (ArrayList<Area>), usefull to split an area into some sub-areas to facilitate it modeling by several agents
 	 * 
 	 * @see Area
 	 */
 	private ArrayList<Area>				subAreas			= new ArrayList<>();
 	
 	/**
-	 * Liste des types d'agents (ArrayList<Agent.AgentType>) pouvants circuler sur la zone
+	 * types agents'list (ArrayList<Agent.AgentType>), define what agents'type can be used on the area
 	 * 
 	 * @see Agent
 	 */
@@ -61,26 +61,26 @@ public class Area implements Serializable {
     private int                         requiredDensity     = 1000;
 
     /**
-	 * Constructeur de test, g�n�rant al�atoirement un nuage de point
+	 * test constructor, generate a random point cloud
 	 */
 	public Area() {
 		this.points = new PointCloudGenerator().generatePointCloud(20);
 	}
 
 	/**
-	 * Constructeur permettant de donner � la zone une forme et un emplacement
+	 * Constructor allowing to define the shape and the place of the area
 	 * 
-	 * @param polygon Polygone qui repr�sentera la limite de la zone
+	 * @param polygon Polygon that'll represent the limit of the area
 	 */
 	public Area(Polygon polygon) {
 		this.zoneToMap.add(polygon);
 	}
 
 	/**
-	 * m�thode prenant un point en param�tre et det�rminant si ce point se situe � l'int�rieur de la zone
+	 * method taking a point as parameter et define if this point is situated in the area
 	 * 
-	 * @param point le point � contr�ler
-	 * @return "true" si le point est situ� � l'int�rieur de la zone, "false" dans le cas contraire
+	 * @param point the point to check
+	 * @return "true" if the point is situated in the areat, "false" if it's not.
 	 */
 	public boolean contains(Point point) {
 		for (Polygon polygon : this.zoneToMap)
@@ -169,8 +169,8 @@ public class Area implements Serializable {
     }
 
 	/**
-	 * M�thode de test, g�n�re al�atoirement des points dans la zone
-	 * @param nb nombre de points � g�n�rer
+	 * test method, generate a random point cloud
+	 * @param nb numbre of points to generate
 	 */
     public void generateTestPoints(int nb) {
         this.points = new PointCloudGenerator().generatePointCloud(nb);

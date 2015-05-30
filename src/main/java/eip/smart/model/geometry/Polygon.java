@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * <b>Polygon est la classe représentant et permettant de gérer les polygones.</b>
+ * <b>Polygon is the class allowing to manage polygones.</b>
  * @author Pierre Demessence
  *
  */
@@ -15,14 +15,14 @@ public class Polygon implements Serializable {
 	private ArrayList<Point>	points;
 
 	/**
-	 * Constructeur sans argument, créé un tableau de points vide.
+	 * Constructor without argument, create an empty points array.
 	 */
 	public Polygon() {
 		this.points = new ArrayList<>();
 	}
 
 	/**
-	 * Constructeur attribuant au polygone une liste de points
+	 * Constructor attributing a list of points to the polygon
 	 * @param points
 	 */
 	public Polygon(ArrayList<Point> points) {
@@ -30,7 +30,7 @@ public class Polygon implements Serializable {
 	}
 
 	/**
-	 * Ajoute un point à la liste de point du polygone
+	 * add a point to the point'list
 	 * @param point
 	 * @return true
 	 */

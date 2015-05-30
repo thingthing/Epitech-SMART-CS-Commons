@@ -1,7 +1,7 @@
 package eip.smart.model.geometry;
 
 /**
- * <b>Rectangle est la classe facilitant la création des rectangles.</b>
+ * <b>Rectangle is the class facilitating the creation of rectangles.</b>
  * @author Pierre Demessence
  *
  */
