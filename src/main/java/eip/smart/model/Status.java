@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.MissingFormatArgumentException;
 
 /**
- * <b>Status est l'énumération listant les différents status et les messages associés.</b>
- *
+ * <b>Status is the enum listing the different status and messages associated.</b>
+ * 
  * @author Pierre Demessence
  *
  */
@@ -34,11 +34,11 @@ public enum Status {
 	}
 
 	/**
-	 * Prends en argument le code du status et retourne le status
+	 * Take as argument status'code and return the status
 	 *
 	 * @param code
-	 *            int, le code du status
-	 * @return Status, le status correspondant au code entré en paramètre
+	 *            int, the status'code
+	 * @return Status, the parameter code's corresponding status
 	 */
 	public static Status getStatusByCode(int code) {
 		for (Status status : Status.values())
@@ -52,8 +52,8 @@ public enum Status {
 	private ArrayList<String>	objects	= new ArrayList<>();
 
 	/**
-	 * Constructeur prenant en paramètre un code et un message
-	 *
+	 * Constructor taking as parameter a code and a message
+	 * 
 	 * @param code
 	 * @param message
 	 */
@@ -63,8 +63,8 @@ public enum Status {
 	}
 
 	/**
-	 * Constructeur prenant en paramètre un message
-	 *
+	 * Constructor taking as parameter a message
+	 * 
 	 * @param message
 	 */
 	Status(String message) {
@@ -109,7 +109,7 @@ public enum Status {
 
 	/**
 	 * Set the message.
-	 * 
+	 *
 	 * @param message
 	 *            the message to set.
 	 */

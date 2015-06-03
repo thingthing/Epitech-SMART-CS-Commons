@@ -5,8 +5,8 @@ import eip.smart.model.Agent.AgentType;
 
 
 /**
- * <b>SimpleAgentProxy est la classe utilisée pour simplifier l'envoi d'informations relatives à un agent.</b>
- * Elle consiste en une classe contenant uniquement les éléments qu'il est intéressant d'envoyer sur un agent (son nom, son type et un boolean déterminant si oui ou non il est connecté)
+ * <b>SimpleAgentProxy is the class used to facilitating the shipment of an agent's data.</b>
+ * it consist on a class containing only the most important elements about an agent
  * @author Pierre Demessence
 */
 public class SimpleAgentProxy extends Proxy<Agent> {
@@ -18,8 +18,8 @@ public class SimpleAgentProxy extends Proxy<Agent> {
 	public SimpleAgentProxy() {}
 
 	/**
-	 * Constructeur prenant en paramètre un Agent, et copiant ses attribus
-	 * @param modelisation
+	 * Constructor tzking as parameter an Agent, and copying it attributes
+	 * @param modeling
 	 */
 	public SimpleAgentProxy(Agent object) {
 		super(object);
