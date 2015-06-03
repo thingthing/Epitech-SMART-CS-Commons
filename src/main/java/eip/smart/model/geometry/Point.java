@@ -32,9 +32,11 @@ public final class Point implements Serializable {
 	}
 
 	private double	x	= 0;
+
 	private double	y	= 0;
+
 	private double	z	= 0;
-	
+
 	public Point() {}
 
 	public Point(double c) {
@@ -88,6 +90,17 @@ public final class Point implements Serializable {
 	 */
 	public Point substract(Point p) {
 		return new Point(this.x - p.x, this.y - p.y, this.z - p.z);
+	}
+
+	/**
+	 * WARNING This function creates an approximation of the Point. Be aware that precision is lost through this call.
+	 * 
+	 * @param precision
+	 *            a multiplier applied to the given point coordinates. Should never ever been 0.
+	 * @return a new IntPoint from this Point values
+	 */
+	public IntPoint toIntPoint(double precision) {
+		return new IntPoint((long) (this.x * precision), (long) (this.y * precision), (long) (this.z * precision));
 	}
 
 	/**

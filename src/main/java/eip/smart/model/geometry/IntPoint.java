@@ -49,11 +49,10 @@ public final class IntPoint {
     }
 
     /**
-     * TODO Implement precision system
-     * @param precision
+     * @param precision a divider applied to the point coordinates. Should never ever been 0.
      * @return a new Point class from this IntPoint values.
      */
-    public Point toPoint(int precision) {
-        return new Point(x, y, z);
+    public Point toPoint(long precision) {
+        return new Point(x / precision, y / precision, z / precision);
     }
 }

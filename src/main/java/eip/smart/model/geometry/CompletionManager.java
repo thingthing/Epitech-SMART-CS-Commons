@@ -5,15 +5,36 @@ package eip.smart.model.geometry;
  */
 public class CompletionManager {
 
+    private static boolean addPointToCompletion(boolean swapXY, boolean swapXZ, CompletionBox box, long x, long y, long z) {
+        if (swapXY && swapXZ) {
+            return box.addPoint(z, x, y);
+        }
+        else if (swapXY) {
+            return box.addPoint(y, x, z);
+        }
+        else if (swapXZ) {
+            return box.addPoint(z, y, x);
+        }
+        else {
+            return box.addPoint(x, y, z);
+        }
+    }
+
     public static void addRayToCompletion(
             IntPoint start, IntPoint end,
             CompletionBox box
     ) {
+        boolean outOfBox = false;
+
         //For optimization purposes
         if (!box.isInside(start)) {
-            IntPoint swap = start;
-            start = end;
-            end = swap;
+            if (!box.isInside(end)) {
+                outOfBox = true;
+            } else {
+                IntPoint swap = start;
+                start = end;
+                end = swap;
+            }
         }
 
         //We use these values to swap coordinates during calculation.
@@ -35,21 +56,11 @@ public class CompletionManager {
         long driftXZ = delta.x; // /2
         long y = start.y;
         long z = start.z;
-
         for (long x = start.x; x < end.x; x += step.x) {
-            if (swapXY && swapXZ)
-                if (!box.addPoint(z, x, y))
-                    break;
-            else if (swapXY)
-                if (!box.addPoint(y, x, z))
-                    break;
-            else if (swapXZ)
-                if (!box.addPoint(z, y, x))
-                    break;
-            else
-                if (!box.addPoint(x, y, z))
-                    break;
-
+            if (addPointToCompletion(swapXY, swapXZ, box, x, y, z))
+                outOfBox = false;
+            else if (!outOfBox)
+                break;
             driftXY -= delta.y * 2; //Compensation for removed /2
             driftXZ -= delta.z * 2;
             if (driftXY < 0) {
