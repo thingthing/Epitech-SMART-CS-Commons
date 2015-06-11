@@ -112,24 +112,11 @@ public class Agent implements Serializable {
 	private LinkedList<Double>	bearings		= new LinkedList<>();
 
 	/**
-	 * default constructor and create a handler allowing to update it position
+	 * default constructor and create handlers
 	 */
 	public Agent() {
-		// @ TODO Convert this to Enum ?
-		this.messageManager.addHandler("position", new AgentMessageHandler<Point>(Point.class) {
-			@Override
-			public void handleMessage(Point data, Agent agent) {
-				agent.setCurrentPosition(data);
-				agent.sendStatus(0, "ok");
-			}
-		});
-		this.messageManager.addHandler("state", new AgentMessageHandler<Integer>(Integer.class) {
-			@Override
-			public void handleMessage(Integer data, Agent agent) {
-				// @ TODO Handle State here.
-				agent.sendStatus(0, "ok but do nothing atm");
-			}
-		});
+		for (AgentMessageReceptor receptor : AgentMessageReceptor.values())
+			this.messageManager.addHandler(receptor.getKey(), receptor.getHandler());
 	}
 
 	/**
