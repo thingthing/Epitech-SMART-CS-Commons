@@ -45,7 +45,7 @@ public class Area implements Serializable {
 	 * 
 	 * @see Agent
 	 */
-	private ArrayList<Agent.AgentType>	capableAgentTypes	= new ArrayList<>();
+	private ArrayList<AgentType>	capableAgentTypes	= new ArrayList<>();
 	
 	/**
 	 * completion level (double) of the area
@@ -91,7 +91,7 @@ public class Area implements Serializable {
         return this.zoneToMap;
     }
 
-	public ArrayList<Agent.AgentType> getCapableAgentTypes() {
+	public ArrayList<AgentType> getCapableAgentTypes() {
 		return this.capableAgentTypes;
 	}
 

@@ -1,7 +1,7 @@
 package eip.smart.model.proxy;
 
 import eip.smart.model.Agent;
-import eip.smart.model.Agent.AgentType;
+import eip.smart.model.AgentType;
 
 
 /**

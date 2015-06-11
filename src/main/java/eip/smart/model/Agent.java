@@ -30,12 +30,6 @@ public class Agent implements Serializable {
 		UNKNOWN_ERROR
 	}
 
-	public static enum AgentType {
-		AERIAL,
-		SUBMARINE,
-		TERRESTRIAL;
-	}
-
 	public interface sendMessageCallback {
 		public void callback(Object message);
 	}
