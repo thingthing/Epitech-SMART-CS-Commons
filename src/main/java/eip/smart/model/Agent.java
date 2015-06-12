@@ -3,13 +3,21 @@ package eip.smart.model;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import eip.smart.model.Agent.AgentState;
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
 import eip.smart.model.status.*;
@@ -18,10 +26,14 @@ import eip.smart.model.status.*;
  */
 public class Agent implements Serializable {
 
+	// priority 
 	public static enum AgentState {
 		
-		//decided by agent
-		LOW_BATTERY(new AgentStatus(){
+		// this status has to be activated by an agent's message
+		LOW_BATTERY(new State(){
+			public int priority = 0;
+			private boolean lock = true;
+			
 			@Override
 			public void doAction(Agent agent) {
 				agent.recall();
@@ -32,60 +44,98 @@ public class Agent implements Serializable {
 			public boolean canMove() {
 				return false;
 			}
-			
-			// this status has to be activated by an agent's message
 		}),
 		
-		//LOW_BATTERY(new StatusLowBattery()),
-		DERANGED(new AgentStatus(){
+		// this status has to be activated by an agent's message
+		DERANGED(new State(){
+			public int priority = 0;
+			private boolean lock = true;
+
 			@Override
-			public boolean canMove() {
-				return false;
+			public void doAction(Agent agent) {
 			}
 
-			// this status has to be activated by an agent's message
-		}),
-		
-		NO_RETURN(new AgentStatus(){
 			@Override
 			public boolean canMove() {
 				return false;
 			}
 		}),
 		
-		RECALL_ERROR(new AgentStatus(){
+		// this status has to be activated by an agent's message
+		BLOCKED(new State(){
+			public int priority = 0;
+			private boolean lock = true;
+			
+			@Override
+			public void doAction(Agent agent) {
+			}
+			
+			@Override
+			public boolean canMove() {
+				return false;
+			}
+		}),
+		
+		LOST_SIGNAL(new State(){
+			public int priority = 0;
+
+			@Override
+			public boolean canMove() {
+				return false;
+			}
+		}),
+		
+		// this status has to be activated by an agent's message
+		RECALL_ERROR(new State(){
+			public int priority = 0;
+			private boolean lock = true;
+
+			@Override
+			public void doAction(Agent agent) {
+			}
+			
 			//the agent is coming to the base because of an error, he can't receive orders
 			@Override
 			public boolean canMove() {
 				return false;
 			}
-
-			// this status has to be activated by an agent's message
 		}),
 		
-		
-		UNKNOWN_ERROR(new AgentStatus(){
+		// this status has to be activated by an agent's message		
+		UNKNOWN_ERROR(new State(){
+			public int priority = 0;
+			private boolean lock = true;
+
+			@Override
+			public void doAction(Agent agent) {
+			}
+			
 			@Override
 			public boolean canMove() {
 				return false;
 			}
-
-			// this status has to be activated by an agent's message
 		}),
 		
 		
 		// decided by server
 			// not checked
-		NO_BATTERY(new AgentStatus(){
+		NO_BATTERY(new State(){
+			public int priority = 1;
+			private boolean lock = true;
+
+			@Override
+			public void doAction(Agent agent) {
+			}
+			
 			@Override
 			public boolean canMove() {
 				return false;
 			}
-
-			// this status has to be activated by an agent's message
 		}),
 		
-		RECALL_BATTERY(new AgentStatus(){
+		RECALL_BATTERY(new State(){
+			public int priority = 1;
+			
 			@Override
 			public void doAction(Agent agent) {
 				agent.recall();
@@ -100,7 +150,9 @@ public class Agent implements Serializable {
 			// this status is activated by the LOW_BATTERY status
 		}),
 		
-		RECALL(new AgentStatus(){
+		RECALL(new State(){
+			public int priority = 1;
+			
 			@Override
 			public void doAction(Agent agent) {
 				agent.recall();
@@ -113,10 +165,11 @@ public class Agent implements Serializable {
 
 			// this status is activated by a server's decision
 		}),
-		
-		
+				
 		// checked
-	STILL_ERROR(new AgentStatus(){
+	STILL_ERROR(new State(){
+		public int priority = 5;
+		
 		@Override
 		public void doAction(Agent agent) {
 			//try to move... somewhere
@@ -146,7 +199,9 @@ public class Agent implements Serializable {
 		}
 	}),
 		
-	STILL(new AgentStatus(){
+	STILL(new State(){
+		public int priority = 4;
+		
 			@Override
 			public void doAction(Agent agent) {
 				//try to move... somewhere
@@ -173,25 +228,11 @@ public class Agent implements Serializable {
 					return true;
 				else
 					return false;
-			}
+			} 
 		}),
 		
-		LOST(new AgentStatus(){
-			@Override
-			public boolean canMove() {
-				return false;
-			}
-
-			// this status is activated if the agent has NO_SIGNAL status during a moment
-			@Override
-			public boolean checkState(Agent agent) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		}),
-		
-		NO_SIGNAL(new AgentStatus(){
-			private int cpt = 0;
+		NO_SIGNAL(new State(){
+			private int cpt = 4;
 						
 			@Override
 			public void doAction(Agent agent) {
@@ -219,7 +260,9 @@ public class Agent implements Serializable {
 			}
 		}),
 		
-		OK(new AgentStatus(){
+		OK(new State(){
+			public int priority = -1;
+			
 			@Override
 			// do all the normal agent actions
 			public void doAction(Agent agent) {
@@ -236,16 +279,37 @@ public class Agent implements Serializable {
 			public boolean checkState(Agent agent) {
 				return true;
 			}
+			
+			public boolean isLocked() {
+				return (false);
+			}
 		});
 		
-		private AgentStatus status;
+		private State status;
 		
-		AgentState(AgentStatus status) {
+		AgentState(State status) {
 			this.status = status;
 		}
 		
 		public static AgentState updateAgentState(Agent agent) {
-			for (AgentState state : AgentState.values())
+			AgentState[] StatesValues = AgentState.values();
+			ArrayList<AgentState> list = new ArrayList<AgentState>(Arrays.asList(StatesValues));
+			Collections.sort(list, new Comparator<Object>() {
+				public int compare(Object obj1, Object obj2) {
+					AgentState as1 = (AgentState)obj1;
+					AgentState as2 = (AgentState)obj2;
+					int lib1 = as1.status.priority;
+					int lib2 = as2.status.priority;
+					if (lib1 > lib2)
+						return (-1);
+					else if (lib1 == lib2)
+						return (0);
+					else
+						return (1);
+				}
+			});
+		
+			for (AgentState state : list)
 				if (state.status.checkState(agent))
 					return (state);
 			return (null);
@@ -399,8 +463,8 @@ public class Agent implements Serializable {
 
 	public void updateState() {
 
-		
-		statesAgent.updateAgentState(this);
+		if (!this.statesAgent.status.isLocked())
+			AgentState.updateAgentState(this);
 		
 		/*
 		boolean still = true;

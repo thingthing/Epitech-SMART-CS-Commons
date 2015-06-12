@@ -2,7 +2,10 @@ package eip.smart.model.status;
 
 import eip.smart.model.Agent;
 // status interface list the methods used by all the status
-public abstract class  AgentStatus {
+public abstract class  State {
+	public int priority;
+	private boolean lock = false;
+	
 	// 
 	public boolean checkState(Agent agent) { return (false); }
 	
@@ -11,4 +14,8 @@ public abstract class  AgentStatus {
 	
 	// canMove is the method allowing to know if the agent can receive an order
 	public boolean canMove() { return (true); }
+	
+	public boolean isLocked() {
+		return (this.lock);
 	}
+}
