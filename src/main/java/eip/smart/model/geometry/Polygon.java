@@ -6,20 +6,34 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Created by Pierre Demessence on 10/10/2014.
+ * <b>Polygon is the class allowing to manage polygones.</b>
+ * @author Pierre Demessence
+ *
  */
 public class Polygon implements Serializable {
 
 	private ArrayList<Point>	points;
 
+	/**
+	 * Constructor without argument, create an empty points array.
+	 */
 	public Polygon() {
 		this.points = new ArrayList<>();
 	}
 
+	/**
+	 * Constructor attributing a list of points to the polygon
+	 * @param points
+	 */
 	public Polygon(ArrayList<Point> points) {
 		this.points = points;
 	}
 
+	/**
+	 * add a point to the point'list
+	 * @param point
+	 * @return true
+	 */
 	public boolean add(Point point) {
 		return (this.points.add(point));
 	}
@@ -40,6 +54,11 @@ public class Polygon implements Serializable {
 		return (Math.abs(area / 2.0d));
 	}
 
+	/**
+	 * Return the perimeter of the polygon using only the x and y coordinates of the points.
+	 *
+	 * @return the perimeter of the polygon.
+	 */
 	@JsonIgnore
 	public double getPerimeter() {
 		double perimeter = 0;
@@ -61,7 +80,7 @@ public class Polygon implements Serializable {
 	}
 
 	/**
-	 * Checks if the
+	 * Checks if the point is inside the polygon
 	 *
 	 * @param point
 	 *            the point to check.

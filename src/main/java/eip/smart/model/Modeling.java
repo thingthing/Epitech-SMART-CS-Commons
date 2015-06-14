@@ -10,36 +10,95 @@ import java.lang.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import eip.smart.model.geometry.Point;
+import eip.smart.model.proxy.FileModelingProxy;
+
 
 /**
- * Created by Pierre Demessence on 10/10/2014.
- */
+ * <b>Modeling is the class allowing the management of the modelisations.</b>
+ * @author Pierre Demessence
+*/
 @SuppressWarnings({ "static-method", "unused" })
 public class Modeling implements Serializable {
 
 	private final static Logger	LOGGER	= Logger.getLogger(Modeling.class.getName());
 
+	/**
+	 * String allowing to identify the modeling
+	 */
 	private String				name	= "";
+	
+	/**
+	 * Areas'array, list the areas that have to be modelised
+	 * 
+	 * @see Area
+	 */
 	private ArrayList<Area>		areas	= new ArrayList<>();
+	
+	/**
+	 * Agent'sarray, list the agents used on this modeling
+	 * 
+	 * @see Agent
+	 */
 	private ArrayList<Agent>	agents	= new ArrayList<>();
+	
+	/**
+	 * long, number of uses of the "run" method by the modeling
+	 */
 	private long				tick	= 0;
 
+	/**
+	 * default constructor
+	 */
 	public Modeling() {}
 
+	/**
+	 * Constructor allowing to create a modeling based on a saved one, in order to continue it.
+	 * 
+	 * @see FileModelingProxy
+	 * @param fileModeling objet containing informations about a saved modeling
+	 */
+	public Modeling(FileModelingProxy fileModeling) {
+		this.name = fileModeling.getName();
+		this.areas = fileModeling.getArea();
+		this.agents = null;
+	}
+
+	/**
+	 * Constructor allowing to give a name to the modeling at it creation
+	 * 
+	 * @param name name that the modeling'll have
+	 */
 	public Modeling(String name) {
 		this.name = name;
 		this.areas.add(new Area());
 		this.areas.add(new Area());
 	}
 
+	/**
+	 * Add an agent to the modeling
+	 * 
+	 * @see Agent
+	 * @param agent Agent that will be added to the modeling
+	 */
 	public void addAgent(Agent agent) {
 		this.agents.add(agent);
 	}
 
+	/**
+	 * Add an area to the modeling
+	 * 
+	 * @see Area
+	 * @param area Area that will be added to the modeling
+	 */
 	public void addArea(Area area) {
 		this.areas.add(area);
 	}
 
+	/**
+	 * Write agents'data of the modeling in logs files
+	 * 
+	 * @see Agent
+	 */
 	public void dumpAgents() {
 		Modeling.LOGGER.log(Level.INFO, "Dumping Agents");
 		for (Agent a : this.agents) {
@@ -78,14 +137,36 @@ public class Modeling implements Serializable {
 		return (this.tick);
 	}
 
+	/**
+	 * Write in logs files agents'state
+	 * 
+	 * @see Agent
+	 */
 	private void handleAGentsState() {
 		Modeling.LOGGER.log(Level.INFO, "-->Handling Agents State...");
 	}
 
+	/**
+	 * remove an agent of the modeling
+	 * 
+	 * @see Agent
+	 * @param agent agent � retirer de la mod�lisation
+	 */
 	public void removeAgent(Agent agent) {
 		this.agents.remove(agent);
 	}
 
+	/**
+	 * main method of of the modeling development, it:
+	 * <ul>
+	 * <li>update agents'position </li>
+	 * <li>update agents'attributed'areas</li>
+	 * <li>update agents'destination's area</li>
+	 * <li>update agents'destination's points</li>
+	 * </ul>
+	 * 
+	 * @see Agent
+	 */
 	public void run() {
 		++this.tick;
 		Modeling.LOGGER.log(Level.INFO, "Modeling (" + this.name + ") running (tick " + this.tick + ")");
@@ -103,36 +184,63 @@ public class Modeling implements Serializable {
 		this.areas = areas;
 	}
 
-	private void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	private void setTick(long tick) {
 		this.tick = tick;
 	}
 
+	/**
+	 * update agents'state
+	 * 
+	 * @see Agent
+	 */
 	private void updateAgents() {
 		Modeling.LOGGER.log(Level.INFO, "->Updating Agents...");
 		this.updateAgentsState();
 		this.handleAGentsState();
 	}
 
+
 	private double getDiffPoint(Point x, Point y) {
 		return (Math.abs((Math.abs(x.getX() - y.getX())) - (Math.abs(x.getY() - y.getY()))));
 	}
 
+
+	/**
+	 * update agents'destinations
+	 * 
+	 * @see Agent
+	 */
 	private void updateAgentsDestination() {
 		Modeling.LOGGER.log(Level.INFO, "->Updating destination for each agent...");
 	}
 
+	/**
+	 * update agents'orders
+	 * 
+	 * @see Agent
+	 */
 	private void updateAgentsOrders() {
 		Modeling.LOGGER.log(Level.INFO, "->Updating orders for each agent...");
 	}
 
+	/**
+	 * update agents'states
+	 * 
+	 * @see Agent
+	 */
 	private void updateAgentsState() {
 		Modeling.LOGGER.log(Level.INFO, "-->Updating Agents State...");
 	}
 
+	/**
+	 * update agents'attributed's areas
+	 * 
+	 * @see Agent
+	 */
 	private void updateAreaAgentsAttributed() {
 		//for (Area a : this.areas)
 			//a.updateCompletion();

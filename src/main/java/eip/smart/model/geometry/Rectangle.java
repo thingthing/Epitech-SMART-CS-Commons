@@ -1,5 +1,10 @@
 package eip.smart.model.geometry;
 
+/**
+ * <b>Rectangle is the class facilitating the creation of rectangles.</b>
+ * @author Pierre Demessence
+ *
+ */
 public class Rectangle extends Polygon {
 
 	public Rectangle(Point upperleft, double width, double height) {
