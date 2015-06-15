@@ -1,4 +1,4 @@
-package eip.smart.model;
+package eip.smart.model.agent;
 
 import java.io.IOException;
 import java.util.HashMap;
