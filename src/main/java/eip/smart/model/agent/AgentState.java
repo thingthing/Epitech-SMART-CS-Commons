@@ -260,7 +260,7 @@ public enum AgentState {
 		}
 	});
 
-	public static AgentState updateAgentState(Agent agent) {
+	public static AgentState getAgentState(Agent agent) {
 		AgentState[] StatesValues = AgentState.values();
 		ArrayList<AgentState> list = new ArrayList<>(Arrays.asList(StatesValues));
 		Collections.sort(list, new Comparator<Object>() {
@@ -278,10 +278,12 @@ public enum AgentState {
 			}
 		});
 
-		for (AgentState state : list)
+		for (AgentState state : list) {
+			System.out.println("Checking state " + state.name());
 			if (state.status.checkState(agent))
 				return (state);
-		return (null);
+		}
+		return (AgentState.OK);
 	}
 
 	private State	status;

@@ -5,12 +5,15 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eip.smart.model.Area;
+import eip.smart.model.Modeling;
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
 
@@ -31,6 +34,8 @@ public class Agent implements Serializable {
 	public interface sendMessageCallback {
 		public void callback(Object message);
 	}
+
+	private final static Logger	LOGGER			= Logger.getLogger(Modeling.class.getName());
 
 	/**
 	 * Name (String), single id
@@ -95,8 +100,6 @@ public class Agent implements Serializable {
 	 * agent's last contact's date (Date), allowing to determine it state
 	 */
 	private Date				lastContact		= Date.from(Instant.now());
-
-	private AgentState			statesAgent;
 
 	/**
 	 *
@@ -289,28 +292,9 @@ public class Agent implements Serializable {
 	 * Met � jours l'�tat de l'agent, en se basant sur les attribus "positions" et "lastContact"
 	 */
 	public void updateState() {
-
-		if (!this.statesAgent.isLocked())
-			AgentState.updateAgentState(this);
-
-		/*
-		boolean still = true;
-		int check_size = 10;
-		int i = 0;
-
-			while (i < ((this.getPositions().size() > check_size) ? check_size : this.getPositions().size()))
-			{
-				if (this.getCurrentPosition() != this.getPositions().get(i) && still)
-					still = false;
-				i++;
-			}
-		if (Date.from(Instant.now()).getTime() - this.lastContact.getTime() > 5 * 60 * 1000)
-			this.state = AgentState.LOST;
-		else if (still)
-			this.state = AgentState.STILL;
-		else
-			this.state = AgentState.OK;
-		 */
+		Agent.LOGGER.log(Level.INFO, "Updating state of Agent " + this.getName());
+		if (!this.state.isLocked())
+			this.state = AgentState.getAgentState(this);
 	}
 
 }
