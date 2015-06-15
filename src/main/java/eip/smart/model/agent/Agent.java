@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -104,7 +103,7 @@ public class Agent implements Serializable {
 	/**
 	 *
 	 */
-	private LinkedList<Double>	bearings		= new LinkedList<Double>();
+	private LinkedList<Double>	bearings		= new LinkedList<>();
 
 	/**
 	 * default constructor, setting the agent at the coordinates (0, 0, 0) and create a handler allowing to update it position
@@ -292,9 +291,10 @@ public class Agent implements Serializable {
 	 * Met � jours l'�tat de l'agent, en se basant sur les attribus "positions" et "lastContact"
 	 */
 	public void updateState() {
-		Agent.LOGGER.log(Level.INFO, "Updating state of Agent " + this.getName());
+		/* States are bugged.
 		if (!this.state.isLocked())
 			this.state = AgentState.getAgentState(this);
+		*/
 	}
 
 }
