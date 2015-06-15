@@ -16,7 +16,7 @@ import eip.smart.model.proxy.SimpleAgentProxy;
 
 /**
  * <b>Agent is the class allowing the management of the Agents.</b>
- * 
+ *
  * @author Pierre Demessence
  * @version 3.0
  */
@@ -44,49 +44,49 @@ public class Agent implements Serializable {
 
 	/**
 	 * Type (AgentType), allowing to define the environment where the agent is able to progress
-	 * 
+	 *
 	 * @see AgentType
 	 */
 	private AgentType			type			= AgentType.TERRESTRIAL;
 
 	/**
 	 * State (AgentState), allowing to define the agent's state (ok, still, lost, etc)
-	 * 
+	 *
 	 * @see AgentState
 	 */
 	private AgentState			state			= AgentState.OK;
 
 	/**
 	 * List of the previous positions of the agent (LinkedList<Point>), the last one being the last known position
-	 * 
+	 *
 	 * @see Point
 	 */
 	private LinkedList<Point>	positions		= new LinkedList<>();
 
 	/**
 	 * Liste of orders (LinkedList<Point>), the positions where the agent has to go
-	 * 
+	 *
 	 * @see Point
 	 */
 	private LinkedList<Point>	orders			= new LinkedList<>();
 
 	/**
 	 * destination area (Area), that the agent'll has to explore if the ordrers list is free
-	 * 
+	 *
 	 * @see Area
 	 */
 	private Area				destination		= null;
 
 	/**
 	 * Objet (AgentMessageManager), managing the messages'reception
-	 * 
+	 *
 	 * @see AgentMessageManager
 	 */
 	private AgentMessageManager	messageManager	= new AgentMessageManager();
 
 	/**
 	 * Objet (sendMessageCallback), managing the messages'sending
-	 * 
+	 *
 	 * @see sendMessageCallback
 	 */
 	private sendMessageCallback	messageCallback	= null;
@@ -118,7 +118,7 @@ public class Agent implements Serializable {
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param agent
 	 */
 	public Agent(Agent agent) {
@@ -220,7 +220,7 @@ public class Agent implements Serializable {
 
 	/**
 	 * V�rifie si un message a �t� re�u par l'agent
-	 * 
+	 *
 	 * @param msg
 	 *            String, chaine de caract�res repr�sentant le message re�u
 	 */
@@ -290,7 +290,7 @@ public class Agent implements Serializable {
 	 */
 	public void updateState() {
 
-		if (!this.statesAgent.status.isLocked())
+		if (!this.statesAgent.isLocked())
 			AgentState.updateAgentState(this);
 
 		/*

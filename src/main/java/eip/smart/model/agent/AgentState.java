@@ -10,8 +10,7 @@ import java.util.Date;
 // priority
 public enum AgentState {
 	// this status has to be activated by an agent's message
-	LOW_BATTERY(new State() {
-		private boolean	lock	= true;
+	LOW_BATTERY(new State(true) {
 
 		@Override
 		public boolean canMove() {
@@ -26,8 +25,7 @@ public enum AgentState {
 	}),
 
 	// this status has to be activated by an agent's message
-	DERANGED(new State() {
-		private boolean	lock	= true;
+	DERANGED(new State(true) {
 
 		@Override
 		public boolean canMove() {
@@ -39,8 +37,7 @@ public enum AgentState {
 	}),
 
 	// this status has to be activated by an agent's message
-	BLOCKED(new State() {
-		private boolean	lock	= true;
+	BLOCKED(new State(true) {
 
 		@Override
 		public boolean canMove() {
@@ -60,8 +57,7 @@ public enum AgentState {
 	}),
 
 	// this status has to be activated by an agent's message
-	RECALL_ERROR(new State() {
-		private boolean	lock	= true;
+	RECALL_ERROR(new State(true) {
 
 		// the agent is coming to the base because of an error, he can't receive orders
 		@Override
@@ -74,8 +70,7 @@ public enum AgentState {
 	}),
 
 	// this status has to be activated by an agent's message
-	UNKNOWN_ERROR(new State() {
-		private boolean	lock	= true;
+	UNKNOWN_ERROR(new State(true) {
 
 		@Override
 		public boolean canMove() {
@@ -88,8 +83,7 @@ public enum AgentState {
 
 	// decided by server
 	// not checked
-	NO_BATTERY(new State() {
-		private boolean	lock	= true;
+	NO_BATTERY(new State(true) {
 
 		@Override
 		public boolean canMove() {
@@ -280,8 +274,7 @@ public enum AgentState {
 					return (-1);
 				else if (lib1 == lib2)
 					return (0);
-				else
-					return (1);
+				return (1);
 			}
 		});
 
@@ -291,9 +284,17 @@ public enum AgentState {
 		return (null);
 	}
 
-	State	status;
+	private State	status;
 
 	AgentState(State status) {
 		this.status = status;
+	}
+
+	/**
+	 * @return
+	 * @see eip.smart.model.agent.State#isLocked()
+	 */
+	public boolean isLocked() {
+		return this.status.isLocked();
 	}
 }

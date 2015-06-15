@@ -3,7 +3,16 @@ package eip.smart.model.agent;
 // status interface list the methods used by all the status
 @SuppressWarnings({ "static-method", "unused" })
 public abstract class State {
-	private boolean	lock	= false;
+
+	private boolean	lock;
+
+	public State() {
+		this.lock = false;
+	}
+
+	public State(boolean lock) {
+		this.lock = lock;
+	}
 
 	// canMove is the method allowing to know if the agent can receive an order
 	public boolean canMove() {
@@ -23,5 +32,9 @@ public abstract class State {
 
 	public boolean isLocked() {
 		return (this.lock);
+	}
+
+	public void setLocked() {
+		this.lock = true;
 	}
 }
