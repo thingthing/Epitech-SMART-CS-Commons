@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import java.lang.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import eip.smart.model.agent.Agent;
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.FileModelingProxy;
 
