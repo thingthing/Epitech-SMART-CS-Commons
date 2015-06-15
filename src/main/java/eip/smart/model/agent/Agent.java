@@ -1,14 +1,18 @@
-package eip.smart.model;
+package eip.smart.model.agent;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import eip.smart.model.Area;
+import eip.smart.model.MessagePacket;
+import eip.smart.model.Modeling;
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
 import eip.smart.util.Pair;
@@ -22,16 +26,6 @@ import eip.smart.util.Pair;
 @SuppressWarnings("unchecked")
 public class Agent implements Serializable {
 
-	public static enum AgentState {
-		LOST,
-		LOW_BATTERY,
-		NO_BATTERY,
-		NO_RETURN,
-		OK,
-		STILL,
-		UNKNOWN_ERROR
-	}
-
 	public static enum AgentType {
 		AERIAL,
 		SUBMARINE,
@@ -41,6 +35,8 @@ public class Agent implements Serializable {
 	public interface sendMessageCallback {
 		public void callback(Object message);
 	}
+
+	private final static Logger	LOGGER			= Logger.getLogger(Modeling.class.getName());
 
 	/**
 	 * Name (String), single id
@@ -295,7 +291,10 @@ public class Agent implements Serializable {
 	 * Met � jours l'�tat de l'agent, en se basant sur les attribus "positions" et "lastContact"
 	 */
 	public void updateState() {
-		if (Date.from(Instant.now()).getTime() - this.lastContact.getTime() > 5 * 60 * 1000)
-			this.state = AgentState.LOST;
+		/* States are bugged.
+		if (!this.state.isLocked())
+			this.state = AgentState.getAgentState(this);
+		*/
 	}
+
 }
