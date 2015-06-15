@@ -33,8 +33,4 @@ public abstract class State {
 	public boolean isLocked() {
 		return (this.lock);
 	}
-
-	public void setLocked() {
-		this.lock = true;
-	}
 }

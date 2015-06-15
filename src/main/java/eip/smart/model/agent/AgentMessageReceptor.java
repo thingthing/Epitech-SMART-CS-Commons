@@ -10,11 +10,16 @@ public enum AgentMessageReceptor {
 			agent.sendStatus(0, "ok");
 		}
 	}),
-	STATE("state", new AgentMessageHandler<Integer>(Integer.class) {
+	STATE("state", new AgentMessageHandler<String>(String.class) {
 		@Override
-		public void handleMessage(Integer data, Agent agent) {
-			// @ TODO Handle State here.
-			agent.sendStatus(0, "ok but do nothing atm");
+		public void handleMessage(String data, Agent agent) {
+			for (AgentState as : AgentState.values())
+				if (as.name().equals(data)) {
+					agent.setState(as);
+					agent.sendStatus(0, "ok");
+					return;
+				}
+			agent.sendStatus(1, "unknown state");
 		}
 	});
 
