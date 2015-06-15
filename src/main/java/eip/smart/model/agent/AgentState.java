@@ -11,8 +11,7 @@ import java.util.Date;
 public enum AgentState {
 	// this status has to be activated by an agent's message
 	LOW_BATTERY(new State() {
-		public int		priority	= 0;
-		private boolean	lock		= true;
+		private boolean	lock	= true;
 
 		@Override
 		public boolean canMove() {
@@ -28,8 +27,7 @@ public enum AgentState {
 
 	// this status has to be activated by an agent's message
 	DERANGED(new State() {
-		public int		priority	= 0;
-		private boolean	lock		= true;
+		private boolean	lock	= true;
 
 		@Override
 		public boolean canMove() {
@@ -42,8 +40,7 @@ public enum AgentState {
 
 	// this status has to be activated by an agent's message
 	BLOCKED(new State() {
-		public int		priority	= 0;
-		private boolean	lock		= true;
+		private boolean	lock	= true;
 
 		@Override
 		public boolean canMove() {
@@ -55,7 +52,6 @@ public enum AgentState {
 	}),
 
 	LOST_SIGNAL(new State() {
-		public int	priority	= 0;
 
 		@Override
 		public boolean canMove() {
@@ -65,8 +61,7 @@ public enum AgentState {
 
 	// this status has to be activated by an agent's message
 	RECALL_ERROR(new State() {
-		public int		priority	= 0;
-		private boolean	lock		= true;
+		private boolean	lock	= true;
 
 		// the agent is coming to the base because of an error, he can't receive orders
 		@Override
@@ -80,8 +75,7 @@ public enum AgentState {
 
 	// this status has to be activated by an agent's message
 	UNKNOWN_ERROR(new State() {
-		public int		priority	= 0;
-		private boolean	lock		= true;
+		private boolean	lock	= true;
 
 		@Override
 		public boolean canMove() {
@@ -95,8 +89,7 @@ public enum AgentState {
 	// decided by server
 	// not checked
 	NO_BATTERY(new State() {
-		public int		priority	= 1;
-		private boolean	lock		= true;
+		private boolean	lock	= true;
 
 		@Override
 		public boolean canMove() {
@@ -105,11 +98,14 @@ public enum AgentState {
 
 		@Override
 		public void doAction(Agent agent) {}
+
+		@Override
+		public int getPriority() {
+			return (1);
+		}
 	}),
 
 	RECALL_BATTERY(new State() {
-		public int	priority	= 1;
-
 		// the agent is coming to the base because it has not enough battery, he can't receive orders
 		@Override
 		public boolean canMove() {
@@ -121,12 +117,15 @@ public enum AgentState {
 			agent.recall();
 		}
 
+		@Override
+		public int getPriority() {
+			return (1);
+		}
+
 		// this status is activated by the LOW_BATTERY status
 	}),
 
 	RECALL(new State() {
-		public int	priority	= 1;
-
 		@Override
 		public boolean canMove() {
 			return true;
@@ -137,13 +136,16 @@ public enum AgentState {
 			agent.recall();
 		}
 
+		@Override
+		public int getPriority() {
+			return (1);
+		}
+
 		// this status is activated by a server's decision
 	}),
 
 	// checked
 	STILL_ERROR(new State() {
-		public int	priority	= 5;
-
 		@Override
 		public boolean canMove() {
 			return true;
@@ -162,19 +164,21 @@ public enum AgentState {
 			}
 			if (still)
 				return true;
-			else
-				return false;
+			return false;
 		}
 
 		@Override
 		public void doAction(Agent agent) {
 			// try to move... somewhere
 		}
+
+		@Override
+		public int getPriority() {
+			return (5);
+		}
 	}),
 
 	STILL(new State() {
-		public int	priority	= 4;
-
 		@Override
 		public boolean canMove() {
 			return true;
@@ -193,13 +197,17 @@ public enum AgentState {
 			}
 			if (still)
 				return true;
-			else
-				return false;
+			return false;
 		}
 
 		@Override
 		public void doAction(Agent agent) {
 			// try to move... somewhere
+		}
+
+		@Override
+		public int getPriority() {
+			return (4);
 		}
 	}),
 
@@ -215,8 +223,7 @@ public enum AgentState {
 		public boolean checkState(Agent agent) {
 			if (Date.from(Instant.now()).getTime() - agent.getLastContact().getTime() > 5 * 60 * 1000)
 				return true;
-			else
-				return false;
+			return false;
 		}
 
 		@Override
@@ -231,8 +238,6 @@ public enum AgentState {
 	}),
 
 	OK(new State() {
-		public int	priority	= -1;
-
 		@Override
 		public boolean canMove() {
 			return true;
@@ -251,6 +256,11 @@ public enum AgentState {
 		}
 
 		@Override
+		public int getPriority() {
+			return (-1);
+		}
+
+		@Override
 		public boolean isLocked() {
 			return (false);
 		}
@@ -258,14 +268,14 @@ public enum AgentState {
 
 	public static AgentState updateAgentState(Agent agent) {
 		AgentState[] StatesValues = AgentState.values();
-		ArrayList<AgentState> list = new ArrayList<AgentState>(Arrays.asList(StatesValues));
+		ArrayList<AgentState> list = new ArrayList<>(Arrays.asList(StatesValues));
 		Collections.sort(list, new Comparator<Object>() {
 			@Override
 			public int compare(Object obj1, Object obj2) {
 				AgentState as1 = (AgentState) obj1;
 				AgentState as2 = (AgentState) obj2;
-				int lib1 = as1.status.priority;
-				int lib2 = as2.status.priority;
+				int lib1 = as1.status.getPriority();
+				int lib2 = as2.status.getPriority();
 				if (lib1 > lib2)
 					return (-1);
 				else if (lib1 == lib2)
