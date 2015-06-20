@@ -8,13 +8,14 @@ import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import eip.smart.model.Area;
+import eip.smart.model.MessagePacket;
 import eip.smart.model.Modeling;
 import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.SimpleAgentProxy;
+import eip.smart.util.Pair;
 
 /**
  * <b>Agent is the class allowing the management of the Agents.</b>
@@ -22,6 +23,7 @@ import eip.smart.model.proxy.SimpleAgentProxy;
  * @author Pierre Demessence
  * @version 3.0
  */
+@SuppressWarnings("unchecked")
 public class Agent implements Serializable {
 
 	public static enum AgentType {
@@ -42,7 +44,7 @@ public class Agent implements Serializable {
 	private String				name			= "";
 
 	/**
-	 * Booleen, allowing to define if the agent is connected
+	 * Boolean, allowing to define if the agent is connected
 	 */
 	private boolean				connected		= false;
 
@@ -68,7 +70,7 @@ public class Agent implements Serializable {
 	private LinkedList<Point>	positions		= new LinkedList<>();
 
 	/**
-	 * Liste of orders (LinkedList<Point>), the positions where the agent has to go
+	 * List of orders (LinkedList<Point>), the positions where the agent has to go
 	 *
 	 * @see Point
 	 */
@@ -82,14 +84,14 @@ public class Agent implements Serializable {
 	private Area				destination		= null;
 
 	/**
-	 * Objet (AgentMessageManager), managing the messages'reception
+	 * Object (AgentMessageManager), managing the messages'reception
 	 *
 	 * @see AgentMessageManager
 	 */
 	private AgentMessageManager	messageManager	= new AgentMessageManager();
 
 	/**
-	 * Objet (sendMessageCallback), managing the messages'sending
+	 * Object (sendMessageCallback), managing the messages'sending
 	 *
 	 * @see sendMessageCallback
 	 */
@@ -106,16 +108,11 @@ public class Agent implements Serializable {
 	private LinkedList<Double>	bearings		= new LinkedList<>();
 
 	/**
-	 * default constructor, setting the agent at the coordinates (0, 0, 0) and create a handler allowing to update it position
+	 * default constructor and create handlers
 	 */
 	public Agent() {
-		this.setCurrentPosition(new Point(0, 0, 0));
-		this.messageManager.addHandler("position", new AgentMessageHandler<Point>(Point.class) {
-			@Override
-			public void handleMessage(Point data, Agent agent) {
-				agent.setCurrentPosition(data);
-			}
-		});
+		for (AgentMessageReceptor receptor : AgentMessageReceptor.values())
+			this.messageManager.addHandler(receptor.getKey(), receptor.getHandler());
 	}
 
 	/**
@@ -210,7 +207,7 @@ public class Agent implements Serializable {
 	 */
 	public void pushOrder(Point order) {
 		this.orders.push(order);
-		this.sendMessage("order:%o", order);
+		this.sendMessage(new Pair<>("order", order));
 	}
 
 	/**
@@ -226,11 +223,11 @@ public class Agent implements Serializable {
 	 * @param msg
 	 *            String, chaine de caract�res repr�sentant le message re�u
 	 */
-	public void receiveMessage(String msg) {
+	public void receiveMessage(JsonNode data) {
 		try {
-			this.messageManager.handleMessage(msg, this);
+			this.messageManager.handleMessage(data, this);
 		} catch (IOException e) {
-			this.sendMessage(e.getMessage());
+			this.sendStatus(1, e.getMessage());
 		}
 
 	}
@@ -243,14 +240,17 @@ public class Agent implements Serializable {
 	 * @param objects
 	 *            Un ou plusieurs objets qui seront envoy�s
 	 */
-	public void sendMessage(String message, Object... objects) {
-		ObjectMapper mapper = new ObjectMapper();
-		for (Object object : objects)
-			try {
-				message = message.replaceFirst("%o", mapper.writeValueAsString(object));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
+	public void sendMessage(Pair<String, Object>... objects) {
+		MessagePacket message = new MessagePacket();
+		for (Pair<String, Object> p : objects)
+			message.addObject(p.getFirst(), p.getSecond());
+		if (this.messageCallback != null)
+			this.messageCallback.callback(message);
+	}
+
+	public void sendStatus(int statusCode, String statusMessage) {
+		MessagePacket message = new MessagePacket();
+		message.setStatus(statusCode, statusMessage);
 		if (this.messageCallback != null)
 			this.messageCallback.callback(message);
 	}
