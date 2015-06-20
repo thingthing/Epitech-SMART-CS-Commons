@@ -243,7 +243,7 @@ public class Agent implements Serializable {
 	public void sendMessage(Pair<String, Object>... objects) {
 		MessagePacket message = new MessagePacket();
 		for (Pair<String, Object> p : objects)
-			message.addObject(p.getFirst(), p.getSecond());
+			message.addObject(p.getKey(), p.getValue());
 		if (this.messageCallback != null)
 			this.messageCallback.callback(message);
 	}
