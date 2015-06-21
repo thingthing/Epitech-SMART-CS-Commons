@@ -7,9 +7,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-// priority
+import eip.smart.model.geometry.Point;
+
+/*
+ *  <b>AgentState is the enum allowing the management of the Agents'states.</b>
+ *
+ * @author Pierre Demessence
+ * @version 1.0
+
+ */
 public enum AgentState {
-	// this status has to be activated by an agent's message
+	/*
+	 *  this state has to be activated by an agent's message
+	 */
 	LOW_BATTERY(new State(true) {
 
 		@Override
@@ -20,11 +30,15 @@ public enum AgentState {
 		@Override
 		public void doAction(Agent agent) {
 			agent.recall();
+			agent.setState(AgentState.RECALL_BATTERY);
 			// switch agent status to RECALL_BATTERY
 		}
 	}),
 
-	// this status has to be activated by an agent's message
+	/*
+	 *  this state has to be activated by an agent's message
+	 *  this state is locked
+	 */
 	DERANGED(new State(true) {
 
 		@Override
@@ -36,7 +50,10 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
-	// this status has to be activated by an agent's message
+	/*
+	 *  this state has to be activated by an agent's message
+	 *  this state is locked
+	 */
 	BLOCKED(new State(true) {
 
 		@Override
@@ -48,6 +65,9 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
+	/*
+	 *  this state has to be activated by the NO_SIGNAL state
+	 */
 	LOST_SIGNAL(new State() {
 
 		@Override
@@ -56,10 +76,12 @@ public enum AgentState {
 		}
 	}),
 
-	// this status has to be activated by an agent's message
+	/*
+	 *  this state has to be activated by an agent's message
+	 *  this state is locked
+	 */
 	RECALL_ERROR(new State(true) {
 
-		// the agent is coming to the base because of an error, he can't receive orders
 		@Override
 		public boolean canMove() {
 			return false;
@@ -69,7 +91,10 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
-	// this status has to be activated by an agent's message
+	/*
+	 *  this state has to be activated by an agent's message
+	 *  this state is locked
+	 */
 	UNKNOWN_ERROR(new State(true) {
 
 		@Override
@@ -81,8 +106,10 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
-	// decided by server
-	// not checked
+	/*
+	 * this state is decided by server (not checked)
+	 * this state is locked
+	 */
 	NO_BATTERY(new State(true) {
 
 		@Override
@@ -98,7 +125,10 @@ public enum AgentState {
 			return (1);
 		}
 	}),
-
+	
+	/*
+	 *  this state is activated by the LOW_BATTERY state
+	 */
 	RECALL_BATTERY(new State() {
 		// the agent is coming to the base because it has not enough battery, he can't receive orders
 		@Override
@@ -116,9 +146,11 @@ public enum AgentState {
 			return (1);
 		}
 
-		// this status is activated by the LOW_BATTERY status
 	}),
 
+	/*
+	 *  this state is activated by a server's decision
+	 */
 	RECALL(new State() {
 		@Override
 		public boolean canMove() {
@@ -134,11 +166,11 @@ public enum AgentState {
 		public int getPriority() {
 			return (1);
 		}
-
-		// this status is activated by a server's decision
 	}),
 
-	// checked
+	/*
+	 * this state is checked by the server
+	 */
 	STILL_ERROR(new State() {
 		@Override
 		public boolean canMove() {
@@ -163,8 +195,10 @@ public enum AgentState {
 
 		@Override
 		public void doAction(Agent agent) {
-			// try to move... somewhere
-		}
+			Point currentPos = agent.getPositions().getLast();
+			Point order = new Point(currentPos.getX() + 5, currentPos.getY() + 5, 0);
+			agent.pushOrder(order);
+}
 
 		@Override
 		public int getPriority() {
@@ -172,6 +206,9 @@ public enum AgentState {
 		}
 	}),
 
+	/*
+	 * this state is checked by the server
+	 */
 	STILL(new State() {
 		@Override
 		public boolean canMove() {
@@ -196,7 +233,9 @@ public enum AgentState {
 
 		@Override
 		public void doAction(Agent agent) {
-			// try to move... somewhere
+			Point currentPos = agent.getPositions().getLast();
+			Point order = new Point(currentPos.getX() + 5, currentPos.getY() + 5, 0);
+			agent.pushOrder(order);
 		}
 
 		@Override
@@ -205,6 +244,9 @@ public enum AgentState {
 		}
 	}),
 
+	/*
+	 * this state is checked by the server
+	 */
 	NO_SIGNAL(new State() {
 		private int	cpt	= 4;
 
@@ -223,14 +265,17 @@ public enum AgentState {
 		@Override
 		public void doAction(Agent agent) {
 			if (agent.isConnected()) {
-				// set agent status to OK
+				agent.setState(AgentState.OK);
 			}
 			if (++this.cpt == 20) {
-				// set agent status to LOST_SIGNAL
+				agent.setState(AgentState.LOST_SIGNAL);
 			}
 		}
 	}),
 
+	/*
+	 * this state is the default state
+	 */
 	OK(new State() {
 		@Override
 		public boolean canMove() {
