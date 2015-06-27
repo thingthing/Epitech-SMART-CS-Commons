@@ -9,7 +9,7 @@ import java.util.Date;
 
 import eip.smart.model.geometry.Point;
 
-/*
+/**
  *  <b>AgentState is the enum allowing the management of the Agents'states.</b>
  *
  * @author Pierre Demessence
@@ -17,7 +17,7 @@ import eip.smart.model.geometry.Point;
 
  */
 public enum AgentState {
-	/*
+	/**
 	 *  this state has to be activated by an agent's message
 	 */
 	LOW_BATTERY(new State(true) {
@@ -35,7 +35,7 @@ public enum AgentState {
 		}
 	}),
 
-	/*
+	/**
 	 *  this state has to be activated by an agent's message
 	 *  this state is locked
 	 */
@@ -50,7 +50,7 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
-	/*
+	/**
 	 *  this state has to be activated by an agent's message
 	 *  this state is locked
 	 */
@@ -65,7 +65,7 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
-	/*
+	/**
 	 *  this state has to be activated by the NO_SIGNAL state
 	 */
 	LOST_SIGNAL(new State() {
@@ -76,7 +76,7 @@ public enum AgentState {
 		}
 	}),
 
-	/*
+	/**
 	 *  this state has to be activated by an agent's message
 	 *  this state is locked
 	 */
@@ -91,7 +91,7 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
-	/*
+	/**
 	 *  this state has to be activated by an agent's message
 	 *  this state is locked
 	 */
@@ -106,7 +106,7 @@ public enum AgentState {
 		public void doAction(Agent agent) {}
 	}),
 
-	/*
+	/**
 	 * this state is decided by server (not checked)
 	 * this state is locked
 	 */
@@ -126,7 +126,7 @@ public enum AgentState {
 		}
 	}),
 	
-	/*
+	/**
 	 *  this state is activated by the LOW_BATTERY state
 	 */
 	RECALL_BATTERY(new State() {
@@ -148,7 +148,7 @@ public enum AgentState {
 
 	}),
 
-	/*
+	/**
 	 *  this state is activated by a server's decision
 	 */
 	RECALL(new State() {
@@ -168,7 +168,7 @@ public enum AgentState {
 		}
 	}),
 
-	/*
+	/**
 	 * this state is checked by the server
 	 */
 	STILL_ERROR(new State() {
@@ -206,7 +206,7 @@ public enum AgentState {
 		}
 	}),
 
-	/*
+	/**
 	 * this state is checked by the server
 	 */
 	STILL(new State() {
@@ -244,7 +244,7 @@ public enum AgentState {
 		}
 	}),
 
-	/*
+	/**
 	 * this state is checked by the server
 	 */
 	NO_SIGNAL(new State() {
@@ -273,7 +273,7 @@ public enum AgentState {
 		}
 	}),
 
-	/*
+	/**
 	 * this state is the default state
 	 */
 	OK(new State() {
