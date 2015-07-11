@@ -211,6 +211,20 @@ public class Agent implements Serializable {
 	}
 
 	/**
+	 * Add a Point at the agent's list of orders
+	 *
+	 * @see Point
+	 * @param order
+	 *            Point, new order send to the agent
+	 */
+	public void NewOrder(Point order) {
+		this.orders.clear();
+		this.orders.push(order);
+		this.sendMessage(new Pair<>("order", order));
+	}
+
+	
+	/**
 	 * Donne � l'agent l'ordre de retourner � son point de d�part
 	 */
 	public void recall() {
