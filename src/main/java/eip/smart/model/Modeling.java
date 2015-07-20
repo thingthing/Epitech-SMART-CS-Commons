@@ -135,7 +135,7 @@ public class Modeling implements Serializable {
 	 *
 	 * @see Agent
 	 * @param agent
-	 *            agent � retirer de la mod�lisation
+	 *            agent, the one we'll remove
 	 */
 	public void removeAgent(Agent agent) {
 		this.agents.remove(agent);
