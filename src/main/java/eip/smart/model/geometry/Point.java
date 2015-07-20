@@ -20,7 +20,7 @@ public final class Point implements Serializable {
 	}
 
 	/**
-	 * Déprecated
+	 * Deprecated
 	 * Equivalent to add(p1, new Point(d, d, d)).
 	 * Translates only on line from equation x = y = z
 	 * Both not very useful and source of confusion.

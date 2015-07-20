@@ -205,7 +205,8 @@ public class Agent implements Serializable {
 	 * @param order
 	 *            Point, new order send to the agent
 	 */
-	public void pushOrder(Point order) {
+	public void newOrder(Point order) {
+		this.orders.clear();
 		this.orders.push(order);
 		this.sendMessage(new Pair<>("order", order));
 	}
@@ -217,25 +218,23 @@ public class Agent implements Serializable {
 	 * @param order
 	 *            Point, new order send to the agent
 	 */
-	public void NewOrder(Point order) {
-		this.orders.clear();
+	public void pushOrder(Point order) {
 		this.orders.push(order);
 		this.sendMessage(new Pair<>("order", order));
 	}
 
-	
 	/**
-	 * Donne � l'agent l'ordre de retourner � son point de d�part
+	 * Send to the agent the order of going back to it depart's point.
 	 */
 	public void recall() {
 		this.pushOrder(new Point(0, 0, 0));
 	}
 
 	/**
-	 * V�rifie si un message a �t� re�u par l'agent
+	 * Check if the message has been received by the agent
 	 *
 	 * @param msg
-	 *            String, chaine de caract�res repr�sentant le message re�u
+	 *            String, the message
 	 */
 	public void receiveMessage(JsonNode data) {
 		try {
@@ -247,12 +246,12 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Envoi un message au tableau de bord
+	 * Send a message to the dashboard
 	 *
 	 * @param message
 	 *            String
 	 * @param objects
-	 *            Un ou plusieurs objets qui seront envoy�s
+	 *            one or many objects that will be send
 	 */
 	public void sendMessage(Pair<String, Object>... objects) {
 		MessagePacket message = new MessagePacket();
@@ -302,7 +301,7 @@ public class Agent implements Serializable {
 	}
 
 	/**
-	 * Met � jours l'�tat de l'agent, en se basant sur les attribus "positions" et "lastContact"
+	 * Update the Agent's state, using it attributes "position" and "lastContact"
 	 */
 	public void updateState() {
 		/* States are bugged.
