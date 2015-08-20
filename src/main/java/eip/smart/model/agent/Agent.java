@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import eip.smart.model.Area;
 import eip.smart.model.MessagePacket;
 import eip.smart.model.Modeling;
-import eip.smart.model.geometry.Point;
+import eip.smart.model.geometry.v2.Point3D;
 import eip.smart.model.proxy.SimpleAgentProxy;
 import eip.smart.util.Pair;
 
@@ -67,14 +67,14 @@ public class Agent implements Serializable {
 	 *
 	 * @see Point
 	 */
-	private LinkedList<Point>	positions		= new LinkedList<>();
+	private LinkedList<Point3D>	positions		= new LinkedList<>();
 
 	/**
 	 * List of orders (LinkedList<Point>), the positions where the agent has to go
 	 *
 	 * @see Point
 	 */
-	private LinkedList<Point>	orders			= new LinkedList<>();
+	private LinkedList<Point3D>	orders			= new LinkedList<>();
 
 	/**
 	 * destination area (Area), that the agent'll has to explore if the ordrers list is free
@@ -147,12 +147,12 @@ public class Agent implements Serializable {
 	}
 
 	@JsonIgnore
-	public Point getCurrentOrder() {
+	public Point3D getCurrentOrder() {
 		return (this.orders.peek());
 	}
 
 	@JsonIgnore
-	public Point getCurrentPosition() {
+	public Point3D getCurrentPosition() {
 		return (this.positions.peek());
 	}
 
@@ -168,11 +168,11 @@ public class Agent implements Serializable {
 		return (this.name);
 	}
 
-	public LinkedList<Point> getOrders() {
+	public LinkedList<Point3D> getOrders() {
 		return (this.orders);
 	}
 
-	public LinkedList<Point> getPositions() {
+	public LinkedList<Point3D> getPositions() {
 		return (this.positions);
 	}
 
@@ -205,7 +205,7 @@ public class Agent implements Serializable {
 	 * @param order
 	 *            Point, new order send to the agent
 	 */
-	public void pushOrder(Point order) {
+	public void pushOrder(Point3D order) {
 		this.orders.push(order);
 		this.sendMessage(new Pair<>("order", order));
 	}
@@ -214,7 +214,7 @@ public class Agent implements Serializable {
 	 * Send to the agent the order of going back to it depart's point.
 	 */
 	public void recall() {
-		this.pushOrder(new Point(0, 0, 0));
+		this.pushOrder(new Point3D(0, 0, 0));
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class Agent implements Serializable {
 		this.bearings.push(bearing);
 	}
 
-	public void setCurrentPosition(Point position) {
+	public void setCurrentPosition(Point3D position) {
 		this.positions.push(position);
 	}
 

@@ -7,28 +7,28 @@ import java.io.Serializable;
  *
  * This class is immutable.
  */
-public final class Point implements Serializable {
+public final class Point_old implements Serializable {
 
 	/**
 	 * Deprecated
-	 * Refactored into non-static add(Point p) version to be consistent with getDistance(Point p) and IntPoint methods.
+	 * Refactored into non-static add(Point_old p) version to be consistent with getDistance(Point_old p) and IntPoint_old methods.
 	 * To be removed
 	 */
 	@Deprecated
-	public static Point add(Point p1, Point p2) {
-		return new Point(p1.getX() + p2.getX(), p1.getY() + p2.getY(), p1.getZ() + p2.getZ());
+	public static Point_old add(Point_old p1, Point_old p2) {
+		return new Point_old(p1.getX() + p2.getX(), p1.getY() + p2.getY(), p1.getZ() + p2.getZ());
 	}
 
 	/**
 	 * Deprecated
-	 * Equivalent to add(p1, new Point(d, d, d)).
+	 * Equivalent to add(p1, new Point_old(d, d, d)).
 	 * Translates only on line from equation x = y = z
 	 * Both not very useful and source of confusion.
 	 * To be removed.
 	 */
 	@Deprecated
-	public static Point tranlate(Point p, double d) {
-		return Point.add(p, new Point(d));
+	public static Point_old tranlate(Point_old p, double d) {
+		return Point_old.add(p, new Point_old(d));
 	}
 
 	private double	x	= 0;
@@ -37,15 +37,15 @@ public final class Point implements Serializable {
 
 	private double	z	= 0;
 
-	public Point() {}
+	public Point_old() {}
 
-	public Point(double c) {
+	public Point_old(double c) {
 		this.x = c;
 		this.y = c;
 		this.z = c;
 	}
 
-	public Point(double x, double y, double z) {
+	public Point_old(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -57,10 +57,10 @@ public final class Point implements Serializable {
 	 *
 	 * @param p
 	 *            The point to be added or the translation vector coordinates.
-	 * @return A new Point resulting from the addition of given coordinates
+	 * @return A new Point_old resulting from the addition of given coordinates
 	 */
-	public Point add(Point p) {
-		return new Point(this.x + p.x, this.y + p.y, this.z + p.z);
+	public Point_old add(Point_old p) {
+		return new Point_old(this.x + p.x, this.y + p.y, this.z + p.z);
 	}
 
 	/* (non-Javadoc)
@@ -72,9 +72,9 @@ public final class Point implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Point))
+		if (!(obj instanceof Point_old))
 			return false;
-		Point other = (Point) obj;
+		Point_old other = (Point_old) obj;
 		if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x))
 			return false;
 		if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y))
@@ -84,7 +84,7 @@ public final class Point implements Serializable {
 		return true;
 	}
 
-	public double getDistance(Point p) {
+	public double getDistance(Point_old p) {
 		return (Math.sqrt(Math.pow(this.x - p.x, 2) + Math.pow(this.y - p.y, 2) + Math.pow(this.z - p.z, 2)));
 	}
 
@@ -124,18 +124,18 @@ public final class Point implements Serializable {
 	 *
 	 * @param p
 	 *            The point to be substracted, the translation vector negative coordinates or the end point of the vector to be calculated.
-	 * @return A new Point or vector coordinates resulting from the substraction of given coordinates
+	 * @return A new Point_old or vector coordinates resulting from the substraction of given coordinates
 	 */
-	public Point substract(Point p) {
-		return new Point(this.x - p.x, this.y - p.y, this.z - p.z);
+	public Point_old substract(Point_old p) {
+		return new Point_old(this.x - p.x, this.y - p.y, this.z - p.z);
 	}
 
 	/**
-	 * WARNING This function creates an approximation of the Point. Be aware that precision is lost through this call.
+	 * WARNING This function creates an approximation of the Point_old. Be aware that precision is lost through this call.
 	 *
 	 * @param precision
 	 *            a multiplier applied to the given point coordinates. Should never ever been 0.
-	 * @return a new IntPoint from this Point values
+	 * @return a new IntPoint_old from this Point_old values
 	 */
 	public IntPoint toIntPoint(double precision) {
 		return new IntPoint((long) (this.x * precision), (long) (this.y * precision), (long) (this.z * precision));
@@ -143,10 +143,10 @@ public final class Point implements Serializable {
 
 	/**
 	 * TODO Implement precision system
-	 * WARNING This function creates an approximation of the Point. Be aware that precision is lost through this call.
+	 * WARNING This function creates an approximation of the Point_old. Be aware that precision is lost through this call.
 	 *
 	 * @param precision
-	 * @return a new IntPoint from this Point values
+	 * @return a new IntPoint_old from this Point_old values
 	 */
 	public IntPoint toIntPoint(int precision) {
 		return new IntPoint((long) this.x, (long) this.y, (long) this.z);

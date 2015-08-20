@@ -1,14 +1,12 @@
 package eip.smart.model.geometry.v2;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.geometry.Vector;
-import org.apache.commons.math3.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class Point3D extends Vector3D implements Point {
 
 	public static void main(String[] args) {
-		Point3D toto = new Point3D(Vector3D.ZERO).add(new Point3D(5, 4, 6));
+		Point3D toto = new Point3D(new Point3D(Vector3D.ZERO).add(new Point3D(5, 4, 6)));
 		System.out.println(toto);
 	}
 
@@ -66,14 +64,12 @@ public class Point3D extends Vector3D implements Point {
 	}
 
 	@Override
-	public Point3D add(Vector<Euclidean3D> v) {
-		// TODO Auto-generated method stub
-		return (Point3D) super.add(v);
-	}
-
-	@Override
 	public double[] getPoint() {
 		return this.toArray();
+	}
+
+	public Point2D to2D() {
+		return new Point2D(this.getX(), this.getY());
 	}
 
 }

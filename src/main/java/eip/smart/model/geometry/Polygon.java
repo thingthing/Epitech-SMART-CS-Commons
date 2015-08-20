@@ -5,14 +5,17 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import eip.smart.model.geometry.v2.Point2D;
+
 /**
  * <b>Polygon is the class allowing to manage polygones.</b>
+ *
  * @author Pierre Demessence
  *
  */
 public class Polygon implements Serializable {
 
-	private ArrayList<Point>	points;
+	private ArrayList<Point2D>	points;
 
 	/**
 	 * Constructor without argument, create an empty points array.
@@ -23,18 +26,20 @@ public class Polygon implements Serializable {
 
 	/**
 	 * Constructor attributing a list of points to the polygon
+	 *
 	 * @param points
 	 */
-	public Polygon(ArrayList<Point> points) {
+	public Polygon(ArrayList<Point2D> points) {
 		this.points = points;
 	}
 
 	/**
 	 * add a point to the point'list
+	 *
 	 * @param point
 	 * @return true
 	 */
-	public boolean add(Point point) {
+	public boolean add(Point2D point) {
 		return (this.points.add(point));
 	}
 
@@ -66,16 +71,16 @@ public class Polygon implements Serializable {
 		if (!this.isFinite())
 			return (0);
 
-		Point lastPoint = this.points.get(0);
+		Point2D lastPoint = this.points.get(0);
 		for (int i = 1; i < this.points.size(); i++) {
-			perimeter += lastPoint.getDistance(this.points.get(i));
+			perimeter += lastPoint.distance(this.points.get(i));
 			lastPoint = this.points.get(i);
 		}
-		perimeter += lastPoint.getDistance(this.points.get(0));
+		perimeter += lastPoint.distance(this.points.get(0));
 		return (perimeter);
 	}
 
-	public ArrayList<Point> getPoints() {
+	public ArrayList<Point2D> getPoints() {
 		return (this.points);
 	}
 
@@ -87,7 +92,7 @@ public class Polygon implements Serializable {
 	 * @return true if the point is inside the polygon.
 	 *         http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html#The C Code
 	 */
-	public boolean includes(Point point) {
+	public boolean includes(Point2D point) {
 		boolean res = false;
 		for (int i = 0, j = this.points.size() - 1; i < this.points.size(); j = i++)
 			if (((this.points.get(i).getY() > point.getY()) != (this.points.get(j).getY() > point.getY())) && (point.getX() < ((this.points.get(j).getX() - this.points.get(i).getX()) * (point.getY() - this.points.get(i).getY()) / (this.points.get(j).getY() - this.points.get(i).getY()) + this.points.get(i).getX())))
@@ -108,7 +113,7 @@ public class Polygon implements Serializable {
 	@Override
 	public String toString() {
 		String res = "";
-		for (Point point : this.points)
+		for (Point2D point : this.points)
 			res += point;
 		return (res);
 	}

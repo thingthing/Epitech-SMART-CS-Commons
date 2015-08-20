@@ -7,18 +7,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-import eip.smart.model.geometry.Point;
+import eip.smart.model.geometry.v2.Point3D;
 
 /**
- *  <b>AgentState is the enum allowing the management of the Agents'states.</b>
+ * <b>AgentState is the enum allowing the management of the Agents'states.</b>
  *
  * @author Pierre Demessence
  * @version 1.0
-
  */
 public enum AgentState {
 	/**
-	 *  this state has to be activated by an agent's message
+	 * this state has to be activated by an agent's message
 	 */
 	LOW_BATTERY(new State(true) {
 
@@ -36,8 +35,8 @@ public enum AgentState {
 	}),
 
 	/**
-	 *  this state has to be activated by an agent's message
-	 *  this state is locked
+	 * this state has to be activated by an agent's message
+	 * this state is locked
 	 */
 	DERANGED(new State(true) {
 
@@ -51,8 +50,8 @@ public enum AgentState {
 	}),
 
 	/**
-	 *  this state has to be activated by an agent's message
-	 *  this state is locked
+	 * this state has to be activated by an agent's message
+	 * this state is locked
 	 */
 	BLOCKED(new State(true) {
 
@@ -66,7 +65,7 @@ public enum AgentState {
 	}),
 
 	/**
-	 *  this state has to be activated by the NO_SIGNAL state
+	 * this state has to be activated by the NO_SIGNAL state
 	 */
 	LOST_SIGNAL(new State() {
 
@@ -77,8 +76,8 @@ public enum AgentState {
 	}),
 
 	/**
-	 *  this state has to be activated by an agent's message
-	 *  this state is locked
+	 * this state has to be activated by an agent's message
+	 * this state is locked
 	 */
 	RECALL_ERROR(new State(true) {
 
@@ -92,8 +91,8 @@ public enum AgentState {
 	}),
 
 	/**
-	 *  this state has to be activated by an agent's message
-	 *  this state is locked
+	 * this state has to be activated by an agent's message
+	 * this state is locked
 	 */
 	UNKNOWN_ERROR(new State(true) {
 
@@ -125,9 +124,9 @@ public enum AgentState {
 			return (1);
 		}
 	}),
-	
+
 	/**
-	 *  this state is activated by the LOW_BATTERY state
+	 * this state is activated by the LOW_BATTERY state
 	 */
 	RECALL_BATTERY(new State() {
 		// the agent is coming to the base because it has not enough battery, he can't receive orders
@@ -149,7 +148,7 @@ public enum AgentState {
 	}),
 
 	/**
-	 *  this state is activated by a server's decision
+	 * this state is activated by a server's decision
 	 */
 	RECALL(new State() {
 		@Override
@@ -195,10 +194,10 @@ public enum AgentState {
 
 		@Override
 		public void doAction(Agent agent) {
-			Point currentPos = agent.getPositions().getLast();
-			Point order = new Point(currentPos.getX() + 5, currentPos.getY() + 5, 0);
+			Point3D currentPos = agent.getPositions().getLast();
+			Point3D order = new Point3D(currentPos.getX() + 5, currentPos.getY() + 5, 0);
 			agent.pushOrder(order);
-}
+		}
 
 		@Override
 		public int getPriority() {
@@ -233,8 +232,8 @@ public enum AgentState {
 
 		@Override
 		public void doAction(Agent agent) {
-			Point currentPos = agent.getPositions().getLast();
-			Point order = new Point(currentPos.getX() + 5, currentPos.getY() + 5, 0);
+			Point3D currentPos = agent.getPositions().getLast();
+			Point3D order = new Point3D(currentPos.getX() + 5, currentPos.getY() + 5, 0);
 			agent.pushOrder(order);
 		}
 
@@ -264,12 +263,10 @@ public enum AgentState {
 
 		@Override
 		public void doAction(Agent agent) {
-			if (agent.isConnected()) {
+			if (agent.isConnected())
 				agent.setState(AgentState.OK);
-			}
-			if (++this.cpt == 20) {
+			if (++this.cpt == 20)
 				agent.setState(AgentState.LOST_SIGNAL);
-			}
 		}
 	}),
 
