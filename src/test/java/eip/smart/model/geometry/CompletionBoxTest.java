@@ -2,7 +2,9 @@ package eip.smart.model.geometry;
 
 import org.junit.Test;
 
-import eip.smart.model.geometry.v2.Point3D;
+import eip.smart.cscommons.model.geometry.CompletionBox;
+import eip.smart.cscommons.model.geometry.IntPoint;
+import eip.smart.cscommons.model.geometry.v2.Point3D;
 
 /**
  * Created by Vincent Buresi on 5/2/15.

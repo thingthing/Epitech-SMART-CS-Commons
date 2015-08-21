@@ -2,6 +2,10 @@ package eip.smart.model.geometry;
 
 import org.junit.Test;
 
+import eip.smart.cscommons.model.geometry.CompletionBox;
+import eip.smart.cscommons.model.geometry.CompletionManager;
+import eip.smart.cscommons.model.geometry.IntPoint;
+
 /**
  * Created by Vincent Buresi on 5/2/15.
  */
