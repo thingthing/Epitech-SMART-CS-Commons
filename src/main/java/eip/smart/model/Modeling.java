@@ -7,12 +7,15 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import eip.smart.model.agent.Agent;
+import eip.smart.model.geometry.Point;
 import eip.smart.model.proxy.FileModelingProxy;
 
 /**
  * <b>Modeling is the class allowing the management of the modelisations.</b>
+ *
  * @author Pierre Demessence
-*/
+ */
 @SuppressWarnings({ "static-method", "unused" })
 public class Modeling implements Serializable {
 
@@ -22,21 +25,21 @@ public class Modeling implements Serializable {
 	 * String allowing to identify the modeling
 	 */
 	private String				name	= "";
-	
+
 	/**
 	 * Areas'array, list the areas that have to be modelised
-	 * 
+	 *
 	 * @see Area
 	 */
 	private ArrayList<Area>		areas	= new ArrayList<>();
-	
+
 	/**
 	 * Agent'sarray, list the agents used on this modeling
-	 * 
+	 *
 	 * @see Agent
 	 */
 	private ArrayList<Agent>	agents	= new ArrayList<>();
-	
+
 	/**
 	 * long, number of uses of the "run" method by the modeling
 	 */
@@ -49,9 +52,10 @@ public class Modeling implements Serializable {
 
 	/**
 	 * Constructor allowing to create a modeling based on a saved one, in order to continue it.
-	 * 
+	 *
 	 * @see FileModelingProxy
-	 * @param fileModeling objet containing informations about a saved modeling
+	 * @param fileModeling
+	 *            objet containing informations about a saved modeling
 	 */
 	public Modeling(FileModelingProxy fileModeling) {
 		this.name = fileModeling.getName();
@@ -61,8 +65,9 @@ public class Modeling implements Serializable {
 
 	/**
 	 * Constructor allowing to give a name to the modeling at it creation
-	 * 
-	 * @param name name that the modeling'll have
+	 *
+	 * @param name
+	 *            name that the modeling'll have
 	 */
 	public Modeling(String name) {
 		this.name = name;
@@ -72,9 +77,10 @@ public class Modeling implements Serializable {
 
 	/**
 	 * Add an agent to the modeling
-	 * 
+	 *
 	 * @see Agent
-	 * @param agent Agent that will be added to the modeling
+	 * @param agent
+	 *            Agent that will be added to the modeling
 	 */
 	public void addAgent(Agent agent) {
 		this.agents.add(agent);
@@ -82,26 +88,13 @@ public class Modeling implements Serializable {
 
 	/**
 	 * Add an area to the modeling
-	 * 
+	 *
 	 * @see Area
-	 * @param area Area that will be added to the modeling
+	 * @param area
+	 *            Area that will be added to the modeling
 	 */
 	public void addArea(Area area) {
 		this.areas.add(area);
-	}
-
-	/**
-	 * Write agents'data of the modeling in logs files
-	 * 
-	 * @see Agent
-	 */
-	public void dumpAgents() {
-		Modeling.LOGGER.log(Level.INFO, "Dumping Agents");
-		for (Agent a : this.agents) {
-			Modeling.LOGGER.log(Level.INFO, "Agent " + a.getName() + " :");
-			Modeling.LOGGER.log(Level.INFO, "--Position : " + a.getCurrentPosition());
-			Modeling.LOGGER.log(Level.INFO, "--Destination : " + a.getDestination());
-		}
 	}
 
 	public ArrayList<Agent> getAgents() {
@@ -125,6 +118,10 @@ public class Modeling implements Serializable {
 		return (res);
 	}
 
+	private double getDiffPoint(Point x, Point y) {
+		return (Math.abs((Math.abs(x.getX() - y.getX())) - (Math.abs(x.getY() - y.getY()))));
+	}
+
 	public String getName() {
 		return (this.name);
 	}
@@ -134,19 +131,11 @@ public class Modeling implements Serializable {
 	}
 
 	/**
-	 * Write in logs files agents'state
-	 * 
-	 * @see Agent
-	 */
-	private void handleAGentsState() {
-		Modeling.LOGGER.log(Level.INFO, "-->Handling Agents State...");
-	}
-
-	/**
 	 * remove an agent of the modeling
-	 * 
+	 *
 	 * @see Agent
-	 * @param agent agent � retirer de la mod�lisation
+	 * @param agent
+	 *            agent, the one we'll remove
 	 */
 	public void removeAgent(Agent agent) {
 		this.agents.remove(agent);
@@ -155,21 +144,19 @@ public class Modeling implements Serializable {
 	/**
 	 * main method of of the modeling development, it:
 	 * <ul>
-	 * <li>update agents'position </li>
+	 * <li>update agents'position</li>
 	 * <li>update agents'attributed'areas</li>
 	 * <li>update agents'destination's area</li>
 	 * <li>update agents'destination's points</li>
 	 * </ul>
-	 * 
+	 *
 	 * @see Agent
 	 */
 	public void run() {
 		++this.tick;
 		Modeling.LOGGER.log(Level.INFO, "Modeling (" + this.name + ") running (tick " + this.tick + ")");
-		this.updateAgents();
 		this.updateAreaAgentsAttributed();
-		this.updateAgentsDestination();
-		this.updateAgentsOrders();
+		this.updateAgents();
 	}
 
 	public void setAgents(ArrayList<Agent> agents) {
@@ -183,57 +170,39 @@ public class Modeling implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	private void setTick(long tick) {
 		this.tick = tick;
 	}
 
 	/**
 	 * update agents'state
-	 * 
+	 *
 	 * @see Agent
 	 */
 	private void updateAgents() {
 		Modeling.LOGGER.log(Level.INFO, "->Updating Agents...");
-		this.updateAgentsState();
-		this.handleAGentsState();
-	}
-
-	/**
-	 * update agents'destinations
-	 * 
-	 * @see Agent
-	 */
-	private void updateAgentsDestination() {
-		Modeling.LOGGER.log(Level.INFO, "->Updating destination for each agent...");
-	}
-
-	/**
-	 * update agents'orders
-	 * 
-	 * @see Agent
-	 */
-	private void updateAgentsOrders() {
-		Modeling.LOGGER.log(Level.INFO, "->Updating orders for each agent...");
-	}
-
-	/**
-	 * update agents'states
-	 * 
-	 * @see Agent
-	 */
-	private void updateAgentsState() {
-		Modeling.LOGGER.log(Level.INFO, "-->Updating Agents State...");
+		for (Agent agent : this.agents)
+			agent.updateState();
 	}
 
 	/**
 	 * update agents'attributed's areas
-	 * 
+	 *
 	 * @see Agent
 	 */
 	private void updateAreaAgentsAttributed() {
-		for (Area a : this.areas)
-			a.updateCompletion();
+		// for (Area a : this.areas)
+		// a.updateCompletion();
+		Area dest;
+		if (this.areas.size() > 0)
+			for (Agent agent : this.agents) {
+				dest = this.areas.get(0);
+				for (Area area : this.areas)
+					if (this.getDiffPoint(agent.getCurrentPosition(), area.getAvgPoint()) < this.getDiffPoint(agent.getCurrentPosition(), dest.getAvgPoint()))
+						dest = area;
+				agent.setDestination(dest);
+			}
 		Modeling.LOGGER.log(Level.INFO, "->Attributing number of agents for each area...");
 	}
 

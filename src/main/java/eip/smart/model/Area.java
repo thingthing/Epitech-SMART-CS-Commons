@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import eip.smart.model.agent.Agent;
 import eip.smart.model.geometry.Point;
 import eip.smart.model.geometry.Polygon;
 import eip.smart.util.PointCloudGenerator;
@@ -114,6 +115,33 @@ public class Area implements Serializable {
 
 	public ArrayList<Area> getSubAreas() {
 		return this.subAreas;
+	}
+
+	/*
+  	public void updateCompletion() {
+ 
+		this.completion += 5.0d + (10.0d - 5.0d) * new Random().nextDouble();
+		this.completion = Math.min(this.completion, 100.0d);
+	}
+	*/
+	
+	
+	public Point getAvgPoint(){
+		double x = 0;
+		double y = 0;
+		
+		for (Point a : this.points)
+		{
+			x += a.getX();
+			y += a.getY();
+		}
+		x /= this.points.size();
+		y /= this.points.size();
+		return (new Point(x, y, 0));
+	}
+
+	public void addPoint(Point pt) {
+		this.points.add(pt);
 	}
 
     /**
