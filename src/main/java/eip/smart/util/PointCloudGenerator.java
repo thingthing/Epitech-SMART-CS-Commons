@@ -7,7 +7,7 @@ import java.util.Random;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import eip.smart.model.geometry.Point;
+import eip.smart.model.geometry.v2.Point3D;
 
 public class PointCloudGenerator {
 
@@ -25,12 +25,12 @@ public class PointCloudGenerator {
 		this.max = max;
 	}
 
-	private Point generatePoint() {
-		return (new Point(this.getRandomDouble(), this.getRandomDouble(), this.getRandomDouble()));
+	private Point3D generatePoint() {
+		return (new Point3D(this.getRandomDouble(), this.getRandomDouble(), this.getRandomDouble()));
 	}
 
-	public ArrayList<Point> generatePointCloud(int nb) {
-		ArrayList<Point> cloud = new ArrayList<>();
+	public ArrayList<Point3D> generatePointCloud(int nb) {
+		ArrayList<Point3D> cloud = new ArrayList<>();
 		for (int i = 0; i < nb; i++)
 			cloud.add(this.generatePoint());
 		return (cloud);

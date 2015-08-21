@@ -8,7 +8,8 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import eip.smart.model.agent.Agent;
-import eip.smart.model.geometry.Point;
+import eip.smart.model.geometry.v2.Point2D;
+import eip.smart.model.geometry.v2.Point3D;
 import eip.smart.model.proxy.FileModelingProxy;
 
 /**
@@ -118,8 +119,8 @@ public class Modeling implements Serializable {
 		return (res);
 	}
 
-	private double getDiffPoint(Point x, Point y) {
-		return (Math.abs((Math.abs(x.getX() - y.getX())) - (Math.abs(x.getY() - y.getY()))));
+	private double getDiffPoint(Point3D point3d, Point3D point3d2) {
+		return (Math.abs((Math.abs(point3d.getX() - point3d2.getX())) - (Math.abs(point3d.getY() - point3d2.getY()))));
 	}
 
 	public String getName() {

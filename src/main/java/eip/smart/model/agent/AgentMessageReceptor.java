@@ -1,11 +1,11 @@
 package eip.smart.model.agent;
 
-import eip.smart.model.geometry.Point;
+import eip.smart.model.geometry.v2.Point3D;
 
 public enum AgentMessageReceptor {
-	POSITION("position", new AgentMessageHandler<Point>(Point.class) {
+	POSITION("position", new AgentMessageHandler<Point3D>(Point3D.class) {
 		@Override
-		public void handleMessage(Point data, Agent agent) {
+		public void handleMessage(Point3D data, Agent agent) {
 			agent.setCurrentPosition(data);
 			agent.sendStatus(0, "ok");
 		}
