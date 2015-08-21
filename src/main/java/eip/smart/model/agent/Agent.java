@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import eip.smart.model.AgentType;
 import eip.smart.model.Area;
 import eip.smart.model.MessagePacket;
 import eip.smart.model.Modeling;

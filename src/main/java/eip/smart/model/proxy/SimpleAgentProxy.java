@@ -1,7 +1,7 @@
 package eip.smart.model.proxy;
 
-import eip.smart.model.AgentType;
 import eip.smart.model.agent.Agent;
+import eip.smart.model.agent.AgentType;
 
 /**
  * <b>SimpleAgentProxy is the class used to facilitating the shipment of an agent's data.</b>

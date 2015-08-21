@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import eip.smart.model.agent.Agent;
+import eip.smart.model.agent.AgentType;
 import eip.smart.model.geometry.Polygon;
 import eip.smart.model.geometry.v2.Point3D;
 import eip.smart.util.PointCloudGenerator;

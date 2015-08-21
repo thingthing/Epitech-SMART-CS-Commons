@@ -1,4 +1,4 @@
-package eip.smart.model;
+package eip.smart.model.agent;
 
 public enum AgentType {
 	AERIAL,
