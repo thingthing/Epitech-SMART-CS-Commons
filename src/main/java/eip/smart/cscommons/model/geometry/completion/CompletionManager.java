@@ -1,4 +1,4 @@
-package eip.smart.cscommons.model.geometry;
+package eip.smart.cscommons.model.geometry.completion;
 
 /**
  * Created by Vincent Buresi on 4/4/15.

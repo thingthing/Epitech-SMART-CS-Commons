@@ -1,4 +1,4 @@
-package eip.smart.cscommons.model.geometry.v2;
+package eip.smart.cscommons.model.geometry;
 
 import java.util.Collection;
 

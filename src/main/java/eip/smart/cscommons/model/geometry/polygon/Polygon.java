@@ -1,11 +1,11 @@
-package eip.smart.cscommons.model.geometry;
+package eip.smart.cscommons.model.geometry.polygon;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import eip.smart.cscommons.model.geometry.v2.Point2D;
+import eip.smart.cscommons.model.geometry.Point2D;
 
 /**
  * <b>Polygon is the class allowing to manage polygones.</b>

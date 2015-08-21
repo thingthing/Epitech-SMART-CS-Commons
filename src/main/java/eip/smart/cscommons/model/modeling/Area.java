@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import eip.smart.cscommons.model.JSONViews;
 import eip.smart.cscommons.model.agent.Agent;
 import eip.smart.cscommons.model.agent.AgentType;
-import eip.smart.cscommons.model.geometry.Polygon;
-import eip.smart.cscommons.model.geometry.v2.Point3D;
+import eip.smart.cscommons.model.geometry.Point3D;
+import eip.smart.cscommons.model.geometry.polygon.Polygon;
 
 /**
  * <b>Area is the class allowing to manage areas.</b>

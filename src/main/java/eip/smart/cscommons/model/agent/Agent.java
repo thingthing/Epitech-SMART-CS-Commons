@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import eip.smart.cscommons.model.JSONViews;
-import eip.smart.cscommons.model.geometry.v2.Point3D;
+import eip.smart.cscommons.model.geometry.Point3D;
 import eip.smart.cscommons.model.modeling.Area;
 
 /**

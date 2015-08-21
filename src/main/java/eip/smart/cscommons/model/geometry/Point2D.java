@@ -1,4 +1,4 @@
-package eip.smart.cscommons.model.geometry.v2;
+package eip.smart.cscommons.model.geometry;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;

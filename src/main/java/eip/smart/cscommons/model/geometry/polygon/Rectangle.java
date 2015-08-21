@@ -1,6 +1,6 @@
-package eip.smart.cscommons.model.geometry;
+package eip.smart.cscommons.model.geometry.polygon;
 
-import eip.smart.cscommons.model.geometry.v2.Point2D;
+import eip.smart.cscommons.model.geometry.Point2D;
 
 /**
  * <b>Rectangle is the class facilitating the creation of rectangles.</b>

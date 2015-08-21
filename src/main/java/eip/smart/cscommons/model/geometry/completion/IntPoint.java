@@ -1,6 +1,6 @@
-package eip.smart.cscommons.model.geometry;
+package eip.smart.cscommons.model.geometry.completion;
 
-import eip.smart.cscommons.model.geometry.v2.Point3D;
+import eip.smart.cscommons.model.geometry.Point3D;
 
 /**
  * Created by Vincent Buresi on 4/4/15.
@@ -25,7 +25,7 @@ public final class IntPoint {
 	}
 
 	/**
-	 * See {@link eip.smart.model.geometry.Point#add(Point)}
+	 * See {@link eip.smart.cscommons.model.geometry.Point#add(Point)}
 	 *
 	 * @param p2
 	 * @return
@@ -35,7 +35,7 @@ public final class IntPoint {
 	}
 
 	/**
-	 * See {@link eip.smart.model.geometry.Point#getDistance(Point)}
+	 * See {@link eip.smart.cscommons.model.geometry.Point#getDistance(Point)}
 	 *
 	 * @param p
 	 * @return
@@ -45,7 +45,7 @@ public final class IntPoint {
 	}
 
 	/**
-	 * See {@link eip.smart.model.geometry.Point#substract(Point)}
+	 * See {@link eip.smart.cscommons.model.geometry.Point#substract(Point)}
 	 *
 	 * @param p2
 	 * @return
