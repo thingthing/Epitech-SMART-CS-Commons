@@ -14,6 +14,10 @@ public class Point3D extends Vector3D implements Point {
 		System.out.println(toto);
 	}
 
+	public Point3D() {
+		super(0, 0);
+	}
+
 	/**
 	 * @see Vector3D#Vector3D(double, double)
 	 */

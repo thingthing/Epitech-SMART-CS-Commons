@@ -9,6 +9,10 @@ import eip.smart.cscommons.model.JSONViews;
 
 public class Point2D extends Vector2D implements Point {
 
+	public Point2D() {
+		super(0, 0);
+	}
+
 	/**
 	 * @see Vector2D#Vector2D(double, double)
 	 */

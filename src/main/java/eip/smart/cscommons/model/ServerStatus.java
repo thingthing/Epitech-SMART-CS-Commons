@@ -1,7 +1,13 @@
 package eip.smart.cscommons.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.MissingFormatArgumentException;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * <b>Status is the enum listing the different status and messages associated.</b>
@@ -9,6 +15,7 @@ import java.util.MissingFormatArgumentException;
  * @author Pierre Demessence
  *
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ServerStatus {
 	AGENT_ALREADY_ADDED("agent already added to current modeling"),
 	AGENT_NOT_ADDED("agent not in current modeling"),
@@ -33,6 +40,15 @@ public enum ServerStatus {
 				s.code = ServerStatus.next_code++;
 	}
 
+	@JsonCreator
+	private static ServerStatus fromObject(Map<String, Object> data) {
+		if (data.containsKey("code"))
+			for (ServerStatus status : ServerStatus.values())
+				if (status.getCode() == (int) data.get("code"))
+					return (status);
+		return null;
+	}
+
 	/**
 	 * Take as argument status'code and return the status
 	 *
@@ -47,7 +63,11 @@ public enum ServerStatus {
 		return (null);
 	}
 
+	@JsonView(JSONViews.ALL.class)
+	@JsonProperty("code")
 	private int					code;
+	@JsonView(JSONViews.ALL.class)
+	@JsonProperty("message")
 	private String				message;
 	private ArrayList<String>	objects	= new ArrayList<>();
 
