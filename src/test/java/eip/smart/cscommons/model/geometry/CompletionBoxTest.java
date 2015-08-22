@@ -1,4 +1,4 @@
-package eip.smart.model.geometry;
+package eip.smart.cscommons.model.geometry;
 
 import org.junit.Test;
 
