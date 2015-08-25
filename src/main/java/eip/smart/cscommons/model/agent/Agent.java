@@ -85,6 +85,8 @@ public class Agent implements Serializable {
 	@JsonView(JSONViews.IMPORTANT.class)
 	protected AgentType		type		= AgentType.TERRESTRIAL;
 
+	private Agent() {}
+
 	public Agent(Agent agent) {
 		this.bearings = agent.bearings;
 		this.connected = agent.connected;
