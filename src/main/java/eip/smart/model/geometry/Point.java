@@ -63,6 +63,27 @@ public final class Point implements Serializable {
 		return new Point(this.x + p.x, this.y + p.y, this.z + p.z);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Point))
+			return false;
+		Point other = (Point) obj;
+		if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x))
+			return false;
+		if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y))
+			return false;
+		if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z))
+			return false;
+		return true;
+	}
+
 	public double getDistance(Point p) {
 		return (Math.sqrt(Math.pow(this.x - p.x, 2) + Math.pow(this.y - p.y, 2) + Math.pow(this.z - p.z, 2)));
 	}
@@ -77,6 +98,23 @@ public final class Point implements Serializable {
 
 	public double getZ() {
 		return this.z;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(this.x);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(this.y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(this.z);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
 	}
 
 	/**
@@ -94,7 +132,7 @@ public final class Point implements Serializable {
 
 	/**
 	 * WARNING This function creates an approximation of the Point. Be aware that precision is lost through this call.
-	 * 
+	 *
 	 * @param precision
 	 *            a multiplier applied to the given point coordinates. Should never ever been 0.
 	 * @return a new IntPoint from this Point values
