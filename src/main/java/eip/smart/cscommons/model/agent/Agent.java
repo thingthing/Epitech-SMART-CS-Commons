@@ -104,6 +104,7 @@ public class Agent implements Serializable {
 		this.positions = agent.positions;
 		this.state = agent.state;
 		this.type = agent.type;
+		this.battery = agent.battery;
 	}
 
 	/**
