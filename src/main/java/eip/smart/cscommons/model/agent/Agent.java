@@ -22,6 +22,12 @@ import eip.smart.cscommons.model.modeling.Area;
 public class Agent implements Serializable {
 
 	/**
+	 * Double, the battery percentage
+	 */
+	@JsonView(JSONViews.ALL.class)
+	protected double		battery		= 0;
+
+	/**
 	 *
 	 */
 	@JsonView(JSONViews.ALL.class)
@@ -85,6 +91,7 @@ public class Agent implements Serializable {
 	@JsonView(JSONViews.IMPORTANT.class)
 	protected AgentType		type		= AgentType.TERRESTRIAL;
 
+	@SuppressWarnings("unused")
 	private Agent() {}
 
 	public Agent(Agent agent) {
@@ -127,6 +134,14 @@ public class Agent implements Serializable {
 		} else if (!this.name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	public double getBattery() {
+		return this.battery;
+	}
+
+	public List<Double> getBearings() {
+		return this.bearings;
 	}
 
 	@JsonIgnore
