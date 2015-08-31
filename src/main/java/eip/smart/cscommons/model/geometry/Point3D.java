@@ -9,13 +9,8 @@ import eip.smart.cscommons.model.JSONViews;
 
 public class Point3D extends Vector3D implements Point {
 
-	public static void main(String[] args) {
-		Point3D toto = new Point3D(new Point3D(Vector3D.ZERO).add(new Point3D(5, 4, 6)));
-		System.out.println(toto);
-	}
-
 	public Point3D() {
-		super(0, 0);
+		super(0, 0, 0);
 	}
 
 	/**
