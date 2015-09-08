@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import eip.smart.cscommons.model.JSONViews;
 import eip.smart.cscommons.model.agent.Agent;
+import eip.smart.cscommons.model.geometry.PointCloud3D;
 
 /**
  * <b>Modeling is the class allowing the management of the modelisations.</b>
@@ -32,6 +33,9 @@ public class Modeling implements Serializable {
 	 */
 	@JsonView({ JSONViews.ALL.class, JSONViews.DISK.class })
 	protected List<Area>			areas		= new ArrayList<>();
+
+	@JsonView({ JSONViews.DISK.class })
+	protected PointCloud3D			mapping		= new PointCloud3D();
 
 	/**
 	 * String allowing to identify the modeling
@@ -61,6 +65,7 @@ public class Modeling implements Serializable {
 		this.name = modeling.name;
 		this.tick = modeling.tick;
 		this.obsolete = modeling.obsolete;
+		this.mapping = modeling.mapping;
 	}
 
 	/**
@@ -114,6 +119,10 @@ public class Modeling implements Serializable {
 			res += a.getCompletion();
 		res /= this.areas.size();
 		return (res);
+	}
+
+	public PointCloud3D getMapping() {
+		return this.mapping;
 	}
 
 	public String getName() {
