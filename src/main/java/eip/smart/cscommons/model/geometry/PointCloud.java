@@ -1,5 +1,6 @@
 package eip.smart.cscommons.model.geometry;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import eip.smart.cscommons.model.JSONViews;
 
-public abstract class PointCloud<T extends Point> {
+public abstract class PointCloud<T extends Point> implements Serializable {
 
 	// TODO use configuration
 	private static final double	DBSCAN_DEFAULT_EPS		= 80;
