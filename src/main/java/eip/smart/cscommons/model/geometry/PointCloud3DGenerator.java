@@ -8,11 +8,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PointCloud3DGenerator {
 
-	private Random	rng			= null;
-
-	private int		precision	= 3;
-	private double	min			= -42.0d;
 	private double	max			= 42.0d;
+
+	private double	min			= -42.0d;
+	private int		precision	= 3;
+	private Random	rng			= new Random();
 
 	public PointCloud3DGenerator() {}
 
@@ -22,7 +22,11 @@ public class PointCloud3DGenerator {
 		this.max = max;
 	}
 
-	private Point3D generatePoint() {
+	public Point3D generateIntPoint() {
+		return (new Point3D(this.getRandomInt(), this.getRandomInt(), this.getRandomInt()));
+	}
+
+	public Point3D generatePoint() {
 		return (new Point3D(this.getRandomDouble(), this.getRandomDouble(), this.getRandomDouble()));
 	}
 
@@ -47,10 +51,12 @@ public class PointCloud3DGenerator {
 
 	private double getRandomDouble() {
 		double res;
-		if (this.rng == null)
-			this.rng = new Random();
 		res = (this.min + this.rng.nextDouble() * ((this.max - this.min) + 1));
 		res = new BigDecimal(res).setScale(this.precision, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return (res);
+	}
+
+	private int getRandomInt() {
+		return this.rng.nextInt((int) this.max - (int) this.min) + (int) this.min;
 	}
 }

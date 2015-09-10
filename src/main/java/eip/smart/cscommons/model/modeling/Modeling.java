@@ -56,11 +56,13 @@ public class Modeling implements Serializable {
 	 * default constructor
 	 */
 	public Modeling() {
-		this.areas.add(new Area());
+		this.agents = new ArrayList<>();
 	}
 
 	public Modeling(Modeling modeling) {
-		this.agents = modeling.agents;
+		this();
+		if (modeling.agents != null)
+			this.agents.addAll(modeling.agents);
 		this.areas = modeling.areas;
 		this.name = modeling.name;
 		this.tick = modeling.tick;
@@ -75,9 +77,8 @@ public class Modeling implements Serializable {
 	 *            name that the modeling'll have
 	 */
 	public Modeling(String name) {
+		this();
 		this.name = name;
-		// this.areas.add(new Area());
-		// this.areas.add(new Area());
 	}
 
 	/* (non-Javadoc)
