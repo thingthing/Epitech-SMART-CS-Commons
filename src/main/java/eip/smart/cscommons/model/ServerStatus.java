@@ -27,6 +27,7 @@ public enum ServerStatus {
 	MISSING_PARAMETER("missing parameter %s"),
 	MODELING_ALREADY_CURRENT("a modeling is already loaded"),
 	MODELING_NO_CURRENT("no current modeling"),
+	MODELING_OBSOLETE("modeling %s is obsolete"),
 	MODELING_STATE_ERROR("%s"),
 	NOT_FOUND("%s with %s %s not found"),
 	OK(0, "ok"),
