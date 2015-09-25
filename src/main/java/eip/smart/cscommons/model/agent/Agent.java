@@ -108,7 +108,7 @@ public class Agent implements Serializable {
 		this.lastContact = agent.lastContact;
 		this.name = agent.name;
 		this.orders = agent.orders;
-		this.positions = agent.positions;
+		this.setPositions(agent.positions);
 		this.state = agent.state;
 		this.type = agent.type;
 		this.battery = agent.battery;
@@ -170,7 +170,8 @@ public class Agent implements Serializable {
 	public Point3D getCurrentPosition() {
 		if (this.positions.isEmpty())
 			return (null);
-		return (this.getPositions().get(0));
+		System.out.println(this.positions);
+		return (this.positions.get(this.positions.firstKey()));
 	}
 
 	public Area getDestination() {
@@ -223,6 +224,10 @@ public class Agent implements Serializable {
 
 	public void popCurrentOrder() {
 		this.orders.remove(0);
+	}
+
+	private void setPositions(SortedMap<Date, Point3D> positions) {
+		this.positions.putAll(positions);
 	}
 
 }
