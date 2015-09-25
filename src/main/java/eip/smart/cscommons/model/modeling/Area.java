@@ -25,13 +25,13 @@ public class Area implements Serializable {
 	 *
 	 * @see Agent
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private ArrayList<AgentType>	capableAgentTypes	= new ArrayList<>();
 
 	/**
 	 * completion level (double) of the area
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private double					completion			= 0.0d;
 
 	/**
@@ -39,19 +39,19 @@ public class Area implements Serializable {
 	 *
 	 * @see Point
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private ArrayList<Point3D>		points				= new ArrayList<>();
 
 	/**
 	 * number (int), define the priority level of the area, this level will be taken into account fot the agents'direction.
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private int						priority			= 0;
 
 	/**
 	 * Expressed in Point / (unit of polygon surface)
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private int						requiredDensity		= 1000;
 
 	/**
@@ -59,13 +59,13 @@ public class Area implements Serializable {
 	 *
 	 * @see Area
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private ArrayList<Area>			subAreas			= new ArrayList<>();
 
 	/**
 	 * polygones'array (ArrayList<Polygon>), allowing to define the shape and the place of the area
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private ArrayList<Polygon>		zoneToMap			= new ArrayList<>();
 
 	/**

@@ -17,7 +17,7 @@ public abstract class PointCloud<T extends Point> implements Serializable {
 	private static final double	DBSCAN_DEFAULT_EPS		= 80;
 	private static final int	DBSCAN_DEFAULT_MINPTS	= 3;
 
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	private List<T>				points					= new ArrayList<>();
 
 	public void add(List<T> points) {

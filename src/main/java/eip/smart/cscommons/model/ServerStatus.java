@@ -64,10 +64,10 @@ public enum ServerStatus {
 		return (null);
 	}
 
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	@JsonProperty("code")
 	private int					code;
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	@JsonProperty("message")
 	private String				message;
 	private ArrayList<String>	objects	= new ArrayList<>();

@@ -23,7 +23,7 @@ public class Modeling implements Serializable {
 	 *
 	 * @see Agent
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected transient List<Agent>	agents		= new ArrayList<>();
 
 	/**
@@ -31,7 +31,7 @@ public class Modeling implements Serializable {
 	 *
 	 * @see Area
 	 */
-	@JsonView({ JSONViews.ALL.class, JSONViews.DISK.class })
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	protected List<Area>			areas		= new ArrayList<>();
 
 	@JsonView({ JSONViews.DISK.class })
@@ -40,16 +40,16 @@ public class Modeling implements Serializable {
 	/**
 	 * String allowing to identify the modeling
 	 */
-	@JsonView({ JSONViews.IMPORTANT.class, JSONViews.DISK.class })
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	protected String				name		= "";
 
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected boolean				obsolete	= false;
 
 	/**
 	 * long, number of uses of the "run" method by the modeling
 	 */
-	@JsonView({ JSONViews.IMPORTANT.class, JSONViews.DISK.class })
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	protected long					tick		= 0;
 
 	/**
@@ -109,7 +109,7 @@ public class Modeling implements Serializable {
 		return (this.areas);
 	}
 
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	public double getCompletion() {
 		double res = 0;
 

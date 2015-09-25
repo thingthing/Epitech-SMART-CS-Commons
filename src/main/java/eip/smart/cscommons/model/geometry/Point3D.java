@@ -71,19 +71,19 @@ public class Point3D extends Vector3D implements Point {
 		return this.toArray();
 	}
 
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	@Override
 	public double getX() {
 		return super.getX();
 	}
 
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	@Override
 	public double getY() {
 		return super.getY();
 	}
 
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	@Override
 	public double getZ() {
 		return super.getZ();

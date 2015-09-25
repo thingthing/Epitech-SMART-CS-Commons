@@ -1,7 +1,6 @@
 package eip.smart.cscommons.model.agent;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -28,22 +27,22 @@ public class Agent implements Serializable {
 	/**
 	 * Double, the battery percentage
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected double					battery				= 0;
 
 	/**
 	 *
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected List<Double>				bearings			= new LinkedList<>();
 
 	/**
 	 * Boolean, allowing to define if the agent is connected
 	 */
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected boolean					connected			= false;
 
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected Point3D					currentDestination	= null;
 
 	/**
@@ -51,19 +50,19 @@ public class Agent implements Serializable {
 	 *
 	 * @see Area
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected Area						destination			= null;
 
 	/**
 	 * agent's last contact's date (Date), allowing to determine it state
 	 */
-	@JsonView(JSONViews.ALL.class)
-	protected Date						lastContact			= Date.from(Instant.now());
+	@JsonView(JSONViews.HTTP.class)
+	protected Date						lastContact			= new Date();
 
 	/**
 	 * Name (String), single id
 	 */
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected String					name				= "";
 
 	/**
@@ -71,7 +70,7 @@ public class Agent implements Serializable {
 	 *
 	 * @see Point
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected List<Point3D>				orders				= new LinkedList<>();
 
 	/**
@@ -79,7 +78,7 @@ public class Agent implements Serializable {
 	 *
 	 * @see Point
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected SortedMap<Date, Point3D>	positions			= new TreeMap<>(Collections.reverseOrder());
 
 	/**
@@ -87,7 +86,7 @@ public class Agent implements Serializable {
 	 *
 	 * @see AgentState
 	 */
-	@JsonView(JSONViews.ALL.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected AgentState				state				= AgentState.OK;
 
 	/**
@@ -95,7 +94,7 @@ public class Agent implements Serializable {
 	 *
 	 * @see AgentType
 	 */
-	@JsonView(JSONViews.IMPORTANT.class)
+	@JsonView(JSONViews.HTTP.class)
 	protected AgentType					type				= AgentType.TERRESTRIAL;
 
 	@SuppressWarnings("unused")
