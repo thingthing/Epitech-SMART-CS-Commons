@@ -162,7 +162,7 @@ public class Agent implements Serializable {
 
 	@JsonIgnore
 	public Point3D getCurrentOrder() {
-		return (this.orders.get(0));
+		return (this.orders.size() > 0 ? this.orders.get(0) : null);
 	}
 
 	@JsonIgnore
