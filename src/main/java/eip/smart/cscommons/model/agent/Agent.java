@@ -170,7 +170,6 @@ public class Agent implements Serializable {
 	public Point3D getCurrentPosition() {
 		if (this.positions.isEmpty())
 			return (null);
-		System.out.println(this.positions);
 		return (this.positions.get(this.positions.firstKey()));
 	}
 
