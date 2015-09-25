@@ -4,13 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 /**
  * Configuration class to store and load properties.
@@ -125,10 +122,10 @@ public class Configuration {
 	/**
 	 * Print the current configuration to standard output.
 	 */
-	public ArrayList<ImmutablePair<String, String>> getProperties() {
-		ArrayList<ImmutablePair<String, String>> list = new ArrayList<>();
+	public HashMap<String, String> getProperties() {
+		HashMap<String, String> list = new HashMap<>();
 		for (String key : this.getKeys())
-			list.add(new ImmutablePair<>(key, this.getProperty(key)));
+			list.put(key, this.getProperty(key));
 		return (list);
 	}
 
