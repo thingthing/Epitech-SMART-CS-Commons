@@ -2,9 +2,13 @@ package eip.smart.cscommons.model.agent;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -25,22 +29,22 @@ public class Agent implements Serializable {
 	 * Double, the battery percentage
 	 */
 	@JsonView(JSONViews.ALL.class)
-	protected double		battery				= 0;
+	protected double					battery				= 0;
 
 	/**
 	 *
 	 */
 	@JsonView(JSONViews.ALL.class)
-	protected List<Double>	bearings			= new LinkedList<>();
+	protected List<Double>				bearings			= new LinkedList<>();
 
 	/**
 	 * Boolean, allowing to define if the agent is connected
 	 */
 	@JsonView(JSONViews.IMPORTANT.class)
-	protected boolean		connected			= false;
+	protected boolean					connected			= false;
 
 	@JsonView(JSONViews.ALL.class)
-	protected Point3D		currentDestination	= null;
+	protected Point3D					currentDestination	= null;
 
 	/**
 	 * destination area (Area), that the agent'll has to explore if the ordrers list is free
@@ -48,19 +52,19 @@ public class Agent implements Serializable {
 	 * @see Area
 	 */
 	@JsonView(JSONViews.ALL.class)
-	protected Area			destination			= null;
+	protected Area						destination			= null;
 
 	/**
 	 * agent's last contact's date (Date), allowing to determine it state
 	 */
 	@JsonView(JSONViews.ALL.class)
-	protected Date			lastContact			= Date.from(Instant.now());
+	protected Date						lastContact			= Date.from(Instant.now());
 
 	/**
 	 * Name (String), single id
 	 */
 	@JsonView(JSONViews.IMPORTANT.class)
-	protected String		name				= "";
+	protected String					name				= "";
 
 	/**
 	 * List of orders (LinkedList<Point>), the positions where the agent has to go
@@ -68,7 +72,7 @@ public class Agent implements Serializable {
 	 * @see Point
 	 */
 	@JsonView(JSONViews.ALL.class)
-	protected List<Point3D>	orders				= new LinkedList<>();
+	protected List<Point3D>				orders				= new LinkedList<>();
 
 	/**
 	 * List of the previous positions of the agent (LinkedList<Point>), the last one being the last known position
@@ -76,7 +80,7 @@ public class Agent implements Serializable {
 	 * @see Point
 	 */
 	@JsonView(JSONViews.ALL.class)
-	protected List<Point3D>	positions			= new LinkedList<>();
+	protected SortedMap<Date, Point3D>	positions			= new TreeMap<>(Collections.reverseOrder());
 
 	/**
 	 * State (AgentState), allowing to define the agent's state (ok, still, lost, etc)
@@ -84,7 +88,7 @@ public class Agent implements Serializable {
 	 * @see AgentState
 	 */
 	@JsonView(JSONViews.ALL.class)
-	protected AgentState	state				= AgentState.OK;
+	protected AgentState				state				= AgentState.OK;
 
 	/**
 	 * Type (AgentType), allowing to define the environment where the agent is able to progress
@@ -92,7 +96,7 @@ public class Agent implements Serializable {
 	 * @see AgentType
 	 */
 	@JsonView(JSONViews.IMPORTANT.class)
-	protected AgentType		type				= AgentType.TERRESTRIAL;
+	protected AgentType					type				= AgentType.TERRESTRIAL;
 
 	@SuppressWarnings("unused")
 	private Agent() {}
@@ -166,7 +170,7 @@ public class Agent implements Serializable {
 	public Point3D getCurrentPosition() {
 		if (this.positions.isEmpty())
 			return (null);
-		return (this.positions.get(0));
+		return (this.getPositions().get(0));
 	}
 
 	public Area getDestination() {
@@ -186,7 +190,7 @@ public class Agent implements Serializable {
 	}
 
 	public List<Point3D> getPositions() {
-		return (this.positions);
+		return (new ArrayList<>(this.positions.values()));
 	}
 
 	public AgentState getState() {
