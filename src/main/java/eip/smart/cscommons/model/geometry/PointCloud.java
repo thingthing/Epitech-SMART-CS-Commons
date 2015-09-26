@@ -1,8 +1,10 @@
 package eip.smart.cscommons.model.geometry;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.math3.ml.clustering.Cluster;
 import org.apache.commons.math3.ml.clustering.DBSCANClusterer;
@@ -18,7 +20,7 @@ public abstract class PointCloud<T extends Point> implements Serializable {
 	private static final int	DBSCAN_DEFAULT_MINPTS	= 3;
 
 	@JsonView(JSONViews.HTTP.class)
-	private List<T>				points					= new ArrayList<>();
+	private Set<T>				points					= new HashSet<>();
 
 	public void add(List<T> points) {
 		for (T point : points)
@@ -47,6 +49,8 @@ public abstract class PointCloud<T extends Point> implements Serializable {
 
 	public List<T> getPoints() {
 		// TODO Create a copy so it can't be modified.
-		return this.points;
+		List<T> res = Collections.emptyList();
+		res.addAll(this.points);
+		return res;
 	}
 }
