@@ -17,7 +17,6 @@ import eip.smart.cscommons.model.geometry.PointCloud3D;
  */
 
 public class Modeling implements Serializable {
-
 	/**
 	 * Agent'sarray, list the agents used on this modeling
 	 *
@@ -25,7 +24,6 @@ public class Modeling implements Serializable {
 	 */
 	@JsonView(JSONViews.HTTP.class)
 	protected transient List<Agent>	agents		= new ArrayList<>();
-
 	/**
 	 * Areas'array, list the areas that have to be modelised
 	 *
@@ -46,6 +44,7 @@ public class Modeling implements Serializable {
 	@JsonView(JSONViews.HTTP.class)
 	protected boolean				obsolete	= false;
 
+	@JsonView({ JSONViews.HTTP.class })
 	protected ModelingState			state		= ModelingState.STOPPED;
 
 	/**
@@ -131,6 +130,10 @@ public class Modeling implements Serializable {
 
 	public String getName() {
 		return (this.name);
+	}
+
+	public ModelingState getState() {
+		return this.state;
 	}
 
 	public long getTick() {
