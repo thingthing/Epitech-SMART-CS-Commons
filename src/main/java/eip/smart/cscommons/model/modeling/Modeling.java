@@ -46,6 +46,8 @@ public class Modeling implements Serializable {
 	@JsonView(JSONViews.HTTP.class)
 	protected boolean				obsolete	= false;
 
+	protected ModelingState			state		= ModelingState.STOPPED;
+
 	/**
 	 * long, number of uses of the "run" method by the modeling
 	 */
@@ -68,6 +70,7 @@ public class Modeling implements Serializable {
 		this.tick = modeling.tick;
 		this.obsolete = modeling.obsolete;
 		this.mapping = modeling.mapping;
+		this.state = modeling.state;
 	}
 
 	/**
