@@ -50,7 +50,7 @@ public class Modeling implements Serializable {
 	/**
 	 * long, number of uses of the "run" method by the modeling
 	 */
-	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	@JsonView({ JSONViews.DISK.class })
 	protected long			tick		= 0;
 
 	/**
