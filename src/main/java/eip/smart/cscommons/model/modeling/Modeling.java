@@ -23,35 +23,35 @@ public class Modeling implements Serializable {
 	 * @see Agent
 	 */
 	@JsonView(JSONViews.HTTP.class)
-	protected transient List<Agent>	agents		= new ArrayList<>();
+	protected List<Agent>	agents		= new ArrayList<>();
 	/**
 	 * Areas'array, list the areas that have to be modelised
 	 *
 	 * @see Area
 	 */
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
-	protected List<Area>			areas		= new ArrayList<>();
+	protected List<Area>	areas		= new ArrayList<>();
 
 	@JsonView({ JSONViews.DISK.class })
-	protected PointCloud3D			mapping		= new PointCloud3D();
+	protected PointCloud3D	mapping		= new PointCloud3D();
 
 	/**
 	 * String allowing to identify the modeling
 	 */
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
-	protected String				name		= "";
+	protected String		name		= "";
 
 	@JsonView(JSONViews.HTTP.class)
-	protected boolean				obsolete	= false;
+	protected boolean		obsolete	= false;
 
 	@JsonView({ JSONViews.HTTP.class })
-	protected ModelingState			state		= ModelingState.STOPPED;
+	protected ModelingState	state		= ModelingState.STOPPED;
 
 	/**
 	 * long, number of uses of the "run" method by the modeling
 	 */
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
-	protected long					tick		= 0;
+	protected long			tick		= 0;
 
 	/**
 	 * default constructor
