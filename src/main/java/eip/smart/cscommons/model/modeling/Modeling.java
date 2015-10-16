@@ -17,41 +17,51 @@ import eip.smart.cscommons.model.geometry.PointCloud3D;
  */
 
 public class Modeling implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long	serialVersionUID	= 1L;
+
 	/**
 	 * Agent'sarray, list the agents used on this modeling
 	 *
 	 * @see Agent
 	 */
 	@JsonView(JSONViews.HTTP.class)
-	protected List<Agent>	agents		= new ArrayList<>();
+	protected List<Agent>		agents				= new ArrayList<>();
+
 	/**
 	 * Areas'array, list the areas that have to be modelised
 	 *
 	 * @see Area
 	 */
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
-	protected List<Area>	areas		= new ArrayList<>();
+	protected List<Area>		areas				= new ArrayList<>();
+
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	protected double			completion			= 0;
 
 	@JsonView({ JSONViews.DISK.class })
-	protected PointCloud3D	mapping		= new PointCloud3D();
+	protected PointCloud3D		mapping				= new PointCloud3D();
 
 	/**
 	 * String allowing to identify the modeling
 	 */
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
-	protected String		name		= "";
+	protected String			name				= "";
 
 	@JsonView(JSONViews.HTTP.class)
-	protected boolean		obsolete	= false;
+	protected boolean			obsolete			= false;
 
 	@JsonView({ JSONViews.HTTP.class })
-	protected ModelingState	state		= ModelingState.STOPPED;
+	protected ModelingState		state				= ModelingState.STOPPED;
 
 	/**
 	 * long, number of uses of the "run" method by the modeling
 	 */
 	@JsonView({ JSONViews.DISK.class })
-	protected long			tick		= 0;
+	protected long				tick				= 0;
 
 	/**
 	 * default constructor
@@ -111,17 +121,8 @@ public class Modeling implements Serializable {
 		return (this.areas);
 	}
 
-	@JsonView(JSONViews.HTTP.class)
 	public double getCompletion() {
-		double res = 0;
-
-		if (this.areas.size() == 0)
-			return (100.0d);
-
-		for (Area a : this.areas)
-			res += a.getCompletion();
-		res /= this.areas.size();
-		return (res);
+		return (this.completion);
 	}
 
 	public PointCloud3D getMapping() {
