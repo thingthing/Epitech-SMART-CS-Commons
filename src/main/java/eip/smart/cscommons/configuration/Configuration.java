@@ -136,7 +136,8 @@ public class Configuration {
 	 */
 	public String getProperty(String key) {
 		this.load();
-		return (this.properties.getProperty(key));
+		String res = this.properties.getProperty(key);
+		return (res == null ? "" : res);
 	}
 
 	/**
@@ -145,7 +146,11 @@ public class Configuration {
 	 * @see java.util.Properties#getProperty(java.lang.String)
 	 */
 	public int getPropertyInteger(String key) {
-		return (Integer.parseInt(this.getProperty(key)));
+		try {
+			return (Integer.parseInt(this.getProperty(key)));
+		} catch (NumberFormatException e) {
+			return (0);
+		}
 	}
 
 	/**
