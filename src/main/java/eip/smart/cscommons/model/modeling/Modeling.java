@@ -55,7 +55,7 @@ public class Modeling implements Serializable {
 	protected boolean			obsolete			= false;
 
 	@JsonView({ JSONViews.HTTP.class })
-	protected ModelingState		state				= ModelingState.STOPPED;
+	protected ModelingState		state				= ModelingState.UNLOADED;
 
 	/**
 	 * long, number of uses of the "run" method by the modeling
