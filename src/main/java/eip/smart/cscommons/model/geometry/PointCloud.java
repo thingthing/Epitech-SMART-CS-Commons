@@ -53,4 +53,8 @@ public abstract class PointCloud<T extends Point> implements Serializable {
 		res.addAll(this.points);
 		return res;
 	}
+
+	public int size() {
+		return this.points.size();
+	}
 }

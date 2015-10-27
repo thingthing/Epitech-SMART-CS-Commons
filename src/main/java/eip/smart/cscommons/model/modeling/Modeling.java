@@ -133,6 +133,11 @@ public class Modeling implements Serializable {
 		return (this.name);
 	}
 
+	@JsonView({ JSONViews.HTTP.class })
+	public int getNbPoints() {
+		return (this.mapping.size());
+	}
+
 	public ModelingState getState() {
 		return this.state;
 	}
