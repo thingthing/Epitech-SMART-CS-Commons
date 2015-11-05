@@ -1,7 +1,7 @@
 package eip.smart.cscommons.model.geometry;
 
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,7 +49,7 @@ public abstract class PointCloud<T extends Point> implements Serializable {
 
 	public List<T> getPoints() {
 		// TODO Create a copy so it can't be modified.
-		List<T> res = Collections.emptyList();
+		List<T> res = new ArrayList<>();// Collections.emptyList();
 		res.addAll(this.points);
 		return res;
 	}
