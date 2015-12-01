@@ -67,7 +67,7 @@ public class Modeling implements Serializable {
 	/**
 	 * long, number of uses of the "run" method by the modeling
 	 */
-	@JsonView({ JSONViews.DISK.class })
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	protected long				tick				= 0;
 
 	/**
@@ -86,7 +86,6 @@ public class Modeling implements Serializable {
 		this.tick = modeling.tick;
 		this.obsolete = modeling.obsolete;
 		this.mapping = modeling.mapping;
-		this.state = modeling.state;
 	}
 
 	/**
