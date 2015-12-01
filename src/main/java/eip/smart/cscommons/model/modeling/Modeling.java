@@ -2,6 +2,7 @@ package eip.smart.cscommons.model.modeling;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -42,8 +43,14 @@ public class Modeling implements Serializable {
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	protected double			completion			= 0;
 
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	protected Date				lastSave			= null;
+
 	@JsonView({ JSONViews.DISK.class })
 	protected PointCloud3D		mapping				= new PointCloud3D();
+
+	@JsonView({ JSONViews.HTTP.class })
+	protected boolean			modified			= false;
 
 	/**
 	 * String allowing to identify the modeling
@@ -125,6 +132,10 @@ public class Modeling implements Serializable {
 		return (this.completion);
 	}
 
+	public Date getLastSave() {
+		return this.lastSave;
+	}
+
 	public PointCloud3D getMapping() {
 		return this.mapping;
 	}
@@ -155,6 +166,10 @@ public class Modeling implements Serializable {
 		int result = 1;
 		result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
 		return result;
+	}
+
+	public boolean isModified() {
+		return this.modified;
 	}
 
 	public boolean isObsolete() {
