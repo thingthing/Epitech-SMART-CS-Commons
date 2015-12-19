@@ -9,6 +9,8 @@ import eip.smart.cscommons.model.JSONViews;
 
 public class Point3D extends Vector3D implements Point {
 
+	private Color color = new Color(java.awt.Color.BLACK);
+
 	public Point3D() {
 		super(0, 0, 0);
 	}
@@ -62,8 +64,20 @@ public class Point3D extends Vector3D implements Point {
 		super(v);
 	}
 
+	public Point3D(float x, float y, float z, float r, float g, float b, float a) {
+		this(x, y, z);
+		try {
+			this.color = new Color(Math.round(r), Math.round(g), Math.round(b), (int) a);
+		} catch (Exception e) {}
+	}
+
 	public Point3D(Vector3D u) {
 		this(u.getX(), u.getY(), u.getZ());
+	}
+
+	@JsonView({ JSONViews.HTTP.class })
+	public Color getColor() {
+		return this.color;
 	}
 
 	@Override
