@@ -40,6 +40,10 @@ public class Color extends java.awt.Color {
 		this(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 	}
 
+	public Color() {
+		super(0, 0, 0);
+	}
+
 	@JsonView({ JSONViews.HTTP.class })
 	@Override
 	public int getAlpha() {
