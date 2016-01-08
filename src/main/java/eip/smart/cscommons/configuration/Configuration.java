@@ -1,5 +1,8 @@
 package eip.smart.cscommons.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,6 +23,8 @@ public class Configuration {
 	 * Folder where config files will be stored.
 	 */
 	public static String						CONFIG_DIR			= "";
+
+	protected static Logger LOGGER		= LoggerFactory.getLogger(Configuration.class);
 
 	/**
 	 * Extension for config files.
@@ -169,7 +174,7 @@ public class Configuration {
 				in = new FileInputStream(this.configFile);
 				this.properties.loadFromXML(in);
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.warn("Error", e);
 			}
 			if (in != null)
 				try {

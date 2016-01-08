@@ -1,17 +1,15 @@
 package eip.smart.cscommons.model.geometry;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import eip.smart.cscommons.model.JSONViews;
+import org.apache.commons.math3.ml.clustering.Cluster;
+import org.apache.commons.math3.ml.clustering.DBSCANClusterer;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.math3.ml.clustering.Cluster;
-import org.apache.commons.math3.ml.clustering.DBSCANClusterer;
-
-import com.fasterxml.jackson.annotation.JsonView;
-
-import eip.smart.cscommons.model.JSONViews;
 
 public abstract class PointCloud<T extends Point> implements Serializable {
 
@@ -19,7 +17,7 @@ public abstract class PointCloud<T extends Point> implements Serializable {
 	private static final double	DBSCAN_DEFAULT_EPS		= 80;
 	private static final int	DBSCAN_DEFAULT_MINPTS	= 3;
 
-	@JsonView(JSONViews.HTTP.class)
+	@JsonView({JSONViews.HTTP.class, JSONViews.DISK.class})
 	private Set<T>				points					= new HashSet<>();
 
 	public void add(List<T> points) {

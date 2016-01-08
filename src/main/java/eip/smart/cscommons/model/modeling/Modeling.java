@@ -1,15 +1,14 @@
 package eip.smart.cscommons.model.modeling;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import eip.smart.cscommons.model.JSONViews;
+import eip.smart.cscommons.model.agent.Agent;
+import eip.smart.cscommons.model.geometry.PointCloud3D;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonView;
-
-import eip.smart.cscommons.model.JSONViews;
-import eip.smart.cscommons.model.agent.Agent;
-import eip.smart.cscommons.model.geometry.PointCloud3D;
 
 /**
  * <b>Modeling is the class allowing the management of the modelisations.</b>
@@ -46,7 +45,7 @@ public class Modeling implements Serializable {
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	protected Date				lastSave			= null;
 
-	@JsonView({ JSONViews.DISK.class })
+	@JsonView()
 	protected PointCloud3D		mapping				= new PointCloud3D();
 
 	@JsonView({ JSONViews.HTTP.class })
@@ -70,22 +69,27 @@ public class Modeling implements Serializable {
 	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	protected long				tick				= 0;
 
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	protected int nbPoints = 0;
+
 	/**
 	 * default constructor
 	 */
 	public Modeling() {
 		this.agents = new ArrayList<>();
+		this.nbPoints = this.mapping.size();
 	}
 
 	public Modeling(Modeling modeling) {
-		this();
+		this(modeling.name);
 		if (modeling.agents != null)
 			this.agents.addAll(modeling.agents);
 		this.areas = modeling.areas;
-		this.name = modeling.name;
 		this.tick = modeling.tick;
 		this.obsolete = modeling.obsolete;
 		this.mapping = modeling.mapping;
+		this.lastSave = modeling.lastSave;
+		this.nbPoints = modeling.nbPoints;
 	}
 
 	/**
@@ -95,8 +99,8 @@ public class Modeling implements Serializable {
 	 *            name that the modeling'll have
 	 */
 	public Modeling(String name) {
-		this();
-		this.name = name;
+        this();
+        this.name = name;
 	}
 
 	/* (non-Javadoc)
@@ -143,9 +147,8 @@ public class Modeling implements Serializable {
 		return (this.name);
 	}
 
-	@JsonView({ JSONViews.HTTP.class })
 	public int getNbPoints() {
-		return (this.mapping.size());
+		return (this.nbPoints);
 	}
 
 	public ModelingState getState() {

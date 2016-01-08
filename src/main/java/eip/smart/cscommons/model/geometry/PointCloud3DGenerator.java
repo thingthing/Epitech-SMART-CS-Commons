@@ -1,10 +1,10 @@
 package eip.smart.cscommons.model.geometry;
 
-import java.math.BigDecimal;
-import java.util.Random;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.math.BigDecimal;
+import java.util.Random;
 
 public class PointCloud3DGenerator {
 
@@ -27,7 +27,9 @@ public class PointCloud3DGenerator {
 	}
 
 	public Point3D generatePoint() {
-		return (new Point3D(this.getRandomDouble(), this.getRandomDouble(), this.getRandomDouble()));
+		Point3D p = new Point3D(this.getRandomDouble(), this.getRandomDouble(), this.getRandomDouble());
+		p.setColor(new Color(java.awt.Color.WHITE));
+		return (p);
 	}
 
 	public PointCloud3D generatePointCloud(int nb) {

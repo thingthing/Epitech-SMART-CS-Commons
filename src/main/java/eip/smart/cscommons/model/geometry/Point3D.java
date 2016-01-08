@@ -9,6 +9,7 @@ import eip.smart.cscommons.model.JSONViews;
 
 public class Point3D extends Vector3D implements Point {
 
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
 	private Color color = new Color(java.awt.Color.BLACK);
 
 	public Point3D() {
@@ -64,6 +65,10 @@ public class Point3D extends Vector3D implements Point {
 		super(v);
 	}
 
+	public void setColor(Color c) {
+		this.color = c;
+	}
+
 	public Point3D(float x, float y, float z, float r, float g, float b, float a) {
 		this(x, y, z);
 		try {
@@ -75,7 +80,6 @@ public class Point3D extends Vector3D implements Point {
 		this(u.getX(), u.getY(), u.getZ());
 	}
 
-	@JsonView({ JSONViews.HTTP.class })
 	public Color getColor() {
 		return this.color;
 	}
@@ -85,19 +89,19 @@ public class Point3D extends Vector3D implements Point {
 		return this.toArray();
 	}
 
-	@JsonView({ JSONViews.HTTP.class, JSONViews.TCP.class })
+	@JsonView({ JSONViews.HTTP.class, JSONViews.TCP.class, JSONViews.DISK.class })
 	@Override
 	public double getX() {
 		return super.getX();
 	}
 
-	@JsonView({ JSONViews.HTTP.class, JSONViews.TCP.class })
+	@JsonView({ JSONViews.HTTP.class, JSONViews.TCP.class, JSONViews.DISK.class })
 	@Override
 	public double getY() {
 		return super.getY();
 	}
 
-	@JsonView({ JSONViews.HTTP.class, JSONViews.TCP.class })
+	@JsonView({ JSONViews.HTTP.class, JSONViews.TCP.class, JSONViews.DISK.class })
 	@Override
 	public double getZ() {
 		return super.getZ();

@@ -1,39 +1,31 @@
 package eip.smart.cscommons.model.geometry;
 
-import java.awt.color.ColorSpace;
-
 import com.fasterxml.jackson.annotation.JsonView;
-
 import eip.smart.cscommons.model.JSONViews;
 
-public class Color extends java.awt.Color {
+public class Color {
 
-	public Color(ColorSpace cspace, float[] components, float alpha) {
-		super(cspace, components, alpha);
-	}
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	private float red;
+
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	private float green;
+
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	private float blue;
+
+	@JsonView({ JSONViews.HTTP.class, JSONViews.DISK.class })
+	private float alpha;
 
 	public Color(float r, float g, float b) {
-		super(r, g, b);
+		this(r, g, b, 0);
 	}
 
 	public Color(float r, float g, float b, float a) {
-		super(r, g, b, a);
-	}
-
-	public Color(int rgb) {
-		super(rgb);
-	}
-
-	public Color(int rgba, boolean hasalpha) {
-		super(rgba, hasalpha);
-	}
-
-	public Color(int r, int g, int b) {
-		super(r, g, b);
-	}
-
-	public Color(int r, int g, int b, int a) {
-		super(r, g, b, a);
+		this.red = r;
+		this.green = g;
+		this.blue = b;
+		this.alpha = a;
 	}
 
 	public Color(java.awt.Color color) {
@@ -41,31 +33,7 @@ public class Color extends java.awt.Color {
 	}
 
 	public Color() {
-		super(0, 0, 0);
-	}
-
-	@JsonView({ JSONViews.HTTP.class })
-	@Override
-	public int getAlpha() {
-		return super.getAlpha();
-	}
-
-	@JsonView({ JSONViews.HTTP.class })
-	@Override
-	public int getBlue() {
-		return super.getBlue();
-	}
-
-	@JsonView({ JSONViews.HTTP.class })
-	@Override
-	public int getGreen() {
-		return super.getGreen();
-	}
-
-	@JsonView({ JSONViews.HTTP.class })
-	@Override
-	public int getRed() {
-		return super.getRed();
+		this(0, 0, 0);
 	}
 
 }
