@@ -1,13 +1,13 @@
 package eip.smart.cscommons.model;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.MissingFormatArgumentException;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.MissingFormatArgumentException;
 
 /**
  * <b>Status is the enum listing the different status and messages associated.</b>
@@ -24,6 +24,7 @@ public enum ServerStatus {
 	ERR_SIMULATION(-2, "SIMULATION"),
 	ERR_TODO(-1, "TODO"),
 	ERR_UNKNOWN(-3, "UNKOWN ERROR : %s"),
+	ERROR_PARAMETER("parameter %s has invalid value"),
 	MISSING_PARAMETER("missing parameter %s"),
 	MODELING_ALREADY_CURRENT("a modeling is already loaded"),
 	MODELING_NO_CURRENT("no current modeling"),
