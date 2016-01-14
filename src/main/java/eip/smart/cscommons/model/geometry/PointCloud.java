@@ -6,10 +6,7 @@ import org.apache.commons.math3.ml.clustering.Cluster;
 import org.apache.commons.math3.ml.clustering.DBSCANClusterer;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class PointCloud<T extends Point> implements Serializable, Cloneable {
 
@@ -66,7 +63,10 @@ public abstract class PointCloud<T extends Point> implements Serializable, Clone
 
 	@Override
 	protected PointCloud<T> clone() throws CloneNotSupportedException {
-		return (PointCloud<T>) super.clone();
+		PointCloud<T> res;
+		res = (PointCloud<T>) super.clone();
+		res.points = new HashSet<>(this.points);
+		return res;
 	}
 	
 	public List<T> getPoints() {
