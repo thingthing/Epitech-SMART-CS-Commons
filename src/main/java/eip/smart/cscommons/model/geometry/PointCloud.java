@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class PointCloud<T extends Point> implements Serializable {
+public abstract class PointCloud<T extends Point> implements Serializable, Cloneable {
 
 	// TODO use configuration
 	private static final double	DBSCAN_DEFAULT_EPS		= 80;
@@ -45,6 +45,30 @@ public abstract class PointCloud<T extends Point> implements Serializable {
 		return clusterer.cluster(this.points);
 	}
 
+	public PointCloud<T> getSubPointCloud(int from, int nb) {
+		ArrayList<T> points = new ArrayList<T>(this.points);
+		try {
+			PointCloud<T> res = this.clone();
+			from = Math.max(from, 0);
+			nb = Math.max(nb, 0);
+			if (from >= points.size())
+				from = points.size();
+			if (from + nb >= points.size())
+				nb = points.size() - from;
+			res.points.clear();
+			res.add(points.subList(from, from + nb));
+			return (res);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return (null);
+		}
+	}
+
+	@Override
+	protected PointCloud<T> clone() throws CloneNotSupportedException {
+		return (PointCloud<T>) super.clone();
+	}
+	
 	public List<T> getPoints() {
 		// TODO Create a copy so it can't be modified.
 		List<T> res = new ArrayList<>();// Collections.emptyList();
