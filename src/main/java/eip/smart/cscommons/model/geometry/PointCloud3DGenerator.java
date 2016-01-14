@@ -26,6 +26,10 @@ public class PointCloud3DGenerator {
 		return (new Point3D(this.getRandomInt(), this.getRandomInt(), this.getRandomInt()));
 	}
 
+	public Point3D generateIntPointNoZ() {
+		return (new Point3D(this.getRandomInt(), this.getRandomInt(), 0));
+	}
+
 	public Point3D generatePoint() {
 		Point3D p = new Point3D(this.getRandomDouble(), this.getRandomDouble(), this.getRandomDouble());
 		p.setColor(new Color(java.awt.Color.WHITE));
