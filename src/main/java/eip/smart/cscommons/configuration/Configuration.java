@@ -169,19 +169,13 @@ public class Configuration {
 
 	private void load() {
 		if (this.configFile.exists()) {
-			FileInputStream in = null;
 			try {
-				in = new FileInputStream(this.configFile);
+				FileInputStream in = new FileInputStream(this.configFile);
 				this.properties.loadFromXML(in);
+				in.close();
 			} catch (IOException e) {
-				LOGGER.warn("Error", e);
+				//LOGGER.warn("Error when loading file {}", configFile.getPath(), e);
 			}
-			if (in != null)
-				try {
-					in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 		}
 	}
 
